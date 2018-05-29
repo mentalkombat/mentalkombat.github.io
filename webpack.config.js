@@ -1,3 +1,4 @@
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const path = require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -36,7 +37,8 @@ const conf = {
     new ExtractTextPlugin("css/main.css"),
     new HtmlWebpackPlugin({
       template: 'index.html'
-    })
+		}),
+		new CleanWebpackPlugin(['dist'])
   ],
   devServer: {
     overlay: true

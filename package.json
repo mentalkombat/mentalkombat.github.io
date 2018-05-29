@@ -1,17 +1,27 @@
 {
-  "name": "webpacktest",
+  "name": "mentalkombat.github.io",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --mode development",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "watch": "webpack --mode development --watch"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mentalkombat/mentalkombat.github.io/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mentalkombat/mentalkombat.github.io.git"
+  },
+  "homepage": "https://github.com/mentalkombat/mentalkombat.github.io#readme",
   "devDependencies": {
     "browser-sync-webpack-plugin": "^2.2.2",
+    "clean-webpack-plugin": "^0.1.19",
     "css-loader": "^0.28.11",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^1.1.11",
@@ -23,5 +33,7 @@
     "webpack-cli": "^2.1.4",
     "webpack-dev-server": "^3.1.4"
   },
-  "dependencies": {}
+  "dependencies": {
+    "jquery": "^3.3.1"
+  }
 }
