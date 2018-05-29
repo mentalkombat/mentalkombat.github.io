@@ -1,5 +1,7 @@
 import Player from './Player.js';
 import PlayerImage from './img/player.png';
+import Spell from './js/Spell.js';
+import spellImage from './img/wheel.jpg';
 import BackgroundImage from './img/background.jpg';
 
 class Game {
@@ -17,6 +19,7 @@ class Game {
 		this.lastTime = Date.now();
 		this.createCanvas(canvasParent);
 		this.player = new Player([0, 0], PlayerImage, [0, 0], [325, 325]);
+		this.spell = new Spell([250, 250], spellImage, [250, 250], [100, 100])
 		this.background = new Image();
 		this.background.src = BackgroundImage;
 		this.main();
@@ -26,7 +29,7 @@ class Game {
 	main() {
 		let now = Date.now();
 		let dt = (now - this.lastTime) / 1000;
-		console.log(dt);
+		//console.log(dt);
 		
 		// update(dt);
 		this.render();
@@ -42,6 +45,7 @@ class Game {
 		this.ctx.save();
 		this.ctx.translate(this.player.currentPosition[0], this.player.currentPosition[1]);
 		this.player.render(this.ctx);
+		this.spell.render(this.ctx);	
 		this.ctx.restore();
 	};
 }
