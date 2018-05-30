@@ -1,6 +1,6 @@
 import Player from './Player.js';
-import PlayerImage from './img/player.png';
-import BackgroundImage from './img/background.jpg';
+import PlayerImage from '../img/player.png';
+import BackgroundImage from '../img/background.jpg';
 
 class Game {
 	createCanvas(canvasParent) {
