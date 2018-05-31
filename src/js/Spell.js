@@ -4,7 +4,6 @@ class Spell {
 		this.activeSprite = activeSprite;
 	}
 
-
 	changeActiveSprite(sprite) {
 		this.activeSprite = sprite;
 	}

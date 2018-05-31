@@ -25,6 +25,7 @@ class Game {
 
 		this.player = new Entity([100, 50], new Sprite(PlayerIdleSprite, [0, 0], [428, 380], 5, [0, 1, 2, 1]));
 		this.enemy = new Entity([900, 50], new Sprite(EnemyIdleSprite, [0, 0], [233, 373], 5, [0, 1, 3, 2, 1]));
+		
 		this.ctx.rotate(0.2);
 		this.spell = new Spell([300, 150], new Sprite(SpellWheelSprite, [0, 0], [754, 754], 1, [0]));
 		this.rotateWheel = setInterval(function(){
@@ -33,6 +34,7 @@ class Game {
 
 		}, 300);
 
+		
 		// this.player.changeActiveSprite(new Sprite(PlayerAttackSprite, [0, 0], [540, 456], 5, [0, 1, 2, 3, 4]));
 
 		this.lastTime = Date.now();
