@@ -1,13 +1,13 @@
 class Spell {
-	constructor(currentPosition, url, positionOnImg, sizeOnImg, type) {
-		this.currentPosition = currentPosition;
-		this.url = url;
-		this.positionOnImg = positionOnImg;
-		this.sizeOnImg = sizeOnImg;
-		this.img = new Image();
-        this.img.src = url;
-        this.type = type;
-    }
+	constructor(positionOnCanvas, activeSprite) {
+		this.positionOnCanvas = positionOnCanvas;
+		this.activeSprite = activeSprite;
+	}
+
+
+	changeActiveSprite(sprite) {
+		this.activeSprite = sprite;
+	}
     start(){
 
     }
@@ -17,9 +17,6 @@ class Spell {
     stop(){
 
     }
-	render(ctx) {
-		ctx.drawImage(this.img,	0, 0,	this.sizeOnImg[0], this.sizeOnImg[1]);
-	}
 }
 
 export default Spell;
