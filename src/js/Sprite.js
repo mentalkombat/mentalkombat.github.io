@@ -7,22 +7,50 @@ class Sprite {
 		this.img.src = url;
 		this.speed = speed;
 		this.frames = frames;
-		this._index = 0;
+		this.index = 0;
+
+		this.newSpriteFramesNumber = 0;
+		this.isNewSpriteActive = false;
+
+		this.oldSpriteOptions = null;
 	}
 
 
 	update(dt) {
-		this._index += this.speed * dt;
+		this.index += this.speed * dt;
 	}
 
 
-	render(ctx) {
+	applyingNewSprite() {
+		if (this.index < this.state + this.newSpriteFramesNumber) {
+			console.log('attack');
+			this.isNewSpriteActive = true;
+		}
+		else {
+			if (this.isNewSpriteActive === true) {
+				console.log('end attack');
+				this.isNewSpriteActive = false;
+
+				this.url = this.oldSpriteOptions.url;
+				this.img = new Image();
+				this.img.src = this.oldSpriteOptions.url;
+				this.positionOnImg = this.oldSpriteOptions.positionOnImg;
+				this.sizeOnImg = this.oldSpriteOptions.sizeOnImg;
+				this.frames = this.oldSpriteOptions.frames;
+			}
+		}
+	}
+
+
+	render(context) {
+		this.applyingNewSprite();
+		
 		let frame;
 
 		if (this.speed > 0) {
 			let max = this.frames.length;
-			let idx = Math.floor(this._index);
-			frame = this.frames[idx % max];
+			let idx = Math.floor(this.index);
+			frame = this.frames[idx % max];			
 		}
 		else {
 			frame = 0;
@@ -32,7 +60,7 @@ class Sprite {
 		let y = this.positionOnImg[1];
 		x += frame * this.sizeOnImg[0];
 		
-		ctx.drawImage(this.img, x, y, this.sizeOnImg[0], this.sizeOnImg[1],	0, 0,	this.sizeOnImg[0], this.sizeOnImg[1]);
+		context.drawImage(this.img, x, y, this.sizeOnImg[0], this.sizeOnImg[1],	0, 0,	this.sizeOnImg[0], this.sizeOnImg[1]);
 	}
 }
 
