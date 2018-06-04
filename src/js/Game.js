@@ -18,6 +18,13 @@ class Game {
 
 
 	init(canvasParent) {
+		this.ang = 0;
+		this.framesPerSeconds = 10;
+		this.wheelWidth = 754*2;
+		this.wheelHeight = 754*2;
+		this.imgWheel = new Image();
+		this.imgWheel.src = '/src/img/spell_wheel.png'; //img
+
 		this.createCanvas(canvasParent);
 
 		this.background = new Image();
@@ -26,21 +33,36 @@ class Game {
 		this.player = new Entity([100, 50], new Sprite(PlayerIdleSprite, [0, 0], [428, 380], 5, [0, 1, 2, 1]));
 		this.enemy = new Entity([900, 50], new Sprite(EnemyIdleSprite, [0, 0], [233, 373], 5, [0, 1, 3, 2, 1]));
 		
-		this.ctx.rotate(0.2);
-		this.spell = new Spell([300, 150], new Sprite(SpellWheelSprite, [0, 0], [754, 754], 1, [0]));
-		this.rotateWheel = setInterval(function(){
-			ctx.rotate(0.2);
-			this.spell = new Spell([300, 150], new Sprite(SpellWheelSprite, [0, 0], [754, 754], 1, [0]));
+		/*this.spell = new Spell([300, 150], new Sprite(SpellWheelSprite, [0, 0], [754, 754], 1, [0]));
+		this.rotateWheel = setInterval (function rotateW(){
+			ctx.save();
+			ctx.cearRect(0, 0, this.canvas.width, this.canvas.height);		
+			ctx.rotate(Math.PI / 180 * (ang += 5));
+			ctx.drawImage(this.spell, -this.canvas.width / 2, -this.canvas.height /2); //draw the image ;)
+            ctx.restore()
 
-		}, 300);
+		}, framesPerSeconds);*/
 
 		
+		
+		this.imgWheel.onload = function () { //on image load do the following stuff
+				var cache = this; //cache the local copy of image element for future reference
+				setInterval(function () {
+					this.ctx.save(); //saves the state of canvas
+					this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); //clear the canvas
+					this.ctx.translate(cache.width, cache.height); //let's translate
+					this.ctx.rotate(Math.PI / 180 * (ang += 5)); //increment the angle and rotate the image 
+					this.ctx.drawImage(imgWheel, -cache.width / 2, -cache.height /2); //draw the image ;)
+					this.ctx.restore(); //restore the state of canvas
+				}, this.framesPerSeconds);
+			};
+		
+
 		// this.player.changeActiveSprite(new Sprite(PlayerAttackSprite, [0, 0], [540, 456], 5, [0, 1, 2, 3, 4]));
 
 		this.lastTime = Date.now();
 		this.main();
 	}
-
 
 	main() {
 		let now = Date.now();
@@ -57,7 +79,7 @@ class Game {
 	update(dt) {
 		this.player.activeSprite.update(dt);
 		this.enemy.activeSprite.update(dt);
-		this.spell.activeSprite.update(dt);
+		//this.spell.activeSprite.update(dt);
 		
 	}
 
@@ -66,7 +88,7 @@ class Game {
 		this.ctx.drawImage(this.background, 0, 0, this.canvas.width, this.canvas.height);
 		this.renderEntity(this.player);
 		this.renderEntity(this.enemy);
-		this.renderEntity(this.spell);		
+		//this.renderEntity(this.spell);		
 	};
 
 
