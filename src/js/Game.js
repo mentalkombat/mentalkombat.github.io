@@ -1,5 +1,6 @@
 import Entity from './Entity.js';
 import Sprite from './Sprite.js';
+import Enemy from './Enemy.js';
 import PlayerIdleSprite from '../img/player-idle-sprite.png';
 import PlayerAttackSprite from '../img/player-attack-sprite.png';
 import EnemyIdleSprite from '../img/enemy-idle-sprite.png';
@@ -17,6 +18,8 @@ class Game {
 
 	init(canvasParent) {
 		this.createCanvas(canvasParent);
+
+		console.log(new Enemy().name);
 
 		this.background = new Image();
 		this.background.src = BackgroundImage;
