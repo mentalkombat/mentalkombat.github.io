@@ -14,16 +14,20 @@ class Game {
 		this.canvas.width = 1280;
 		this.canvas.height = 720;
 		canvasParent.appendChild(this.canvas);
+		this.canvas2 = document.getElementById('canvas2');
+		this.ctx2 = this.canvas2.getContext('2d');
+		this.canvas2.width = 1280;
+		this.canvas2.height = 1000;
 	}
 
 
 	init(canvasParent) {
 		this.ang = 0;
-		this.framesPerSeconds = 10;
+		this.framesPerSeconds = 70;
 		this.wheelWidth = 754*2;
 		this.wheelHeight = 754*2;
 		this.imgWheel = new Image();
-		this.imgWheel.src = '/src/img/spell_wheel.png'; //img
+		
 
 		this.createCanvas(canvasParent);
 
@@ -42,19 +46,27 @@ class Game {
             ctx.restore()
 
 		}, framesPerSeconds);*/
-
+		this.imgWheel.src = '/src/img/spell_wheel.png'; //img
 		
 		
-		this.imgWheel.onload = function () { //on image load do the following stuff
-				var cache = this; //cache the local copy of image element for future reference
+		this.imgWheel.onload = animmateWheel(this.imgWheel, this.ctx2, this.canvas.width, this.canvas.height, this.framesPerSeconds, this.ang);
+		
+		function animmateWheel (imgwheel, ctx, width, height, framesPerSeconds, ang) { //on image load do the following stuff
+			
+			ctx.drawImage(imgwheel, 200, 200);
+			
+				var cache = imgwheel; //cache the local copy of image element for future reference
+				
+				
 				setInterval(function () {
-					this.ctx.save(); //saves the state of canvas
-					this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); //clear the canvas
-					this.ctx.translate(cache.width, cache.height); //let's translate
-					this.ctx.rotate(Math.PI / 180 * (ang += 5)); //increment the angle and rotate the image 
-					this.ctx.drawImage(imgWheel, -cache.width / 2, -cache.height /2); //draw the image ;)
-					this.ctx.restore(); //restore the state of canvas
-				}, this.framesPerSeconds);
+					ctx.save(); //saves the state of canvas
+					ctx.clearRect(0, 0, width, height); //clear the canvas
+					
+					ctx.translate(cache.width, cache.height); //let's translate
+					ctx.rotate(Math.PI / 180 * (ang += .1)); //increment the angle and rotate the image 
+					ctx.drawImage(imgwheel, -cache.width / 2, -cache.height /2); //draw the image ;)
+					ctx.restore(); //restore the state of canvas
+				}, framesPerSeconds);
 			};
 		
 
