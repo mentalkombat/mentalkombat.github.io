@@ -44,9 +44,8 @@ class Game {
 			requestAnimationFrame(this.main.bind(this));	
 		} else {
 			this.SpellWindow = new SpellWindow( this.imgWheel, this.ctx, this.canvas.width, this.canvas.height,  this.framesPerSeconds, this.ang);
+			this.animation();
 		}
-
-
 	}
 
 	update(dt) {
@@ -56,11 +55,10 @@ class Game {
 
 	render() {
 
-			this.ctx.drawImage(this.background, 0, 0, this.canvas.width, this.canvas.height);
-			this.renderEntity(this.player);
-			this.renderEntity(this.enemy);
-			//this.renderEntity(this.spell);	
-
+		this.ctx.drawImage(this.background, 0, 0, this.canvas.width, this.canvas.height);
+		this.renderEntity(this.player);
+		this.renderEntity(this.enemy);
+		//this.renderEntity(this.spell);
 	};
 
 	renderEntity(entity) {
@@ -68,6 +66,14 @@ class Game {
 		this.ctx.translate(entity.positionOnCanvas[0], entity.positionOnCanvas[1]);
 		entity.activeSprite.render(this.ctx);
 		this.ctx.restore();
+	}
+	animation(){
+		this.SpellWindow.addEventListener('mouseover', function () {
+			this.SpellWindow.stopWheel();
+		});
+		this.ctx.addEventListener('mouseover', function () {
+			console.log('fd;');
+		});
 	}
 }
 
