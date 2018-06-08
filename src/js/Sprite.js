@@ -3,9 +3,7 @@ class Sprite {
 		this.url = url;
 		this.positionOnImg = positionOnImg;
 		this.sizeOnImg = sizeOnImg;
-		this.img = new Image();
-		this.img.src = url;
-		this.speed = speed;
+		this.speed = typeof speed === 'number' ? speed : 0;
 		this.frames = frames;
 		this.index = 0;
 
@@ -32,8 +30,6 @@ class Sprite {
 				this.isNewSpriteActive = false;
 
 				this.url = this.oldSpriteOptions.url;
-				this.img = new Image();
-				this.img.src = this.oldSpriteOptions.url;
 				this.positionOnImg = this.oldSpriteOptions.positionOnImg;
 				this.sizeOnImg = this.oldSpriteOptions.sizeOnImg;
 				this.frames = this.oldSpriteOptions.frames;
@@ -60,7 +56,7 @@ class Sprite {
 		let y = this.positionOnImg[1];
 		x += frame * this.sizeOnImg[0];
 		
-		context.drawImage(this.img, x, y, this.sizeOnImg[0], this.sizeOnImg[1],	0, 0,	this.sizeOnImg[0], this.sizeOnImg[1]);
+		context.drawImage(this.url, x, y, this.sizeOnImg[0], this.sizeOnImg[1],	0, 0,	this.sizeOnImg[0], this.sizeOnImg[1]);
 	}
 }
 
