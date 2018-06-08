@@ -10,13 +10,11 @@ class Game {
 
 		this.resources = new Resources();
 		this.resources.load([
-			'player-attack-sprite.png', 
-			'player-idle-sprite.png', 
+			'player-sprite.png', 
 			'background.jpg', 
-			'enemy-idle-sprite.png',
-			'head1.png', 'head2.png',
-			'body1.png', 'body2.png',
-			'legs1.png', 'legs2.png'
+			'head1.png', 'head2.png', 'head3.png', 'head4.png', 'head5.png',
+			'body1.png', 'body2.png', 'body3.png', 'body4.png', 'body5.png',
+			'legs1.png', 'legs2.png', 'legs3.png', 'legs4.png', 'legs5.png'
 		]);
 		this.resources.onReady(() => this.init());
 	}
@@ -34,12 +32,11 @@ class Game {
 	init() {
 		this.background = this.resources.get('background.jpg');
 
-		this.player = new PlayerEntity([100, 50], new Sprite(this.resources.get('player-idle-sprite.png'), [0, 0], [428, 380], 5, [0, 1, 2, 1]));
-		this.enemy = new EnemyEntity([900, 50], this.resources);
+		this.player = new PlayerEntity([100, 20], new Sprite(this.resources.get('player-sprite.png'), [0, 0], [634, 464], 5, [0, 1, 2, 1]));
+		this.enemy = new EnemyEntity([900, 70], this.resources);
 
 		document.querySelector('button').addEventListener('click', () => {
-			this.player.attack(new Sprite(this.resources.get('player-attack-sprite.png'), [0, 0], [540, 456], 5, [0, 1, 2, 3, 4, 0]));
-			// this.player.positionOnCanvas = [74, 23];
+			this.player.attack(new Sprite(this.resources.get('player-sprite.png'), [0, 464], [634, 464], 5, [0, 1, 2, 3, 4, 0]));
 		});
 
 		this.lastTime = Date.now();
@@ -61,9 +58,7 @@ class Game {
 
 	update(dt) {
 		this.player.sprite.update(dt);
-		this.enemy.sprites.forEach(element => {
-			element.sprite.update(dt);
-		});
+		this.enemy.idleAnimate(dt);
 	}
 
 
