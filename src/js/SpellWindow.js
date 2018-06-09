@@ -49,14 +49,10 @@ class SpellWindow {
 		const stopWheel = () =>{
 			console.log('yesdf');
 			if(mouse.x > 500){
-				ctx.save(); //saves the state of canvas
-				ctx.clearRect(0, 0, width, height); //clear the canvas
-				ctx.translate(width/2, height/2); //let's translate
-				ctx.rotate(Math.PI / 180 * (ang)); //increment the angle and rotate the image
-				console.log(ang);
-				ctx.translate(-width/2, -height/2); //let's translate
-				ctx.drawImage(imgWheel, width/2  - imgWheel.width/2, height/2 -imgWheel.height/2, imgWheel.width, imgWheel.height); //draw the image
+				clearInterval(a);
 
+				
+				ctx.drawImage(imgWheel, width/2  - imgWheel.width/2, height/2 - imgWheel.height/2, imgWheel.width, imgWheel.height);
 				Spell1.draw();
 				Spell2.draw();
 				Spell3.draw();
@@ -65,7 +61,7 @@ class SpellWindow {
 			
 			if (mouse.x < 500) {
 				clearInterval(a);
-					this.animateWheel();
+				this.animateWheel();
 			};
 		}
 	}
