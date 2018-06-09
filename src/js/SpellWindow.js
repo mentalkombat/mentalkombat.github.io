@@ -45,21 +45,21 @@ class SpellWindow {
 			mouse.y = event.y;
 			stopWheel();
 		});
-		
+		const wheelRadius = 377;
 		const stopWheel = () =>{
 			console.log('yesdf');
-			if(mouse.x > 500){
+			console.log(mouse.x, mouse.y, mouse.x - 760, mouse.x - 760 <= wheelRadius,
+						mouse.x - 760, mouse.x - 760 > -wheelRadius,
+						mouse.y - 380, mouse.y - 380 <= wheelRadius,
+						mouse.y - 380, mouse.y - 380 > -wheelRadius);
+			if(mouse.x - 760 <= wheelRadius && mouse.x - 760 > -wheelRadius && mouse.y - 380 <= wheelRadius  && mouse.y - 380 > -wheelRadius){
 				clearInterval(a);
-
-				
 				ctx.drawImage(imgWheel, width/2  - imgWheel.width/2, height/2 - imgWheel.height/2, imgWheel.width, imgWheel.height);
 				Spell1.draw();
 				Spell2.draw();
 				Spell3.draw();
 				Spell4.draw();
-			};
-			
-			if (mouse.x < 500) {
+			} else {
 				clearInterval(a);
 				this.animateWheel();
 			};

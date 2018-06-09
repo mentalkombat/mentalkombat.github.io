@@ -58,7 +58,7 @@ class Game {
 		});
 
 		this.lastTime = Date.now();
-		this.main('begining');
+		this.main('ваgining');
 	}
 
 	main(stage) {
