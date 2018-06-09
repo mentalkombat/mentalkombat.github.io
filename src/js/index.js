@@ -3,7 +3,7 @@ import '../sass/style.sass';
 import events from './events.js';
 
 let game = new Game();
-game.init(document.body);
+game.start(document.body);
 
 addEventListener('click', function(event) {
 

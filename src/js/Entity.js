@@ -1,14 +1,15 @@
+import Sprite from './Sprite.js';
+
+
 class Entity {
-	constructor(positionOnCanvas, activeSprite) {
+	constructor(positionOnCanvas, sprite) {
 		this.positionOnCanvas = positionOnCanvas;
-		this.activeSprite = activeSprite;
-		// this.sprites = [];
-		// this.sprites.push(this.activeSprite);
+		this.sprite = sprite;
 	}
 
 
-	changeActiveSprite(sprite) {
-		this.activeSprite = sprite;
+	changesprite(sprite) {
+		this.sprite = sprite;
 	}
 }
 
