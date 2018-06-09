@@ -1,8 +1,16 @@
 import Spell from './Spell.js';
 class SpellWindow {
 	constructor(imgWheel, ctx, width, height, framesPerSeconds, ang) {
-		let Spell1 = new Spell(600, 600, 70, ctx, 'red');;
+		let mouse = {
+			x : undefined,
+			y : undefined
+		};
 
+		let Spell1 = new Spell(630, 600, 70, ctx, '#2185C5');
+		let Spell2 = new Spell(420, 330, 70, ctx, '#7ECEFD');
+		let Spell3 = new Spell(630, 120, 70, ctx, '#FFF6E5');
+		let Spell4 = new Spell(880, 330, 70, ctx, '#FF7F66');
+		let a;
 		imgWheel.onload = () => {
 			this.animateWheel();
 		}
@@ -13,7 +21,7 @@ class SpellWindow {
 				imageHeight = cache.height;
 
 
-			setInterval(function () {
+			a = setInterval(function () {
 				ctx.save(); //saves the state of canvas
 				ctx.clearRect(0, 0, width, height); //clear the canvas
 				ctx.translate(width/2, height/2); //let's translate
@@ -22,20 +30,44 @@ class SpellWindow {
 				ctx.drawImage(imgWheel, width/2  - imageWidth/2, height/2 - imageHeight/2, imageWidth, imageHeight); //draw the image
 
 				Spell1.draw();
+				Spell2.draw();
+				Spell3.draw();
+				Spell4.draw();
+				
+				
 
 				ctx.restore(); //restore the state of canvas
 			}, framesPerSeconds);
 		};
-		this.stopWheel = () =>{
-			ctx.clearRect(0, 0, width, height);
-			ctx.drawImage(imgWheel, width / 2 - imageWidth / 2, height / 2 - imageHeight / 2, imageWidth, imageHeight);
+
+		ctx.canvas.addEventListener('mousemove', function(event){
+			mouse.x = event.x;
+			mouse.y = event.y;
+			stopWheel();
+		});
+		
+		const stopWheel = () =>{
+			console.log('yesdf');
+			if(mouse.x > 500){
+				ctx.save(); //saves the state of canvas
+				ctx.clearRect(0, 0, width, height); //clear the canvas
+				ctx.translate(width/2, height/2); //let's translate
+				ctx.rotate(Math.PI / 180 * (ang)); //increment the angle and rotate the image
+				console.log(ang);
+				ctx.translate(-width/2, -height/2); //let's translate
+				ctx.drawImage(imgWheel, width/2  - imgWheel.width/2, height/2 -imgWheel.height/2, imgWheel.width, imgWheel.height); //draw the image
+
+				Spell1.draw();
+				Spell2.draw();
+				Spell3.draw();
+				Spell4.draw();
+			};
+			
+			if (mouse.x < 500) {
+				clearInterval(a);
+					this.animateWheel();
+			};
 		}
-
-
-
-
-
-
 	}
 }
 

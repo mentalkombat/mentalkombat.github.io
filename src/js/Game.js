@@ -1,11 +1,18 @@
 import Entity from './Entity.js';
 import Sprite from './Sprite.js';
 import SpellWindow from './SpellWindow.js';
-
+import events from './events.js';
 import PlayerIdleSprite from '../img/player-idle-sprite.png';
 import PlayerAttackSprite from '../img/player-attack-sprite.png';
 import EnemyIdleSprite from '../img/enemy-idle-sprite.png';
 import BackgroundImage from '../img/background.jpg';
+let mouse = {
+	x : undefined,
+	y : undefined
+};
+let	btnStartGame;
+
+
 
 class Game {
 	createCanvas(canvasParent) {
@@ -14,12 +21,17 @@ class Game {
 		this.canvas.width = 1280;
 		this.canvas.height = 720;
 		canvasParent.appendChild(this.canvas);
-
 		this.ang = 0;
 		this.framesPerSeconds = 70;		
 		this.imgWheel = new Image();
 		this.imgWheel.src = '/src/img/spell_wheel.png'; //img
+		this.ctx.canvas.addEventListener('mousemove', function(event){
+			mouse.x = event.x;
+			mouse.y = event.y;
+		})
+		
 	}
+	
 
 	init(canvasParent) {
 		this.createCanvas(canvasParent);
@@ -29,22 +41,33 @@ class Game {
 		this.enemy = new Entity([900, 50], new Sprite(EnemyIdleSprite, [0, 0], [233, 373], 5, [0, 1, 3, 2, 1]));
 		// this.player.changeActiveSprite(new Sprite(PlayerAttackSprite, [0, 0], [540, 456], 5, [0, 1, 2, 3, 4]));
 		this.lastTime = Date.now();
-		this.main();
+		this.main('spelling');
 	}
 
-	main() {
+	main(stage) {
 		let now = Date.now();
 		let dt = (now - this.lastTime) / 1000;
 		this.update(dt);
 
-
-		if(false){
+		if(stage === 'begining'){
 			this.render();
 			this.lastTime = now;
-			requestAnimationFrame(this.main.bind(this));	
+			requestAnimationFrame(this.main.bind(this, 'begining'));
+			this.drawBtnStartGame = (color) => {
+				this.ctx.fillStyle = color;
+				this.ctx.font = "italic 38pt Arial";
+				btnStartGame = this.ctx.fillText("START GAME", 550, 200);
+			}
+			this.drawBtnStartGame('red');
+
+			if (mouse.x > 660 
+				&& mouse.y > 140
+				&& mouse.x < 1000
+				&& mouse.y < 200) {
+					this.drawBtnStartGame('blue');
+			};
 		} else {
 			this.SpellWindow = new SpellWindow( this.imgWheel, this.ctx, this.canvas.width, this.canvas.height,  this.framesPerSeconds, this.ang);
-			this.animation();
 		}
 	}
 
@@ -66,14 +89,6 @@ class Game {
 		this.ctx.translate(entity.positionOnCanvas[0], entity.positionOnCanvas[1]);
 		entity.activeSprite.render(this.ctx);
 		this.ctx.restore();
-	}
-	animation(){
-		this.SpellWindow.addEventListener('mouseover', function () {
-			this.SpellWindow.stopWheel();
-		});
-		this.ctx.addEventListener('mouseover', function () {
-			console.log('fd;');
-		});
 	}
 }
 
