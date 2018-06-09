@@ -6,10 +6,10 @@ class SpellWindow {
 			y : undefined
 		};
 
-		let Spell1 = new Spell(630, 600, 70, ctx, '#2185C5');
-		let Spell2 = new Spell(420, 330, 70, ctx, '#7ECEFD');
-		let Spell3 = new Spell(630, 120, 70, ctx, '#FFF6E5');
-		let Spell4 = new Spell(880, 330, 70, ctx, '#FF7F66');
+		let Spell1 = new Spell(630, 500, 70, ctx, '#2185C5');
+		let Spell2 = new Spell(500, 330, 70, ctx, '#7ECEFD');
+		let Spell3 = new Spell(630, 190, 70, ctx, '#FFF6E5');
+		let Spell4 = new Spell(810, 330, 70, ctx, '#FF7F66');
 		let a;
 		imgWheel.onload = () => {
 			this.animateWheel();

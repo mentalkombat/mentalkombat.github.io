@@ -14,6 +14,10 @@ class Spell {
             this.ctx.closePath;
         }
     }
+
+    update(){
+        
+    }
 }
 
 export default Spell;

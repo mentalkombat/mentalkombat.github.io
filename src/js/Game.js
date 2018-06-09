@@ -28,7 +28,6 @@ class Game {
 		this.resources.onReady(() => this.init());
 	}
 	
-	
 	createCanvas(canvasParent) {
 		this.canvas = document.createElement('canvas');
 		this.context = this.canvas.getContext('2d');
@@ -38,54 +37,70 @@ class Game {
 		this.ang = 0;
 		this.framesPerSeconds = 70;		
 		this.imgWheel = new Image();
-		this.imgWheel.src = '/src/img/spell_wheel.png'; //img
+		this.imgWheel.src = '/src/img/wheel.png'; //img
 		this.context.canvas.addEventListener('mousemove', function(event){
+			console.log(mouse.x, mouse.y);
 			mouse.x = event.x;
 			mouse.y = event.y;
+			
 		})
-		
 	}
-	
 
 	init() {
 		this.background = this.resources.get('background.jpg');
 
 		this.player = new PlayerEntity([100, 20], new Sprite(this.resources.get('player-sprite.png'), [0, 0], [634, 464], 5, [0, 1, 2, 1]));
 		this.enemy = new EnemyEntity([900, 70], this.resources);
-
+		
 		document.querySelector('button').addEventListener('click', () => {
 			this.player.attack(new Sprite(this.resources.get('player-sprite.png'), [0, 464], [634, 464], 5, [0, 1, 2, 3, 4, 0]));
 		});
 
+		this.startWheel = null;
+		this.context.canvas.addEventListener('click', (event) => {
+			var x = event.pageX,
+					y = event.pageY;
+
+			if (event.pageX > 728 && event.pageY > 162 && event.pageX < 1040 && event.pageY < 200) {
+				
+				this.startWheel = true;
+				this.SpellWindow = new SpellWindow( this.imgWheel, this.context, this.canvas.width, this.canvas.height,  this.framesPerSeconds, this.ang);
+				this.SpellWindow.animateWheel()
+				requestAnimationFrame(this.main.bind(this));
+			}
+		});
+
 		this.lastTime = Date.now();
-		this.main('begining');
+		this.main();
 	}
 
-	main(stage) {
+	main() {
 		let now = Date.now();
 		let dt = (now - this.lastTime) / 1000;
 		this.update(dt);
 
-		if(stage === 'begining'){
+
 			this.render();
 			this.lastTime = now;
-			requestAnimationFrame(this.main.bind(this,));
 			this.drawBtnStartGame = (color) => {
 				this.context.fillStyle = color;
 				this.context.font = "italic 38pt Arial";
-				btnStartGame = this.context.fillText("START GAME", 550, 200);
+				btnStartGame = this.context.fillText("START GAME", 600, 200);
 			}
 			this.drawBtnStartGame('red');
 
-			if (mouse.x > 660 
-				&& mouse.y > 140
-				&& mouse.x < 1000
+			if (mouse.x > 728 
+				&& mouse.y > 162
+				&& mouse.x < 1040
 				&& mouse.y < 200) {
 					this.drawBtnStartGame('blue');
 			};
-		} else {
-			this.SpellWindow = new SpellWindow( this.imgWheel, this.context, this.canvas.width, this.canvas.height,  this.framesPerSeconds, this.ang);
-		}
+
+			if (this.startWheel) {
+				this.context.clearRect(0, 0, this.canvas.width, this.canvas.height); //clear the canvas
+				
+			}
+
 	}
 
 	update(dt) {
