@@ -58,7 +58,7 @@ class Game {
 		});
 
 		this.lastTime = Date.now();
-		this.main('ваgining');
+		this.main('begining');
 	}
 
 	main(stage) {
@@ -69,7 +69,7 @@ class Game {
 		if(stage === 'begining'){
 			this.render();
 			this.lastTime = now;
-			requestAnimationFrame(this.main.bind(this, 'begining'));
+			requestAnimationFrame(this.main.bind(this,));
 			this.drawBtnStartGame = (color) => {
 				this.context.fillStyle = color;
 				this.context.font = "italic 38pt Arial";
