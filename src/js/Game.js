@@ -5,8 +5,8 @@ import EnemyEntity from './EnemyEntity.js';
 import SpellWindow from './SpellWindow.js';
 
 let mouse = {
-	x : undefined,
-	y : undefined
+	x : null,
+	y : null
 };
 let	btnStartGame;
 
@@ -39,7 +39,6 @@ class Game {
 		this.imgWheel = new Image();
 		this.imgWheel.src = '/src/img/wheel.png'; //img
 		this.context.canvas.addEventListener('mousemove', function(event){
-			console.log(mouse.x, mouse.y);
 			mouse.x = event.x;
 			mouse.y = event.y;
 			
@@ -60,8 +59,8 @@ class Game {
 		this.context.canvas.addEventListener('click', (event) => {
 			var x = event.pageX,
 					y = event.pageY;
-
-			if (event.pageX > 728 && event.pageY > 162 && event.pageX < 1040 && event.pageY < 200) {
+			console.log(event.pageX - event.target.offsetLeft, event.pageY - event.target.offsetTop );
+			if (event.pageX - event.target.offsetLeft > 600 && event.pageY - event.target.offsetTop < 200 && event.pageX - event.target.offsetLeft < 930 && event.pageY - event.target.offsetTop > 160) {
 				
 				this.startWheel = true;
 				this.SpellWindow = new SpellWindow( this.imgWheel, this.context, this.canvas.width, this.canvas.height,  this.framesPerSeconds, this.ang);
@@ -100,7 +99,7 @@ class Game {
 				this.context.clearRect(0, 0, this.canvas.width, this.canvas.height); //clear the canvas
 				
 			}
-
+			this.main.bind(this)
 	}
 
 	update(dt) {
