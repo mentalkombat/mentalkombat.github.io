@@ -20,13 +20,13 @@ class Resources {
 		}
 		else {
 			var img = new Image();
-			img.onload = () => {
+			img.addEventListener("load", () => {
 				this.resourceCache[url] = img;
 
 				if (this.isReady()) {
 					this.readyCallbacks.forEach(function (func) { func(); });
 				}
-			};
+			});
 			this.resourceCache[url] = false;
 			img.src = this.images[url];
 		}

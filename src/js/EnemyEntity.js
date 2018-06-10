@@ -15,9 +15,10 @@ class EnemyEntity {
 	constructor(positionOnCanvas, resources) {
 		this.positionOnCanvas = positionOnCanvas;
 		this.name = `${this.getRandomElement(adjectives)} ${this.getRandomElement(kinds)} ${this.getRandomElement(names)}`;
-		this.sprites = [];
+		this.entities = [];
 		this.booleanValuesForAnimation = [[true], [true], [true]];
 		this.enemyGeneration(resources);
+		this.speed = 10;
 	}
 
 
@@ -33,70 +34,50 @@ class EnemyEntity {
 		this.bodyParts = { 
 			legs:	{	
 				url: this.getRandomElement(legs), 
-				startPosition: [x + 0, y + 205]
+				startPosition: [x + 0, y + 205],
+				animateOptions: {isVertical: 0, distance: 2, speed: 6}
 			},
 			body: {
 				url: this.getRandomElement(bodies),
-				startPosition: [x - 5, y + 120]
+				startPosition: [x - 5, y + 120],
+				animateOptions: {isVertical: 0, distance: 1, speed: 3}
 			},
 			head: {
 				url: this.getRandomElement(heads),
-				startPosition: [x + 45, y + 0]
+				startPosition: [x + 45, y + 0],
+				animateOptions: {isVertical: 1, distance: 3, speed: 10}
 			}
 		};
 
 		for (let bodyPart in this.bodyParts) {
-			this.sprites.push(
+			this.entities.push(
 				new Entity(
 					[this.bodyParts[bodyPart].startPosition[0], this.bodyParts[bodyPart].startPosition[1]], 
 					new Sprite(resources.get(this.bodyParts[bodyPart].url), [0, 0], [200, 200])
-				));
+				)
+			);
 		}
 	}
 
 
 	idleAnimate(dt) {
-		let animateOptions = [
-			{isVertical: 0, distance: 2, speed: 6 },
-			{isVertical: 0, distance: 1, speed: 3 },
-			{isVertical: 1, distance: 3, speed: 10},
-		];
-
 		let i = 0;
 		for (let bodyPart in this.bodyParts) {
-			this.changeAnimatePosition(
-				this.booleanValuesForAnimation[i], 
-				this.sprites[i], 
-				dt, 
-				this.bodyParts[bodyPart].startPosition, 
-				animateOptions[i].isVertical, 
-				animateOptions[i].distance, 
-				animateOptions[i].speed
-			);
+			this.changeAnimatePosition(dt, this.entities[i], this.bodyParts[bodyPart]);
 			i++;
 		}
 	}
 
 
-	changeAnimatePosition(booleanReference, entity, dt, startPosition, isVertical, distance, speed) {
-		if (booleanReference[0] === true) {
-			if (entity.positionOnCanvas[isVertical] > startPosition[isVertical] + distance) {
-				booleanReference[0] = false;
-			}
-		}
+	changeAnimatePosition(dt, entity, bodyPart) {
+		let startPosition = bodyPart.startPosition,
+				isVertical = bodyPart.animateOptions.isVertical,
+				distance = bodyPart.animateOptions.distance;
 
-		if (booleanReference[0] === false) {
-			if (entity.positionOnCanvas[isVertical] < startPosition[isVertical] - distance) {
-				booleanReference[0] = true;
-			}
+		if (entity.positionOnCanvas[isVertical] > startPosition[isVertical] + distance || entity.positionOnCanvas[isVertical] < startPosition[isVertical] - distance) {
+			bodyPart.animateOptions.speed = -bodyPart.animateOptions.speed;
 		}
-
-		if (booleanReference[0]) {
-			speed = speed;
-		} else {
-			speed = -speed;
-		}
-		entity.positionOnCanvas[isVertical] += speed * dt;
+		entity.positionOnCanvas[isVertical] += bodyPart.animateOptions.speed * dt;
 	}
 }
 

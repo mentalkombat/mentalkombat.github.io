@@ -30,7 +30,7 @@ class Game {
 	
 	createCanvas(canvasParent) {
 		this.canvas = document.createElement('canvas');
-		this.context = this.canvas.getContext('2d');
+		this.ctx = this.canvas.getContext('2d');
 		this.canvas.width = 1280;
 		this.canvas.height = 720;
 		canvasParent.appendChild(this.canvas);
@@ -38,7 +38,7 @@ class Game {
 		this.framesPerSeconds = 70;		
 		this.imgWheel = new Image();
 		this.imgWheel.src = '/src/img/wheel.png'; //img
-		this.context.canvas.addEventListener('mousemove', function(event){
+		this.ctx.canvas.addEventListener('mousemove', function(event){
 			console.log(mouse.x, mouse.y);
 			mouse.x = event.x;
 			mouse.y = event.y;
@@ -57,14 +57,14 @@ class Game {
 		});
 
 		this.startWheel = null;
-		this.context.canvas.addEventListener('click', (event) => {
+		this.ctx.canvas.addEventListener('click', (event) => {
 			var x = event.pageX,
 					y = event.pageY;
 
 			if (event.pageX > 728 && event.pageY > 162 && event.pageX < 1040 && event.pageY < 200) {
 				
 				this.startWheel = true;
-				this.SpellWindow = new SpellWindow( this.imgWheel, this.context, this.canvas.width, this.canvas.height,  this.framesPerSeconds, this.ang);
+				this.SpellWindow = new SpellWindow( this.imgWheel, this.ctx, this.canvas.width, this.canvas.height,  this.framesPerSeconds, this.ang);
 				this.SpellWindow.animateWheel()
 				requestAnimationFrame(this.main.bind(this));
 			}
@@ -83,9 +83,9 @@ class Game {
 			this.render();
 			this.lastTime = now;
 			this.drawBtnStartGame = (color) => {
-				this.context.fillStyle = color;
-				this.context.font = "italic 38pt Arial";
-				btnStartGame = this.context.fillText("START GAME", 600, 200);
+				this.ctx.fillStyle = color;
+				this.ctx.font = "italic 38pt Arial";
+				btnStartGame = this.ctx.fillText("START GAME", 600, 200);
 			}
 			this.drawBtnStartGame('red');
 
@@ -97,7 +97,7 @@ class Game {
 			};
 
 			if (this.startWheel) {
-				this.context.clearRect(0, 0, this.canvas.width, this.canvas.height); //clear the canvas
+				this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); //clear the canvas
 				
 			}
 
@@ -109,18 +109,18 @@ class Game {
 	}
 
 	render() {
-		this.context.drawImage(this.background, 0, 0, this.canvas.width, this.canvas.height);
+		this.ctx.drawImage(this.background, 0, 0, this.canvas.width, this.canvas.height);
 		this.renderEntity(this.player);
-		this.enemy.sprites.forEach(element => {
+		this.enemy.entities.forEach(element => {
 			this.renderEntity(element);
 		})
 	};
 
 	renderEntity(entity) {
-		this.context.save();
-		this.context.translate(entity.positionOnCanvas[0], entity.positionOnCanvas[1]);			
-		entity.sprite.render(this.context);
-		this.context.restore();
+		this.ctx.save();
+		this.ctx.translate(entity.positionOnCanvas[0], entity.positionOnCanvas[1]);			
+		entity.sprite.render(this.ctx);
+		this.ctx.restore();
 	}
 }
 
