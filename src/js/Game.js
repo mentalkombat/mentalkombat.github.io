@@ -50,8 +50,12 @@ class Game {
 	init() {
 		this.background = this.resources.get('background.jpg');
 
-		this.player = new PlayerEntity([100, 20], new Sprite(this.resources.get('player-sprite.png'), [0, 0], [634, 464], 5, [0, 1, 2, 1]), 'Player');
-		this.enemy = new EnemyEntity([900, 70], this.resources);
+		this.player = new PlayerEntity([100, 30], new Sprite(this.resources.get('player-sprite.png'), [0, 0], [634, 464], 5, [0, 1, 2, 1]), 'Player');
+		this.enemy = new EnemyEntity([this.canvas.width - 400, 80], this.resources);
+
+		this.isPlayerHpReducing = false;
+		this.currentPlayerHP = 100;
+		this.newPlayerHP = 100;
 		
 		this.addAttackButtonLogic();
 
@@ -81,29 +85,38 @@ class Game {
 		this.lastTime = now;
 		requestAnimationFrame(this.main.bind(this));
 
-		this.drawBtnStartGame = (color) => {
-			this.ctx.fillStyle = color;
-			this.ctx.font = "italic 38pt Arial";
-			btnStartGame = this.ctx.fillText("START GAME", 600, 200);
-		}
-		this.drawBtnStartGame('red');
+		// this.drawBtnStartGame = (color) => {
+		// 	this.ctx.fillStyle = color;
+		// 	this.ctx.font = "italic 38pt Arial";
+		// 	btnStartGame = this.ctx.fillText("START GAME", 600, 200);
+		// }
+		// this.drawBtnStartGame('red');
 
-		if (mouse.x > 728 
-			&& mouse.y > 162
-			&& mouse.x < 1040
-			&& mouse.y < 200) {
-				this.drawBtnStartGame('blue');
-		};
+		// if (mouse.x > 728 
+		// 	&& mouse.y > 162
+		// 	&& mouse.x < 1040
+		// 	&& mouse.y < 200) {
+		// 		this.drawBtnStartGame('blue');
+		// };
 
-		if (this.startWheel) {
-			this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); //clear the canvas
+		// if (this.startWheel) {
+		// 	this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); //clear the canvas
 			
-		}
+		// }
 	}
 
 	update(dt) {
 		this.player.sprite.update(dt);
 		this.enemy.idleAnimate(dt);
+
+		//Test player HP reduce
+		if (this.isPlayerHpReducing) {
+			if (this.currentPlayerHP > this.newPlayerHP) {
+				this.currentPlayerHP -= 0.5;
+			} else {
+				this.isPlayerHpReducing = false;
+			}
+		}
 	}
 
 	render() {
@@ -126,18 +139,40 @@ class Game {
 	drawEntitiesInfo() {
 		this.drawEntitiesInfoImage(this.resources.get('player-head.png'), 50, 50, 50, 50);
 		this.drawEntitiesInfoImage(this.enemy.entities[2].sprite.img, this.canvas.width - 50, 50, 50, 50);
+		this.drawHealthScale();
+		this.drawEntityName();
 	}
 
-	drawEntitiesInfoImage(image, imagePositionX, imagePositionY, imageWidth, imageHeight) {
+	drawHealthScale() {
+		this.ctx.save();
+		this.ctx.fillStyle = 'red';
+		this.ctx.fillRect(100, 25, this.currentPlayerHP * 3, 20);
+		this.ctx.lineWidth = 3;
+		this.ctx.strokeStyle = '#ddd';
+		this.ctx.strokeRect(100, 25, 300, 20);
+		this.ctx.restore();		
+	}
+
+	drawEntityName() {
+		this.ctx.save();
+		this.ctx.font = "20px Arial";
+		this.ctx.textBaseline = "top";
+		this.ctx.fillStyle = "yellow";
+		this.ctx.fillText(this.player.name, 100, 50);
+		this.ctx.restore();
+		this.ctx.restore();		
+	}
+	
+	drawEntitiesInfoImage(image, imageCenterX, imageCenterY, imageWidth, imageHeight) {
 		this.ctx.save();
 		this.ctx.beginPath();
-		this.ctx.arc(imagePositionX, imagePositionY, Math.sqrt(imageWidth * imageWidth + imageHeight * imageHeight) / 2, 0, Math.PI * 2, true);//Math.sqrt(imageWidth * imageHeight / 2)
+		this.ctx.arc(imageCenterX, imageCenterY, Math.sqrt(imageWidth * imageWidth + imageHeight * imageHeight) / 2, 0, Math.PI * 2, true);//Math.sqrt(imageWidth * imageHeight / 2)
 		this.ctx.closePath();
 		this.ctx.lineWidth = 5;
-		this.ctx.strokeStyle = '#abc';
+		this.ctx.strokeStyle = '#ddd';
 		this.ctx.stroke();
 		this.ctx.clip();
-		this.ctx.translate(imagePositionX, imagePositionY);
+		this.ctx.translate(imageCenterX, imageCenterY);
 		this.ctx.drawImage(image, -imageWidth / 2, -imageHeight / 2, imageWidth, imageHeight);
 		this.ctx.restore();
 	}
@@ -151,6 +186,12 @@ class Game {
 			if (x > 280 && x < 480 && y > 500 && y < 550) {
 				this.player.attack(new Sprite(this.resources.get('player-sprite.png'), [0, 464], [634, 464], 5, [0, 1, 2, 3, 4, 0]));
 			}
+
+			//Test HP reduce
+			if (this.currentPlayerHP > 0) {
+				this.isPlayerHpReducing = true
+				this.newPlayerHP = this.currentPlayerHP - 20;
+			}
 		});
 
 		this.canvas.addEventListener('mousemove', (event) => {
@@ -160,7 +201,7 @@ class Game {
 			if (x > 280 && x < 480 && y > 500 && y < 550) {
 				this.canvas.style.cursor = 'pointer';
 			}	else {
-				this.canvas.style.cursor = 'default';				
+				this.canvas.style.cursor = 'default';
 			}
 		});
 	}
@@ -177,7 +218,7 @@ class Game {
 		this.ctx.fillRect(rectX, rectY, rectWidth, rectHeight);
 		this.ctx.strokeRect(rectX, rectY, rectWidth, rectHeight);
 		
-		this.ctx.font = "20px Georgia";
+		this.ctx.font = "20px Arial";
 		this.ctx.textAlign = "center";
 		this.ctx.textBaseline = "middle";
 		this.ctx.fillStyle = "#000000";
