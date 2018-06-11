@@ -2,6 +2,11 @@ import Entity from './Entity.js';
 
 
 class PlayerEntity extends Entity {
+	constructor(positionOnCanvas, sprite, name) {
+		super(positionOnCanvas, sprite);
+		this.name = name;
+	}
+
 	attack(attackSprite) {
 		let spriteOptions = {
 			url: this.sprite.url,

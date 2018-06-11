@@ -1,6 +1,6 @@
 class Sprite {
-	constructor(url, positionOnImg, sizeOnImg, speed, frames) {
-		this.url = url;
+	constructor(img, positionOnImg, sizeOnImg, speed, frames) {
+		this.img = img;
 		this.positionOnImg = positionOnImg;
 		this.sizeOnImg = sizeOnImg;
 		this.speed = typeof speed === 'number' ? speed : 0;
@@ -56,7 +56,7 @@ class Sprite {
 		let y = this.positionOnImg[1];
 		x += frame * this.sizeOnImg[0];
 		
-		context.drawImage(this.url, x, y, this.sizeOnImg[0], this.sizeOnImg[1],	0, 0,	this.sizeOnImg[0], this.sizeOnImg[1]);
+		context.drawImage(this.img, x, y, this.sizeOnImg[0], this.sizeOnImg[1],	0, 0,	this.sizeOnImg[0], this.sizeOnImg[1]);
 	}
 }
 
