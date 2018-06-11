@@ -19,6 +19,11 @@ class EnemyEntity {
 		this.booleanValuesForAnimation = [[true], [true], [true]];
 		this.enemyGeneration(resources);
 		this.speed = 10;
+
+		this.isHpReducing = false;
+		this.currentHP = 100;
+		this.newHP = 100;
+		this.maxHP = 100;
 	}
 
 

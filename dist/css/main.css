@@ -7,9 +7,3 @@ body {
 .title {
   color: red;
   text-transform: uppercase; }
-
-button {
-  position: absolute;
-  top: 0;
-  font-size: 20px;
-  padding: 10px 40px; }
