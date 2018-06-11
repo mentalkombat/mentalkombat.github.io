@@ -3,14 +3,13 @@ import Resources from './Resources.js';
 import PlayerEntity from './PlayerEntity.js';
 import EnemyEntity from './EnemyEntity.js';
 import SpellWindow from './SpellWindow.js';
+import Drawing from './Drawing.js';
 
 let mouse = {
 	x : undefined,
 	y : undefined
 };
 let	btnStartGame;
-
-
 
 
 class Game {
@@ -28,6 +27,7 @@ class Game {
 		]);
 		this.resources.onReady(() => this.init());
 	}
+
 	
 	createCanvas(canvasParent) {
 		this.canvas = document.createElement('canvas');
@@ -47,15 +47,12 @@ class Game {
 		})
 	}
 
+
 	init() {
 		this.background = this.resources.get('background.jpg');
 
 		this.player = new PlayerEntity([100, 30], new Sprite(this.resources.get('player-sprite.png'), [0, 0], [634, 464], 5, [0, 1, 2, 1]), 'Player');
 		this.enemy = new EnemyEntity([this.canvas.width - 400, 80], this.resources);
-
-		this.isPlayerHpReducing = false;
-		this.currentPlayerHP = 100;
-		this.newPlayerHP = 100;
 		
 		this.addAttackButtonLogic();
 
@@ -76,6 +73,7 @@ class Game {
 		this.lastTime = Date.now();
 		this.main();
 	}
+
 
 	main() {
 		let now = Date.now();
@@ -105,19 +103,21 @@ class Game {
 		// }
 	}
 
+
 	update(dt) {
 		this.player.sprite.update(dt);
 		this.enemy.idleAnimate(dt);
 
-		//Test player HP reduce
-		if (this.isPlayerHpReducing) {
-			if (this.currentPlayerHP > this.newPlayerHP) {
-				this.currentPlayerHP -= 0.5;
+		//Test enemy HP reduce
+		if (this.enemy.isHpReducing) {
+			if (this.enemy.currentHP > this.enemy.newHP) {
+				this.enemy.currentHP -= 0.5;
 			} else {
-				this.isPlayerHpReducing = false;
+				this.enemy.isHpReducing = false;
 			}
 		}
 	}
+
 
 	render() {
 		this.ctx.drawImage(this.background, 0, 0, this.canvas.width, this.canvas.height);
@@ -125,9 +125,10 @@ class Game {
 		this.enemy.entities.forEach(element => {
 			this.renderEntity(element);
 		})
-		this.drawAttackButton();
+		Drawing.drawAttackButton(this.ctx, 'Attack!', 280, 500, 200, 50);
 		this.drawEntitiesInfo();
 	};
+
 
 	renderEntity(entity) {
 		this.ctx.save();
@@ -136,67 +137,36 @@ class Game {
 		this.ctx.restore();
 	}
 
+
 	drawEntitiesInfo() {
-		this.drawEntitiesInfoImage(this.resources.get('player-head.png'), 50, 50, 50, 50);
-		this.drawEntitiesInfoImage(this.enemy.entities[2].sprite.img, this.canvas.width - 50, 50, 50, 50);
-		this.drawHealthScale();
-		this.drawEntityName();
-	}
-
-	drawHealthScale() {
-		this.ctx.save();
-		this.ctx.fillStyle = 'red';
-		this.ctx.fillRect(100, 25, this.currentPlayerHP * 3, 20);
-		this.ctx.lineWidth = 3;
-		this.ctx.strokeStyle = '#ddd';
-		this.ctx.strokeRect(100, 25, 300, 20);
-		this.ctx.restore();		
-	}
-
-	drawEntityName() {
-		this.ctx.save();
-		this.ctx.font = "20px Arial";
-		this.ctx.textBaseline = "top";
-		this.ctx.fillStyle = "yellow";
-		this.ctx.fillText(this.player.name, 100, 50);
-		this.ctx.restore();
-		this.ctx.restore();		
+		Drawing.drawEntitiesInfoImage(this.ctx, this.resources.get('player-head.png'), 50, 50, 50, 50);
+		Drawing.drawEntitiesInfoImage(this.ctx, this.enemy.entities[2].sprite.img, this.canvas.width - 50, 50, 50, 50);
+		Drawing.drawHealthBar(this.ctx, 100, 25, this.player.currentHP * 3, this.player.maxHP * 3, 20, Math.floor(this.player.currentHP) + ' / ' + this.player.maxHP, 1, 1, false);
+		Drawing.drawHealthBar(this.ctx, 100, 25, this.enemy.currentHP * 3, this.enemy.maxHP * 3, 20, Math.floor(this.enemy.currentHP) + ' / ' + this.enemy.maxHP, -1, 1, true);
+		Drawing.drawEntityName(this.ctx, this.player.name, 100, 50, false);
+		Drawing.drawEntityName(this.ctx, this.enemy.name, this.canvas.width - 100, 50, true);
 	}
 	
-	drawEntitiesInfoImage(image, imageCenterX, imageCenterY, imageWidth, imageHeight) {
-		this.ctx.save();
-		this.ctx.beginPath();
-		this.ctx.arc(imageCenterX, imageCenterY, Math.sqrt(imageWidth * imageWidth + imageHeight * imageHeight) / 2, 0, Math.PI * 2, true);//Math.sqrt(imageWidth * imageHeight / 2)
-		this.ctx.closePath();
-		this.ctx.lineWidth = 5;
-		this.ctx.strokeStyle = '#ddd';
-		this.ctx.stroke();
-		this.ctx.clip();
-		this.ctx.translate(imageCenterX, imageCenterY);
-		this.ctx.drawImage(image, -imageWidth / 2, -imageHeight / 2, imageWidth, imageHeight);
-		this.ctx.restore();
-	}
-
 
 	addAttackButtonLogic() {
 		this.canvas.addEventListener('click', (event) => {
-			var x = event.pageX - event.target.offsetLeft,
-				y = event.pageY - event.target.offsetTop;
+			let x = event.pageX - event.target.offsetLeft,
+					y = event.pageY - event.target.offsetTop;
 
 			if (x > 280 && x < 480 && y > 500 && y < 550) {
 				this.player.attack(new Sprite(this.resources.get('player-sprite.png'), [0, 464], [634, 464], 5, [0, 1, 2, 3, 4, 0]));
-			}
-
-			//Test HP reduce
-			if (this.currentPlayerHP > 0) {
-				this.isPlayerHpReducing = true
-				this.newPlayerHP = this.currentPlayerHP - 20;
+			
+				//Test enemy HP reduce
+				if (this.enemy.currentHP > 0) {
+					this.enemy.isHpReducing = true
+					this.enemy.newHP = this.enemy.currentHP - 20;
+				}
 			}
 		});
 
 		this.canvas.addEventListener('mousemove', (event) => {
-			var x = event.pageX - event.target.offsetLeft,
-				y = event.pageY - event.target.offsetTop;
+			let x = event.pageX - event.target.offsetLeft,
+					y = event.pageY - event.target.offsetTop;
 
 			if (x > 280 && x < 480 && y > 500 && y < 550) {
 				this.canvas.style.cursor = 'pointer';
@@ -204,26 +174,6 @@ class Game {
 				this.canvas.style.cursor = 'default';
 			}
 		});
-	}
-
-	drawAttackButton() {
-		this.ctx.save();
-		this.ctx.lineWidth = 2;
-		this.ctx.strokeStyle = "#000000";
-		this.ctx.fillStyle = "#abc";
-		let rectX = 280;
-		let rectY = 500;
-		let rectWidth = 200;
-		let rectHeight = 50;
-		this.ctx.fillRect(rectX, rectY, rectWidth, rectHeight);
-		this.ctx.strokeRect(rectX, rectY, rectWidth, rectHeight);
-		
-		this.ctx.font = "20px Arial";
-		this.ctx.textAlign = "center";
-		this.ctx.textBaseline = "middle";
-		this.ctx.fillStyle = "#000000";
-		this.ctx.fillText("Attack!", rectX + (rectWidth / 2), rectY + (rectHeight / 2));
-		this.ctx.restore();
 	}
 }
 
