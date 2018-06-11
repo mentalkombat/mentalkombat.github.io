@@ -4,6 +4,7 @@ import PlayerEntity from './PlayerEntity.js';
 import EnemyEntity from './EnemyEntity.js';
 import SpellWindow from './SpellWindow.js';
 
+
 let mouse = {
 	x : null,
 	y : null
@@ -37,7 +38,8 @@ class Game {
 		this.ang = 0;
 		this.framesPerSeconds = 70;		
 		this.imgWheel = new Image();
-		this.imgWheel.src = '/src/img/wheel.png'; //img
+		this.imgWheel.src = '/src/img/wheel.png';
+		
 		this.context.canvas.addEventListener('mousemove', function(event){
 			mouse.x = event.x;
 			mouse.y = event.y;
@@ -47,7 +49,6 @@ class Game {
 
 	init() {
 		this.background = this.resources.get('background.jpg');
-
 		this.player = new PlayerEntity([100, 20], new Sprite(this.resources.get('player-sprite.png'), [0, 0], [634, 464], 5, [0, 1, 2, 1]));
 		this.enemy = new EnemyEntity([900, 70], this.resources);
 		
@@ -59,12 +60,12 @@ class Game {
 		this.context.canvas.addEventListener('click', (event) => {
 			var x = event.pageX,
 					y = event.pageY;
-			console.log(event.pageX - event.target.offsetLeft, event.pageY - event.target.offsetTop );
+
 			if (event.pageX - event.target.offsetLeft > 600 && event.pageY - event.target.offsetTop < 200 && event.pageX - event.target.offsetLeft < 930 && event.pageY - event.target.offsetTop > 160) {
 				
 				this.startWheel = true;
 				this.SpellWindow = new SpellWindow( this.imgWheel, this.context, this.canvas.width, this.canvas.height,  this.framesPerSeconds, this.ang);
-				this.SpellWindow.animateWheel()
+				this.SpellWindow.isMouseOnWheel()
 				requestAnimationFrame(this.main.bind(this));
 			}
 		});
@@ -111,7 +112,7 @@ class Game {
 		this.context.drawImage(this.background, 0, 0, this.canvas.width, this.canvas.height);
 		this.renderEntity(this.player);
 		this.enemy.sprites.forEach(element => {
-			this.renderEntity(element);
+		this.renderEntity(element);
 		})
 	};
 
