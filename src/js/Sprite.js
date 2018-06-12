@@ -1,10 +1,12 @@
 class Sprite {
-	constructor(img, positionOnImg, sizeOnImg, speed, frames) {
+	constructor(img, positionOnImg, sizeOnImg, sizeOnCanvas, speed, frames, once) {
 		this.img = img;
 		this.positionOnImg = positionOnImg;
 		this.sizeOnImg = sizeOnImg;
 		this.speed = typeof speed === 'number' ? speed : 0;
 		this.frames = frames;
+		this.once = once;
+		this.sizeOnCanvas = sizeOnCanvas;
 		this.index = 0;
 
 		this.newSpriteFramesNumber = 0;
@@ -21,12 +23,12 @@ class Sprite {
 
 	applyingNewSprite() {
 		if (this.index < this.state + this.newSpriteFramesNumber) {
-			console.log('attack');
+			// console.log('attack');
 			this.isNewSpriteActive = true;
 		}
 		else {
 			if (this.isNewSpriteActive === true) {
-				console.log('end attack');
+				// console.log('end attack');
 				this.isNewSpriteActive = false;
 
 				this.url = this.oldSpriteOptions.url;
@@ -38,7 +40,7 @@ class Sprite {
 	}
 
 
-	render(context) {
+	render(ctx) {
 		this.applyingNewSprite();
 		
 		let frame;
@@ -46,7 +48,12 @@ class Sprite {
 		if (this.speed > 0) {
 			let max = this.frames.length;
 			let idx = Math.floor(this.index);
-			frame = this.frames[idx % max];			
+			frame = this.frames[idx % max];
+
+			if (this.once && idx >= max) {
+				this.done = true;
+				return;
+			}
 		}
 		else {
 			frame = 0;
@@ -56,7 +63,7 @@ class Sprite {
 		let y = this.positionOnImg[1];
 		x += frame * this.sizeOnImg[0];
 		
-		context.drawImage(this.img, x, y, this.sizeOnImg[0], this.sizeOnImg[1],	0, 0,	this.sizeOnImg[0], this.sizeOnImg[1]);
+		ctx.drawImage(this.img, x, y, this.sizeOnImg[0], this.sizeOnImg[1], 0, 0, this.sizeOnCanvas[0], this.sizeOnCanvas[1]);
 	}
 }
 

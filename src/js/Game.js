@@ -4,6 +4,7 @@ import PlayerEntity from './PlayerEntity.js';
 import EnemyEntity from './EnemyEntity.js';
 import SpellWindow from './SpellWindow.js';
 import Drawing from './Drawing.js';
+import Entity from './Entity.js';
 
 let mouse = {
 	x : undefined,
@@ -23,7 +24,8 @@ class Game {
 			'head1.png', 'head2.png', 'head3.png', 'head4.png', 'head5.png',
 			'body1.png', 'body2.png', 'body3.png', 'body4.png', 'body5.png',
 			'legs1.png', 'legs2.png', 'legs3.png', 'legs4.png', 'legs5.png',
-			'player-head.png'
+			'player-head.png',
+			'spell-water.png'
 		]);
 		this.resources.onReady(() => this.init());
 	}
@@ -51,8 +53,8 @@ class Game {
 	init() {
 		this.background = this.resources.get('background.jpg');
 
-		this.player = new PlayerEntity([100, 30], new Sprite(this.resources.get('player-sprite.png'), [0, 0], [634, 464], 5, [0, 1, 2, 1]), 'Player');
-		this.enemy = new EnemyEntity([this.canvas.width - 400, 80], this.resources);
+		this.player = new PlayerEntity([100, 200], new Sprite(this.resources.get('player-sprite.png'), [0, 0], [634, 464], [634 / 2, 464 / 2], 5, [0, 1, 2, 1], false), 'Player');
+		this.enemy = new EnemyEntity([this.canvas.width - 300, 80], this.resources);
 		
 		this.addAttackButtonLogic();
 
@@ -108,14 +110,8 @@ class Game {
 		this.player.sprite.update(dt);
 		this.enemy.idleAnimate(dt);
 
-		//Test enemy HP reduce
-		if (this.enemy.isHpReducing) {
-			if (this.enemy.currentHP > this.enemy.newHP) {
-				this.enemy.currentHP -= 0.5;
-			} else {
-				this.enemy.isHpReducing = false;
-			}
-		}
+		this.spellCastingLogic(dt);
+		this.enemyHpReduction();
 	}
 
 
@@ -125,8 +121,14 @@ class Game {
 		this.enemy.entities.forEach(element => {
 			this.renderEntity(element);
 		})
-		Drawing.drawAttackButton(this.ctx, 'Attack!', 280, 500, 200, 50);
+		if (this.isShowingAttackButton) {
+			Drawing.drawAttackButton(this.ctx, 'Attack!', 140, 500, 200, 50);
+		}
 		this.drawEntitiesInfo();
+
+		if(this.spell) {
+			this.renderEntity(this.spell);
+		}
 	};
 
 
@@ -135,6 +137,48 @@ class Game {
 		this.ctx.translate(entity.positionOnCanvas[0], entity.positionOnCanvas[1]);			
 		entity.sprite.render(this.ctx);
 		this.ctx.restore();
+	}
+
+
+	spellCastingLogic(dt) {
+		if (this.spell) {
+			if (this.spell.isSpellMoving) {
+				this.spell.positionOnCanvas[0] += 10;
+			}
+			this.spell.sprite.update(dt);
+			this.checkCollisionSpellWithEnemy();
+			if (this.spell.sprite.done) {
+				delete this.spell;
+				this.enemy.isHpReduction = true;
+			}
+		}
+	}
+
+
+	enemyHpReduction() {
+		if (this.enemy.isHpReduction) {
+			if (this.enemy.currentHP > this.enemy.newHP) {
+				this.enemy.currentHP -= 0.5;
+			} else {
+				this.enemy.isHpReduction = false;
+				this.isShowingAttackButton = true;
+				this.canvas.addEventListener('click', this.clickAttackButtonHandler);
+				this.canvas.addEventListener('mousemove', this.mousemoveOnAttackButtonHandler);
+				// this.attackButtonSettings.x1 = 140;
+				// this.attackButtonSettings.y1 = 500;
+				// this.attackButtonSettings.x2 = 340;
+				// this.attackButtonSettings.y2 = 550;
+			}
+		}
+	}
+
+
+	checkCollisionSpellWithEnemy() {
+		let spellCenterX = this.spell.positionOnCanvas[0] + this.spell.sprite.sizeOnCanvas[0] / 2;
+		let enemyBodyCenterX = this.enemy.entities[1].positionOnCanvas[0] + this.enemy.entities[1].sprite.sizeOnCanvas[0] / 2;
+		if (spellCenterX > enemyBodyCenterX) {
+			this.spell.isSpellMoving = false;
+		}
 	}
 
 
@@ -149,31 +193,61 @@ class Game {
 	
 
 	addAttackButtonLogic() {
-		this.canvas.addEventListener('click', (event) => {
-			let x = event.pageX - event.target.offsetLeft,
-					y = event.pageY - event.target.offsetTop;
+		this.attackButtonSettings = {
+			x1: 140,
+			y1: 500,
+			x2: 340,
+			y2: 550
+		};
+		this.isShowingAttackButton = true;
 
-			if (x > 280 && x < 480 && y > 500 && y < 550) {
-				this.player.attack(new Sprite(this.resources.get('player-sprite.png'), [0, 464], [634, 464], 5, [0, 1, 2, 3, 4, 0]));
-			
-				//Test enemy HP reduce
+		this.clickAttackButtonHandler = this.clickAttackButtonHandler.bind(this);
+		this.canvas.addEventListener('click', this.clickAttackButtonHandler);
+
+		this.mousemoveOnAttackButtonHandler = this.mousemoveOnAttackButtonHandler.bind(this);
+		this.canvas.addEventListener('mousemove', this.mousemoveOnAttackButtonHandler);
+	}
+
+
+	clickAttackButtonHandler(event) {
+		let x = event.pageX - event.target.offsetLeft,
+				y = event.pageY - event.target.offsetTop;
+
+		if (x > this.attackButtonSettings.x1 && x < this.attackButtonSettings.x2 && y > this.attackButtonSettings.y1 && y < this.attackButtonSettings.y2) {
+			this.canvas.removeEventListener('click', this.clickAttackButtonHandler);
+			// this.attackButtonSettings.x1 = 0;
+			// this.attackButtonSettings.y1 = 0;
+			// this.attackButtonSettings.x2 = 0;
+			// this.attackButtonSettings.y2 = 0;
+			this.canvas.style.cursor = 'default';
+			this.canvas.removeEventListener('mousemove', this.mousemoveOnAttackButtonHandler);
+			this.isShowingAttackButton = false;
+
+			// if (this.enemy.newHP !== this.enemy.currentHP) return;
+			this.player.attack(new Sprite(this.resources.get('player-sprite.png'), [0, 464], [634, 464], [634 / 2, 464 / 2], 5, [0, 1, 2, 3, 4, 0]));
+
+			setTimeout(() => {
 				if (this.enemy.currentHP > 0) {
-					this.enemy.isHpReducing = true
 					this.enemy.newHP = this.enemy.currentHP - 20;
 				}
-			}
-		});
+				this.spell = new Entity(
+					[this.player.positionOnCanvas[0] + this.player.sprite.sizeOnCanvas[0], this.player.sprite.sizeOnCanvas[1] + this.player.sprite.sizeOnCanvas[1] / 2 - 184 / 2],
+					new Sprite(this.resources.get('spell-water.png'), [0, 0], [184, 184], [184, 184], 7, [0, 1, 2, 3, 4, 3, 2, 3, 4, 3, 2, 3, 4, 5, 6, 7, 8, 9, 10], true));
+				this.spell.isSpellMoving = true;
+			}, 700);
+		}
+	}
 
-		this.canvas.addEventListener('mousemove', (event) => {
-			let x = event.pageX - event.target.offsetLeft,
-					y = event.pageY - event.target.offsetTop;
 
-			if (x > 280 && x < 480 && y > 500 && y < 550) {
-				this.canvas.style.cursor = 'pointer';
-			}	else {
-				this.canvas.style.cursor = 'default';
-			}
-		});
+	mousemoveOnAttackButtonHandler(event) {
+		let x = event.pageX - event.target.offsetLeft,
+				y = event.pageY - event.target.offsetTop;
+
+		if (x > this.attackButtonSettings.x1 && x < this.attackButtonSettings.x2 && y > this.attackButtonSettings.y1 && y < this.attackButtonSettings.y2) {
+			this.canvas.style.cursor = 'pointer';
+		} else {
+			this.canvas.style.cursor = 'default';
+		}
 	}
 }
 
