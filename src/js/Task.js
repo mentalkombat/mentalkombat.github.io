@@ -6,35 +6,31 @@ class Task {
         this.number = null;
         this.text = text;
         this.answers = answers;
-        this.dictionary = dictionary;
+        this.dict = dictionary;
         this.userAnswer = null;
-        console.log(this.dictionary);
         this.rightAnswersArray = null;
-        
-        document.getElementById('add_answer').addEventListener('click', this.checkAnswer(this.dictionary))
+        document.getElementById('add_answer').addEventListener('click', function(){
+            this.checkAnswer(this.dict);
+        }.bind(this)
+    )
     }
     
     createTask(number){
-        console.log('df');
-        document.getElementById('question').innerHTML = this.dictionary.d[number].word;
+        document.getElementById('question').innerHTML = this.dict.d[number].word;
         this.number = number;
+        console.log('task created');
     }
 
     checkAnswer(dict){
-        console.log(this.dict, this.number);
+        console.log(dict, this.number);
         this.rightAnswersArray = dict.d[0].translation;
-        let that = this;
-        (event) => {
-            this.userAnswer = document.getElementById('answer_input').innerHTML;
-            for (let i = 0; i <= that.rightAnswersArray.lengt; i++){
-                if (that.userAnswer == this.rightAnswersArray[i]){
-                    console.log('Super', that.userAnswer);
-                }
+        this.userAnswer = document.getElementById('gamer_answer').value;
+        for (let i = 0; i <= this.rightAnswersArray.length - 1; i++){
+            if (this.userAnswer == this.rightAnswersArray[i]){
+                console.log('Super', this.userAnswer);
             }
         }
     }
-    
-
 }
 
 export default Task;
