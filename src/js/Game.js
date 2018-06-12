@@ -162,12 +162,8 @@ class Game {
 			} else {
 				this.enemy.isHpReduction = false;
 				this.isShowingAttackButton = true;
-				this.canvas.addEventListener('click', this.clickAttackButtonHandler);
-				this.canvas.addEventListener('mousemove', this.mousemoveOnAttackButtonHandler);
-				// this.attackButtonSettings.x1 = 140;
-				// this.attackButtonSettings.y1 = 500;
-				// this.attackButtonSettings.x2 = 340;
-				// this.attackButtonSettings.y2 = 550;
+				this.canvas.addEventListener('click', this.attackButtonClickHanlder);
+				this.canvas.addEventListener('mousemove', this.attackButtonMousemoveHanlder);
 			}
 		}
 	}
@@ -193,37 +189,27 @@ class Game {
 	
 
 	addAttackButtonLogic() {
-		this.attackButtonSettings = {
-			x1: 140,
-			y1: 500,
-			x2: 340,
-			y2: 550
-		};
+		this.attackButtonParameters = {	x1: 140, y1: 500, x2: 340, y2: 550 };
 		this.isShowingAttackButton = true;
 
-		this.clickAttackButtonHandler = this.clickAttackButtonHandler.bind(this);
-		this.canvas.addEventListener('click', this.clickAttackButtonHandler);
+		this.attackButtonClickHanlder = this.attackButtonClickHanlder.bind(this);
+		this.canvas.addEventListener('click', this.attackButtonClickHanlder);
 
-		this.mousemoveOnAttackButtonHandler = this.mousemoveOnAttackButtonHandler.bind(this);
-		this.canvas.addEventListener('mousemove', this.mousemoveOnAttackButtonHandler);
+		this.attackButtonMousemoveHanlder = this.attackButtonMousemoveHanlder.bind(this);
+		this.canvas.addEventListener('mousemove', this.attackButtonMousemoveHanlder);
 	}
 
 
-	clickAttackButtonHandler(event) {
+	attackButtonClickHanlder(event) {
 		let x = event.pageX - event.target.offsetLeft,
 				y = event.pageY - event.target.offsetTop;
 
-		if (x > this.attackButtonSettings.x1 && x < this.attackButtonSettings.x2 && y > this.attackButtonSettings.y1 && y < this.attackButtonSettings.y2) {
-			this.canvas.removeEventListener('click', this.clickAttackButtonHandler);
-			// this.attackButtonSettings.x1 = 0;
-			// this.attackButtonSettings.y1 = 0;
-			// this.attackButtonSettings.x2 = 0;
-			// this.attackButtonSettings.y2 = 0;
+		if (x > this.attackButtonParameters.x1 && x < this.attackButtonParameters.x2 && y > this.attackButtonParameters.y1 && y < this.attackButtonParameters.y2) {
+			this.canvas.removeEventListener('click', this.attackButtonClickHanlder);
 			this.canvas.style.cursor = 'default';
-			this.canvas.removeEventListener('mousemove', this.mousemoveOnAttackButtonHandler);
+			this.canvas.removeEventListener('mousemove', this.attackButtonMousemoveHanlder);
 			this.isShowingAttackButton = false;
 
-			// if (this.enemy.newHP !== this.enemy.currentHP) return;
 			this.player.attack(new Sprite(this.resources.get('player-sprite.png'), [0, 464], [634, 464], [634 / 2, 464 / 2], 5, [0, 1, 2, 3, 4, 0]));
 
 			setTimeout(() => {
@@ -239,11 +225,11 @@ class Game {
 	}
 
 
-	mousemoveOnAttackButtonHandler(event) {
+	attackButtonMousemoveHanlder(event) {
 		let x = event.pageX - event.target.offsetLeft,
 				y = event.pageY - event.target.offsetTop;
 
-		if (x > this.attackButtonSettings.x1 && x < this.attackButtonSettings.x2 && y > this.attackButtonSettings.y1 && y < this.attackButtonSettings.y2) {
+		if (x > this.attackButtonParameters.x1 && x < this.attackButtonParameters.x2 && y > this.attackButtonParameters.y1 && y < this.attackButtonParameters.y2) {
 			this.canvas.style.cursor = 'pointer';
 		} else {
 			this.canvas.style.cursor = 'default';
