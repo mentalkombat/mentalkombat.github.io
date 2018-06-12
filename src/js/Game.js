@@ -54,7 +54,6 @@ class Game {
 			this.startWheel = true;
 			this.SpellWindow = new SpellWindow(this.imgWheel, this.ctx, this.canvas.width, this.canvas.height, 70, this.ang);
 			this.SpellWindow.isMouseOnWheel()
-			//requestAnimationFrame(this.main.bind(this));
 		}
 		this.lastTime = Date.now();
 		this.main();
