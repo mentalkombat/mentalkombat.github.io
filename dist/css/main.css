@@ -7,3 +7,31 @@ body {
 .title {
   color: red;
   text-transform: uppercase; }
+
+button {
+  position: absolute;
+  top: 0;
+  font-size: 20px;
+  padding: 10px 40px; }
+
+.task {
+  display: none;
+  background: #ffffff;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  color: #000012;
+  position: fixed;
+  padding: 15% 20%; }
+  .task .question {
+    font-size: 24px;
+    text-transform: uppercase;
+    text-align: left;
+    display: block; }
+  .task .answer_input {
+    display: block;
+    margin-bottom: 30px; }
+  .task .btn {
+    display: block;
+    max-width: 300px;
+    position: relative; }

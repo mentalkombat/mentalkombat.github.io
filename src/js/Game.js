@@ -5,11 +5,12 @@ import EnemyEntity from './EnemyEntity.js';
 import SpellWindow from './SpellWindow.js';
 import Drawing from './Drawing.js';
 
+
 let mouse = {
-	x : undefined,
-	y : undefined
+	x: null,
+	y: null
 };
-let	btnStartGame;
+let btnStartGame;
 
 
 class Game {
@@ -18,8 +19,8 @@ class Game {
 
 		this.resources = new Resources();
 		this.resources.load([
-			'player-sprite.png', 
-			'background.jpg', 
+			'player-sprite.png',
+			'background.jpg',
 			'head1.png', 'head2.png', 'head3.png', 'head4.png', 'head5.png',
 			'body1.png', 'body2.png', 'body3.png', 'body4.png', 'body5.png',
 			'legs1.png', 'legs2.png', 'legs3.png', 'legs4.png', 'legs5.png',
@@ -28,7 +29,7 @@ class Game {
 		this.resources.onReady(() => this.init());
 	}
 
-	
+
 	createCanvas(canvasParent) {
 		this.canvas = document.createElement('canvas');
 		this.ctx = this.canvas.getContext('2d');
@@ -36,24 +37,21 @@ class Game {
 		this.canvas.height = 720;
 		canvasParent.appendChild(this.canvas);
 		this.ang = 0;
-		this.framesPerSeconds = 70;		
+		this.framesPerSeconds = 70;
 		this.imgWheel = new Image();
-		this.imgWheel.src = '/src/img/wheel.png'; //img
-		this.ctx.canvas.addEventListener('mousemove', function(event){
-			// console.log(event.pageX - event.target.offsetLeft, event.pageY - event.target.offsetTop);
+		this.imgWheel.src = '/src/img/wheel.png';
+		this.context.canvas.addEventListener('mousemove', function (event) {
 			mouse.x = event.x;
 			mouse.y = event.y;
-			
+
 		})
 	}
 
 
 	init() {
 		this.background = this.resources.get('background.jpg');
-
 		this.player = new PlayerEntity([100, 30], new Sprite(this.resources.get('player-sprite.png'), [0, 0], [634, 464], 5, [0, 1, 2, 1]), 'Player');
 		this.enemy = new EnemyEntity([this.canvas.width - 400, 80], this.resources);
-		
 		this.addAttackButtonLogic();
 
 		// this.startWheel = null;
@@ -62,13 +60,19 @@ class Game {
 		// 			y = event.pageY;
 
 		// 	if (event.pageX > 728 && event.pageY > 162 && event.pageX < 1040 && event.pageY < 200) {
-				
+
 		// 		this.startWheel = true;
 		// 		this.SpellWindow = new SpellWindow( this.imgWheel, this.ctx, this.canvas.width, this.canvas.height,  this.framesPerSeconds, this.ang);
 		// 		this.SpellWindow.animateWheel()
 		// 		requestAnimationFrame(this.main.bind(this));
 		// 	}
 		// });
+		if (event.pageX - event.target.offsetLeft > 600 && event.pageY - event.target.offsetTop < 200 && event.pageX - event.target.offsetLeft < 930 && event.pageY - event.target.offsetTop > 160) {
+			this.startWheel = true;
+			this.SpellWindow = new SpellWindow(this.imgWheel, this.context, this.canvas.width, this.canvas.height, this.framesPerSeconds, this.ang);
+			this.SpellWindow.isMouseOnWheel()
+			requestAnimationFrame(this.main.bind(this));
+		}
 
 		this.lastTime = Date.now();
 		this.main();
@@ -99,11 +103,9 @@ class Game {
 
 		// if (this.startWheel) {
 		// 	this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); //clear the canvas
-			
+
 		// }
 	}
-
-
 	update(dt) {
 		this.player.sprite.update(dt);
 		this.enemy.idleAnimate(dt);
@@ -132,7 +134,7 @@ class Game {
 
 	renderEntity(entity) {
 		this.ctx.save();
-		this.ctx.translate(entity.positionOnCanvas[0], entity.positionOnCanvas[1]);			
+		this.ctx.translate(entity.positionOnCanvas[0], entity.positionOnCanvas[1]);
 		entity.sprite.render(this.ctx);
 		this.ctx.restore();
 	}
@@ -146,16 +148,16 @@ class Game {
 		Drawing.drawEntityName(this.ctx, this.player.name, 100, 50, false);
 		Drawing.drawEntityName(this.ctx, this.enemy.name, this.canvas.width - 100, 50, true);
 	}
-	
+
 
 	addAttackButtonLogic() {
 		this.canvas.addEventListener('click', (event) => {
 			let x = event.pageX - event.target.offsetLeft,
-					y = event.pageY - event.target.offsetTop;
+				y = event.pageY - event.target.offsetTop;
 
 			if (x > 280 && x < 480 && y > 500 && y < 550) {
 				this.player.attack(new Sprite(this.resources.get('player-sprite.png'), [0, 464], [634, 464], 5, [0, 1, 2, 3, 4, 0]));
-			
+
 				//Test enemy HP reduce
 				if (this.enemy.currentHP > 0) {
 					this.enemy.isHpReducing = true
@@ -166,11 +168,11 @@ class Game {
 
 		this.canvas.addEventListener('mousemove', (event) => {
 			let x = event.pageX - event.target.offsetLeft,
-					y = event.pageY - event.target.offsetTop;
+				y = event.pageY - event.target.offsetTop;
 
 			if (x > 280 && x < 480 && y > 500 && y < 550) {
 				this.canvas.style.cursor = 'pointer';
-			}	else {
+			} else {
 				this.canvas.style.cursor = 'default';
 			}
 		});
