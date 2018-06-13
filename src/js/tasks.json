@@ -1,18 +1,130 @@
 {
-  "d" : [
-       { "word":"dog",
-       "translation" : ["собака", "собачка"]
-       },
-       
-       {"word":"cat",
-       "translation" : ["кот", "котик", "кошка"]},
-       
-       {"word" : "man",
-       "translation":["человек", "мужчина"]},
-       
-       {"word":"house",
-       "translation":["дом", "домик"]
-       }
-    ]
+  "d": [
+    {
+      "word": "dog",
+      "translation": [
+        "собака",
+        "собачка"
+      ]
+    },
+    {
+      "word": "cat",
+      "translation": [
+        "кот",
+        "котик",
+        "кошка"
+      ]
+    },
+    {
+      "word": "man",
+      "translation": [
+        "человек",
+        "мужчина"
+      ]
+    },
+    {
+      "word": "house",
+      "translation": [
+        "дом",
+        "домик"
+      ]
+    },
+    {
+      "word": "Rabbit",
+      "translation": [
+        "кролик"
+      ]
+    },
+    {
+      "word": "Lion",
+      "translation": [
+        "лев"
+      ]
+    },
+    {
+      "word": "Elephant",
+      "translation": [
+        "слон",
+        "слоненок",
+        "слоник"
+      ]
+    },
+    {
+      "word": "Parrot",
+      "translation": [
+        "попугай",
+        "попугайчик"
+      ]
+    },
+    {
+      "word": "Owl",
+      "translation": [
+        "сова",
+        "филин"
+      ]
+    },
+    {
+      "word": "dog",
+      "translation": [
+        "собака",
+        "собачка"
+      ]
+    },
+    {
+      "word": "cat",
+      "translation": [
+        "кот",
+        "котик",
+        "кошка"
+      ]
+    },
+    {
+      "word": "man",
+      "translation": [
+        "человек",
+        "мужчина"
+      ]
+    },
+    {
+      "word": "house",
+      "translation": [
+        "дом",
+        "домик"
+      ]
+    },
+    {
+      "word": "Rabbit",
+      "translation": [
+        "кролик"
+      ]
+    },
+    {
+      "word": "Lion",
+      "translation": [
+        "лев"
+      ]
+    },
+    {
+      "word": "Elephant",
+      "translation": [
+        "слон",
+        "слоненок",
+        "слоник"
+      ]
+    },
+    {
+      "word": "Parrot",
+      "translation": [
+        "попугай",
+        "попугайчик"
+      ]
+    },
+    {
+      "word": "Owl",
+      "translation": [
+        "сова",
+        "филин"
+      ]
+    }
+  ]
 }
-

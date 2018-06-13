@@ -186,7 +186,8 @@ class Game {
 				this.SpellWindow.wheelRadius = 280;
 			}
 			this.SpellWindow.show = true;
-
+			this.taskNumber = 0;
+			
 			this.createTaskHandler = this.createTaskHandler.bind(this);
 			this.canvas.addEventListener('click', this.createTaskHandler);
 		}
@@ -238,7 +239,8 @@ class Game {
 		if (event.x - 760 <= this.SpellWindow.wheelRadius && event.x - 760 > - this.SpellWindow.wheelRadius && event.y - 380 <= this.SpellWindow.wheelRadius && event.y - 380 > - this.SpellWindow.wheelRadius) {
 			document.getElementById('task').style.display = "block";
 			this.task = new Task;
-			this.task.createTask(0);
+			this.task.createTask(this.taskNumber);
+			this.taskNumber++;
 			this.canvas.removeEventListener('click', this.createTaskHandler);
 		}
 	}
