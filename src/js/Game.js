@@ -43,7 +43,7 @@ class Game {
 		this.enemy = new EnemyEntity([this.canvas.width - 300, 80], this.resources);
 		
 		this.addAttackButtonLogic();
-		document.getElementById('add_answer').addEventListener('click', this.checkAnswer.bind(this));
+		document.getElementById('add_answer').addEventListener('click', this.checkAnswerHanlder.bind(this));
 
 		this.lastTime = Date.now();
 		this.main();
@@ -88,7 +88,7 @@ class Game {
 			this.renderEntity(this.spell);
 		}
 
-		if (this.SpellWindow && this.showWheel) {
+		if (this.SpellWindow && this.SpellWindow.show) {
 			if (this.SpellWindow.isWheelStop === true) {
 				this.SpellWindow.stopWheel();
 			} else {
@@ -179,12 +179,16 @@ class Game {
 			this.canvas.removeEventListener('mousemove', this.attackButtonMousemoveHanlder);
 			this.isShowingAttackButton = false;
 
-			this.ang = 0;
-			this.showWheel = true;
-			this.SpellWindow = new SpellWindow(this.resources.get('wheel.png'), this.ctx, this.canvas.width, this.canvas.height, 70, this.ang);
-			this.SpellWindow.wheelRadius = 280;
+			
+			if (!this.SpellWindow) {
+				this.ang = 0;
+				this.SpellWindow = new SpellWindow(this.resources.get('wheel.png'), this.ctx, this.canvas.width, this.canvas.height, 70, this.ang);
+				this.SpellWindow.wheelRadius = 280;
+			}
+			this.SpellWindow.show = true;
 
-			this.canvas.addEventListener('click', this.createTaskHandler.bind(this));
+			this.createTaskHandler = this.createTaskHandler.bind(this);
+			this.canvas.addEventListener('click', this.createTaskHandler);
 		}
 	}
 
@@ -202,8 +206,15 @@ class Game {
 
 
 	stopWheelOnMousemoveHandler(event) {
+		let x = event.pageX - event.target.offsetLeft,
+				y = event.pageY - event.target.offsetTop;
+
+		let wheelCenterX = this.canvas.width / 2;
+		let wheelCenterY = this.canvas.height / 2;
+		let wheelRadius = 280;
+
 		if (this.SpellWindow) {
-			if (event.x - 760 <= this.SpellWindow.wheelRadius && event.x - 760 > - this.SpellWindow.wheelRadius && event.y - 380 <= this.SpellWindow.wheelRadius && event.y - 380 > - this.SpellWindow.wheelRadius) {
+			if (x > wheelCenterX - wheelRadius && x < wheelCenterX + wheelRadius && y > wheelCenterY - wheelRadius && y < wheelCenterY + wheelRadius) {
 				this.SpellWindow.isWheelStop = true;
 			} else {
 				this.SpellWindow.isWheelStop = false;
@@ -212,10 +223,10 @@ class Game {
 	}
 
 
-	checkAnswer() {
+	checkAnswerHanlder() {
 		if (this.task.checkAnswer()) {
 			document.getElementById('task').style.display = "none";
-			this.showWheel = false;
+			this.SpellWindow.show = false;
 
 			this.player.attack(new Sprite(this.resources.get('player-sprite.png'), [0, 464], [634, 464], [634 / 2, 464 / 2], 5, [0, 1, 2, 3, 4, 0]));
 			setTimeout(() => this.createSpell(), 700);
