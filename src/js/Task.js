@@ -9,10 +9,10 @@ class Task {
         this.dict = dictionary;
         this.userAnswer = null;
         this.rightAnswersArray = null;
-        document.getElementById('add_answer').addEventListener('click', function(){
-            this.checkAnswer(this.dict);
-        }.bind(this)
-    )
+    //     document.getElementById('add_answer').addEventListener('click', function(){
+    //         this.checkAnswer(this.dict);
+    //     }.bind(this)
+    // )
     }
     
     createTask(number){
@@ -21,13 +21,15 @@ class Task {
         console.log('task created');
     }
 
-    checkAnswer(dict){
-        console.log(dict, this.number);
-        this.rightAnswersArray = dict.d[0].translation;
+    // checkAnswer(dict){
+			checkAnswer() {
+        console.log(this.dict, this.number);
+        this.rightAnswersArray = this.dict.d[0].translation;
         this.userAnswer = document.getElementById('gamer_answer').value;
         for (let i = 0; i <= this.rightAnswersArray.length - 1; i++){
             if (this.userAnswer == this.rightAnswersArray[i]){
-                console.log('Super', this.userAnswer);
+								console.log('Super', this.userAnswer);
+								return true;
             }
         }
     }
