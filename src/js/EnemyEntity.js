@@ -39,18 +39,18 @@ class EnemyEntity {
 		this.bodyParts = { 
 			legs:	{	
 				url: this.getRandomElement(legs), 
-				startPosition: [x + 0, y + 205],
+				startPosition: [x + 0, y + 255],
 				animateOptions: {isVertical: 0, distance: 2, speed: 6}
 			},
 			body: {
 				url: this.getRandomElement(bodies),
-				startPosition: [x - 5, y + 120],
+				startPosition: [x - 3, y + 220],
 				animateOptions: {isVertical: 0, distance: 1, speed: 3}
 			},
 			head: {
 				url: this.getRandomElement(heads),
-				startPosition: [x + 45, y + 0],
-				animateOptions: {isVertical: 1, distance: 3, speed: 10}
+				startPosition: [x + 20, y + 160],
+				animateOptions: {isVertical: 1, distance: 1, speed: 3}
 			}
 		};
 
@@ -58,7 +58,7 @@ class EnemyEntity {
 			this.entities.push(
 				new Entity(
 					[this.bodyParts[bodyPart].startPosition[0], this.bodyParts[bodyPart].startPosition[1]], 
-					new Sprite(resources.get(this.bodyParts[bodyPart].url), [0, 0], [200, 200])
+					new Sprite(resources.get(this.bodyParts[bodyPart].url), [0, 0], [200, 200], [200 / 2, 200 / 2])
 				)
 			);
 		}

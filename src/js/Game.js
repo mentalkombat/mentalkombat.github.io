@@ -4,13 +4,8 @@ import PlayerEntity from './PlayerEntity.js';
 import EnemyEntity from './EnemyEntity.js';
 import SpellWindow from './SpellWindow.js';
 import Drawing from './Drawing.js';
-
-
-let mouse = {
-	x: null,
-	y: null
-};
-let btnStartGame;
+import Entity from './Entity.js';
+import Task from './Task.js';
 
 
 class Game {
@@ -24,6 +19,7 @@ class Game {
 			'body1.png', 'body2.png', 'body3.png', 'body4.png', 'body5.png',
 			'legs1.png', 'legs2.png', 'legs3.png', 'legs4.png', 'legs5.png',
 			'player-head.png',
+			'spell-water.png',
 			'wheel.png'
 		]);
 		this.resources.onReady(() => this.init());
@@ -36,31 +32,19 @@ class Game {
 		this.canvas.width = 1280;
 		this.canvas.height = 720;
 		canvasParent.appendChild(this.canvas);
-		//this.ang = 0;
-		//this.imgWheel = new Image();
-		//this.imgWheel.src = '/src/img/wheel.png';
-		//this.ctx.canvas.addEventListener('mousemove', function (event) {
-		//	mouse.x = event.x;
-		//	mouse.y = event.y;
-		//})
 	}
 
 
 	init() {
 		this.ang = 0;
 		this.background = this.resources.get('background.jpg');
-		this.player = new PlayerEntity([100, 30], new Sprite(this.resources.get('player-sprite.png'), [0, 0], [634, 464], 5, [0, 1, 2, 1]), 'Player');
-		this.enemy = new EnemyEntity([this.canvas.width - 400, 80], this.resources);
 
-		this.picture = new SpellWindow(this.resources.get('wheel.png'), this.ctx, 700, 500, this.ang);
-
+		this.player = new PlayerEntity([100, 200], new Sprite(this.resources.get('player-sprite.png'), [0, 0], [634, 464], [634 / 2, 464 / 2], 5, [0, 1, 2, 1], false), 'Player');
+		this.enemy = new EnemyEntity([this.canvas.width - 300, 80], this.resources);
+		
 		this.addAttackButtonLogic();
-		//if (event.pageX - event.target.offsetLeft > 600 && event.pageY - event.target.offsetTop < 200 && event.pageX - event.target.offsetLeft < 930 && event.pageY - event.target.offsetTop > 160) {
-		//	this.startWheel = true;
-		//	this.SpellWindow = new SpellWindow(this.imgWheel, this.ctx, this.canvas.width, this.canvas.height, 70, this.ang);
-		//	this.SpellWindow.isMouseOnWheel()
-		//	//requestAnimationFrame(this.main.bind(this));
-		//}
+		document.getElementById('add_answer').addEventListener('click', this.checkAnswer.bind(this));
+
 		this.lastTime = Date.now();
 		this.main();
 	}
@@ -73,26 +57,9 @@ class Game {
 		this.render();
 		this.lastTime = now;
 		requestAnimationFrame(this.main.bind(this));
-
-		// this.drawBtnStartGame = (color) => {
-		// 	this.ctx.fillStyle = color;
-		// 	this.ctx.font = "italic 38pt Arial";
-		// 	btnStartGame = this.ctx.fillText("START GAME", 600, 200);
-		// }
-		// this.drawBtnStartGame('red');
-
-		// if (mouse.x > 728 
-		// 	&& mouse.y > 162
-		// 	&& mouse.x < 1040
-		// 	&& mouse.y < 200) {
-		// 		this.drawBtnStartGame('blue');
-		// };
-
-		// if (this.startWheel) {
-		// 	this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); //clear the canvas
-
-		// }
 	}
+
+
 	update(dt) {
 		this.player.sprite.update(dt);
 		this.enemy.idleAnimate(dt);
@@ -101,15 +68,8 @@ class Game {
 			this.picture.waitClick();
 		}
 
-		
-		//Test enemy HP reduce
-		if (this.enemy.isHpReducing) {
-			if (this.enemy.currentHP > this.enemy.newHP) {
-				this.enemy.currentHP -= 0.5;
-			} else {
-				this.enemy.isHpReducing = false;
-			}
-		}
+		this.spellCastingLogic(dt);
+		this.enemyHpReduction();
 	}
 
 
@@ -119,11 +79,22 @@ class Game {
 		this.enemy.entities.forEach(element => {
 			this.renderEntity(element);
 		})
-		Drawing.drawAttackButton(this.ctx, 'Attack!', 280, 500, 200, 50);
+		if (this.isShowingAttackButton) {
+			Drawing.drawAttackButton(this.ctx, 'Attack!', 140, 500, 200, 50);
+		}
 		this.drawEntitiesInfo();
 
-		
+		if (this.spell) {
+			this.renderEntity(this.spell);
+		}
 
+		if (this.SpellWindow && this.showWheel) {
+			if (this.SpellWindow.isWheelStop === true) {
+				this.SpellWindow.stopWheel();
+			} else {
+				this.SpellWindow.animateWheel();
+			}
+		}
 	};
 
 
@@ -132,6 +103,44 @@ class Game {
 		this.ctx.translate(entity.positionOnCanvas[0], entity.positionOnCanvas[1]);
 		entity.sprite.render(this.ctx);
 		this.ctx.restore();
+	}
+
+
+	spellCastingLogic(dt) {
+		if (this.spell) {
+			if (this.spell.isSpellMoving) {
+				this.spell.positionOnCanvas[0] += 10;
+			}
+			this.spell.sprite.update(dt);
+			this.checkCollisionSpellWithEnemy();
+			if (this.spell.sprite.done) {
+				delete this.spell;
+				this.enemy.isHpReduction = true;
+			}
+		}
+	}
+
+
+	enemyHpReduction() {
+		if (this.enemy.isHpReduction) {
+			if (this.enemy.currentHP > this.enemy.newHP) {
+				this.enemy.currentHP -= 0.5;
+			} else {
+				this.enemy.isHpReduction = false;
+				this.isShowingAttackButton = true;
+				this.canvas.addEventListener('click', this.attackButtonClickHanlder);
+				this.canvas.addEventListener('mousemove', this.attackButtonMousemoveHanlder);
+			}
+		}
+	}
+
+
+	checkCollisionSpellWithEnemy() {
+		let spellCenterX = this.spell.positionOnCanvas[0] + this.spell.sprite.sizeOnCanvas[0] / 2;
+		let enemyBodyCenterX = this.enemy.entities[1].positionOnCanvas[0] + this.enemy.entities[1].sprite.sizeOnCanvas[0] / 2;
+		if (spellCenterX > enemyBodyCenterX) {
+			this.spell.isSpellMoving = false;
+		}
 	}
 
 
@@ -146,41 +155,92 @@ class Game {
 
 
 	addAttackButtonLogic() {
-		let that = this;
-		this.startWheel = null;
-		this.canvas.addEventListener('click', (event) => {
-			let x = event.pageX - event.target.offsetLeft,
-				y = event.pageY - event.target.offsetTop;
-			if (x > 280 && x < 480 && y > 500 && y < 550) {
-				that.startWheel = true;
-				this.picture.animateWheel();
+		this.attackButtonParameters = {	x1: 140, y1: 500, x2: 340, y2: 550 };
+		this.isShowingAttackButton = true;
 
-				
+		this.attackButtonClickHanlder = this.attackButtonClickHanlder.bind(this);
+		this.canvas.addEventListener('click', this.attackButtonClickHanlder);
 
-				//this.player.attack(new Sprite(this.resources.get('player-sprite.png'), [0, 464], [634, 464], 5, [0, 1, 2, 3, 4, 0]));
+		this.attackButtonMousemoveHanlder = this.attackButtonMousemoveHanlder.bind(this);
+		this.canvas.addEventListener('mousemove', this.attackButtonMousemoveHanlder);
 
-				//Test enemy HP reduce
-				//if (this.enemy.currentHP > 0) {
-				//	this.enemy.isHpReducing = true
-				//	this.enemy.newHP = this.enemy.currentHP - 20;
-				//};
+		this.stopWheelOnMousemoveHandler = this.stopWheelOnMousemoveHandler.bind(this);
+		this.canvas.addEventListener('mousemove', this.stopWheelOnMousemoveHandler); 
+	}
 
 
-			}
-		});
-
-
-
-		this.canvas.addEventListener('mousemove', (event) => {
-			let x = event.pageX - event.target.offsetLeft,
+	attackButtonClickHanlder(event) {
+		let x = event.pageX - event.target.offsetLeft,
 				y = event.pageY - event.target.offsetTop;
 
-			if (x > 280 && x < 480 && y > 500 && y < 550) {
-				this.canvas.style.cursor = 'pointer';
+		if (x > this.attackButtonParameters.x1 && x < this.attackButtonParameters.x2 && y > this.attackButtonParameters.y1 && y < this.attackButtonParameters.y2) {
+			this.canvas.removeEventListener('click', this.attackButtonClickHanlder);
+			this.canvas.style.cursor = 'default';
+			this.canvas.removeEventListener('mousemove', this.attackButtonMousemoveHanlder);
+			this.isShowingAttackButton = false;
+
+			this.ang = 0;
+			this.showWheel = true;
+			this.SpellWindow = new SpellWindow(this.resources.get('wheel.png'), this.ctx, this.canvas.width, this.canvas.height, 70, this.ang);
+			this.SpellWindow.wheelRadius = 280;
+
+			this.canvas.addEventListener('click', this.createTaskHandler.bind(this));
+		}
+	}
+
+
+	attackButtonMousemoveHanlder(event) {
+		let x = event.pageX - event.target.offsetLeft,
+				y = event.pageY - event.target.offsetTop;
+
+		if (x > this.attackButtonParameters.x1 && x < this.attackButtonParameters.x2 && y > this.attackButtonParameters.y1 && y < this.attackButtonParameters.y2) {
+			this.canvas.style.cursor = 'pointer';
+		} else {
+			this.canvas.style.cursor = 'default';
+		}
+	}
+
+
+	stopWheelOnMousemoveHandler(event) {
+		if (this.SpellWindow) {
+			if (event.x - 760 <= this.SpellWindow.wheelRadius && event.x - 760 > - this.SpellWindow.wheelRadius && event.y - 380 <= this.SpellWindow.wheelRadius && event.y - 380 > - this.SpellWindow.wheelRadius) {
+				this.SpellWindow.isWheelStop = true;
 			} else {
-				this.canvas.style.cursor = 'default';
+				this.SpellWindow.isWheelStop = false;
 			}
-		});
+		}
+	}
+
+
+	checkAnswer() {
+		if (this.task.checkAnswer()) {
+			document.getElementById('task').style.display = "none";
+			this.showWheel = false;
+
+			this.player.attack(new Sprite(this.resources.get('player-sprite.png'), [0, 464], [634, 464], [634 / 2, 464 / 2], 5, [0, 1, 2, 3, 4, 0]));
+			setTimeout(() => this.createSpell(), 700);
+		};
+	}
+
+
+	createTaskHandler(event) {
+		if (event.x - 760 <= this.SpellWindow.wheelRadius && event.x - 760 > - this.SpellWindow.wheelRadius && event.y - 380 <= this.SpellWindow.wheelRadius && event.y - 380 > - this.SpellWindow.wheelRadius) {
+			document.getElementById('task').style.display = "block";
+			this.task = new Task;
+			this.task.createTask(0);
+			this.canvas.removeEventListener('click', this.createTaskHandler);
+		}
+	}
+
+
+	createSpell() {
+		if (this.enemy.currentHP > 0) {
+			this.enemy.newHP = this.enemy.currentHP - 20;
+		}
+		this.spell = new Entity(
+			[this.player.positionOnCanvas[0] + this.player.sprite.sizeOnCanvas[0], this.player.sprite.sizeOnCanvas[1] + this.player.sprite.sizeOnCanvas[1] / 2 - 184 / 2],
+			new Sprite(this.resources.get('spell-water.png'), [0, 0], [184, 184], [184, 184], 7, [0, 1, 2, 3, 4, 3, 2, 3, 4, 3, 2, 3, 4, 5, 6, 7, 8, 9, 10], true));
+		this.spell.isSpellMoving = true;
 	}
 }
 
