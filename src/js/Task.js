@@ -1,35 +1,32 @@
 import dictionary from './tasks.json'
 
 class Task {
-    constructor(number, text, answers){
+    constructor(number) {
         this.answer = null;
-        this.number = null;
-        this.text = text;
-        this.answers = answers;
+        this.number = number;
         this.dict = dictionary;
         this.userAnswer = null;
         this.rightAnswersArray = null;
-    //     document.getElementById('add_answer').addEventListener('click', function(){
-    //         this.checkAnswer(this.dict);
-    //     }.bind(this)
-    // )
     }
-    
-    createTask(number){
+
+    createTask(number) {
         document.getElementById('question').innerHTML = this.dict.d[number].word;
         this.number = number;
         console.log('task created');
     }
 
-    // checkAnswer(dict){
-			checkAnswer() {
+    checkAnswer() {
         console.log(this.dict, this.number);
-        this.rightAnswersArray = this.dict.d[0].translation;
-        this.userAnswer = document.getElementById('gamer_answer').value;
-        for (let i = 0; i <= this.rightAnswersArray.length - 1; i++){
-            if (this.userAnswer == this.rightAnswersArray[i]){
-								console.log('Super', this.userAnswer);
-								return true;
+        this.rightAnswersArray = this.dict.d[this.number].translation;
+        this.userAnswer = document.getElementById('gamer_answer').value.toLowerCase();
+        console.log(this.rightAnswersArray, this.userAnswer);
+        for (let i = 0; i <= this.rightAnswersArray.length - 1; i++) {
+            if (this.userAnswer == this.rightAnswersArray[i]) {
+                console.log('Super', this.userAnswer);
+                document.getElementById('gamer_answer').value = '';
+                return true;
+            } else {
+                alert("it's wrong");
             }
         }
     }

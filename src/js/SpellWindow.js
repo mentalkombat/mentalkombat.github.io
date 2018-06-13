@@ -1,14 +1,6 @@
 import Spell from './Spell.js';
-// import Task from './Task.js';
-// const wheelRadius = 280;
-
 class SpellWindow {
-	constructor(imgWheel, context, width, height, ang) {
-		// let mouse = {
-		// 	x: undefined,
-		// 	y: undefined
-		// };
-		
+	constructor(imgWheel, context, width, height, ang) {	
 		this.isWheelStop = false;
 		this.imgWheel = imgWheel;
 		this.context = context;
@@ -20,44 +12,9 @@ class SpellWindow {
 		this.Spell2 = new Spell(500, 330, 70, this.context, '#7ECEFD');
 		this.Spell3 = new Spell(630, 190, 70, this.context, '#FFF6E5');
 		this.Spell4 = new Spell(810, 330, 70, this.context, '#FF7F66');
-		// this.context.save();
-
-
-		// this.imgWheel.onload = () => {
-			// this.isMouseOnWheel();
-		// }
-		// const that = this;
-		// this.context.canvas.addEventListener('click', (event) => {
-		// 	mouse.x = event.x;
-		// 	mouse.y = event.y;
-
-
-		// 	if (mouse.x - 760 <= wheelRadius && mouse.x - 760 > -wheelRadius && mouse.y - 380 <= wheelRadius && mouse.y - 380 > -wheelRadius) {
-		// 		document.getElementById('task').style.display = "block";
-		// 		that.task = new Task;
-		// 		that.task.createTask(0);
-		// 	}
-		// })
 	}
 
-	// isMouseOnWheel() {
-	// 	let that = this;
-	// 	this.context.canvas.addEventListener('mousemove', function (event) {
 
-	// 		let mouse = {
-	// 			x: event.x,
-	// 			y: event.y
-	// 		};
-
-	// 		if (mouse.x - 760 <= wheelRadius && mouse.x - 760 > - wheelRadius && mouse.y - 380 <= wheelRadius && mouse.y - 380 > - wheelRadius) {
-	// 			that.stopWheel();
-	// 		} else {
-	// 			that.isWheelStop = false;
-	// 			that.context.restore();
-	// 			that.animateWheel();
-	// 		};
-	// 	})
-	// };
 
 	animateWheel() {
 		if (!this.isWheelStop) {
@@ -66,10 +23,8 @@ class SpellWindow {
 				imageHeight = cache.height;
 
 			this.context.save();
-			// this.context.clearRect(0, 0, this.width, this.height);
 			this.context.translate(this.width / 2, this.height / 2);
-			// this.context.rotate(Math.PI / 180 * (this.ang += .01)); //increment the angle and rotate the image
-				 this.context.rotate(Math.PI / 180 * (this.ang += .2)); //increment the angle and rotate the image
+			this.context.rotate(Math.PI / 180 * (this.ang += .2)); //increment the angle and rotate the image
 			this.context.translate(-this.width / 2, -this.height / 2);
 			this.context.drawImage(this.imgWheel, this.width / 2 - imageWidth / 2, this.height / 2 - imageHeight / 2, imageWidth, imageHeight);
 
@@ -79,16 +34,14 @@ class SpellWindow {
 			this.Spell4.draw();
 
 			this.context.restore();
-			// requestAnimationFrame(this.animateWheel.bind(this));
 		}
 	};
 
 	stopWheel() {
 		this.isWheelStop = true;
-		this.context.save(); //saves the state of canvas
-		// this.context.clearRect(0, 0, this.width, this.height); //clear the canvas
+		this.context.save();
 		this.context.translate(this.width / 2, this.height / 2);
-		this.context.rotate(Math.PI / 180 * (this.ang)); //increment the angle and rotate the image
+		this.context.rotate(Math.PI / 180 * (this.ang));
 		this.context.translate(-this.width / 2, -this.height / 2);
 		this.context.drawImage(this.imgWheel, this.width / 2 - this.imgWheel.width / 2, this.height / 2 - this.imgWheel.height / 2, this.imgWheel.width, this.imgWheel.height);
 		this.Spell1.draw();
