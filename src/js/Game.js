@@ -23,7 +23,8 @@ class Game {
 			'head1.png', 'head2.png', 'head3.png', 'head4.png', 'head5.png',
 			'body1.png', 'body2.png', 'body3.png', 'body4.png', 'body5.png',
 			'legs1.png', 'legs2.png', 'legs3.png', 'legs4.png', 'legs5.png',
-			'player-head.png'
+			'player-head.png',
+			'wheel.png'
 		]);
 		this.resources.onReady(() => this.init());
 	}
@@ -35,9 +36,9 @@ class Game {
 		this.canvas.width = 1280;
 		this.canvas.height = 720;
 		canvasParent.appendChild(this.canvas);
-		this.ang = 0;
-		this.imgWheel = new Image();
-		this.imgWheel.src = '/src/img/wheel.png';
+		//this.ang = 0;
+		//this.imgWheel = new Image();
+		//this.imgWheel.src = '/src/img/wheel.png';
 		//this.ctx.canvas.addEventListener('mousemove', function (event) {
 		//	mouse.x = event.x;
 		//	mouse.y = event.y;
@@ -46,16 +47,20 @@ class Game {
 
 
 	init() {
+		this.ang = 0;
 		this.background = this.resources.get('background.jpg');
 		this.player = new PlayerEntity([100, 30], new Sprite(this.resources.get('player-sprite.png'), [0, 0], [634, 464], 5, [0, 1, 2, 1]), 'Player');
 		this.enemy = new EnemyEntity([this.canvas.width - 400, 80], this.resources);
+
+		this.picture = new SpellWindow(this.resources.get('wheel.png'), this.ctx, 700, 500, this.ang);
+
 		this.addAttackButtonLogic();
-		if (event.pageX - event.target.offsetLeft > 600 && event.pageY - event.target.offsetTop < 200 && event.pageX - event.target.offsetLeft < 930 && event.pageY - event.target.offsetTop > 160) {
-			this.startWheel = true;
-			this.SpellWindow = new SpellWindow(this.imgWheel, this.ctx, this.canvas.width, this.canvas.height, 70, this.ang);
-			this.SpellWindow.isMouseOnWheel()
-			//requestAnimationFrame(this.main.bind(this));
-		}
+		//if (event.pageX - event.target.offsetLeft > 600 && event.pageY - event.target.offsetTop < 200 && event.pageX - event.target.offsetLeft < 930 && event.pageY - event.target.offsetTop > 160) {
+		//	this.startWheel = true;
+		//	this.SpellWindow = new SpellWindow(this.imgWheel, this.ctx, this.canvas.width, this.canvas.height, 70, this.ang);
+		//	this.SpellWindow.isMouseOnWheel()
+		//	//requestAnimationFrame(this.main.bind(this));
+		//}
 		this.lastTime = Date.now();
 		this.main();
 	}
@@ -67,6 +72,7 @@ class Game {
 		this.update(dt);
 		this.render();
 		this.lastTime = now;
+		requestAnimationFrame(this.main.bind(this));
 
 		// this.drawBtnStartGame = (color) => {
 		// 	this.ctx.fillStyle = color;
@@ -90,7 +96,12 @@ class Game {
 	update(dt) {
 		this.player.sprite.update(dt);
 		this.enemy.idleAnimate(dt);
+		if(this.startWheel){
+			this.picture.isMouseOnWheel();
+			this.picture.waitClick();
+		}
 
+		
 		//Test enemy HP reduce
 		if (this.enemy.isHpReducing) {
 			if (this.enemy.currentHP > this.enemy.newHP) {
@@ -110,6 +121,9 @@ class Game {
 		})
 		Drawing.drawAttackButton(this.ctx, 'Attack!', 280, 500, 200, 50);
 		this.drawEntitiesInfo();
+
+		
+
 	};
 
 
@@ -139,9 +153,9 @@ class Game {
 				y = event.pageY - event.target.offsetTop;
 			if (x > 280 && x < 480 && y > 500 && y < 550) {
 				that.startWheel = true;
-				that.SpellWindow = new SpellWindow( that.imgWheel, that.ctx, that.canvas.width, that.canvas.height,  70, that.ang);
-				that.SpellWindow.isMouseOnWheel()
-				requestAnimationFrame(this.main.bind(this));
+				this.picture.animateWheel();
+
+				
 
 				//this.player.attack(new Sprite(this.resources.get('player-sprite.png'), [0, 464], [634, 464], 5, [0, 1, 2, 3, 4, 0]));
 

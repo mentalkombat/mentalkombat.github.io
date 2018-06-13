@@ -4,7 +4,7 @@ const wheelRadius = 280;
 
 class SpellWindow {
 	constructor(imgWheel, context, width, height, ang) {
-		let mouse = {
+		this.mouse = {
 			x: undefined,
 			y: undefined
 		};
@@ -26,20 +26,22 @@ class SpellWindow {
 		this.imgWheel.onload = () => {
 			this.isMouseOnWheel();
 		}
+
+	}
+	waitClick(){
 		const that = this;
 		this.context.canvas.addEventListener('click', (event) => {
-			mouse.x = event.x;
-			mouse.y = event.y;
+			that.mouse.x = event.x;
+			that.mouse.y = event.y;
 
 
-			if (mouse.x - 760 <= wheelRadius && mouse.x - 760 > -wheelRadius && mouse.y - 380 <= wheelRadius && mouse.y - 380 > -wheelRadius) {
+			if (that.mouse.x - 760 <= wheelRadius &&that. mouse.x - 760 > -wheelRadius && that.mouse.y - 380 <= wheelRadius && that.mouse.y - 380 > -wheelRadius) {
 				document.getElementById('task').style.display = "block";
 				that.task = new Task;
 				that.task.createTask(0);
 			}
 		})
 	}
-
 	isMouseOnWheel() {
 		let that = this;
 		this.context.canvas.addEventListener('mousemove', function (event) {
