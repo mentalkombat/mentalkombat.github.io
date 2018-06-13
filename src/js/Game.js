@@ -184,9 +184,9 @@ class Game {
 				this.ang = 0;
 				this.SpellWindow = new SpellWindow(this.resources.get('wheel.png'), this.ctx, this.canvas.width, this.canvas.height, 70, this.ang);
 				this.SpellWindow.wheelRadius = 280;
+				this.taskNumber = 0;
 			}
 			this.SpellWindow.show = true;
-			this.taskNumber = 0;
 			
 			this.createTaskHandler = this.createTaskHandler.bind(this);
 			this.canvas.addEventListener('click', this.createTaskHandler);
