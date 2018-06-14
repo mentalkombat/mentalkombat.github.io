@@ -3,8 +3,9 @@ import GameSpell from './GameSpell.js';
 import Sprite from './Sprite.js';
 import Resources from "./Resources";
 
+
 class SpellWindow {
-    constructor(img, ctx, width, height, ang, dt) {
+    constructor(img, ctx, width, height, ang) {
         this.isWheelStop = false;
         this.img = img;
         this.imgWidth = img.width;
@@ -13,23 +14,23 @@ class SpellWindow {
         this.width = width;
         this.height = height;
         this.ang = ang;
-        this.dt = dt
-        this.Spell1 = new Spell(630, 500, 70, this.ctx, '#2185C5');
-        this.Spell2 = new Spell(500, 330, 70, this.ctx, '#7ECEFD');
-        this.Spell3 = new Spell(630, 190, 70, this.ctx, '#FFF6E5');
-        this.Spell4 = new Spell(810, 330, 70, this.ctx, '#FF7F66');
-
-
+        this.dt = undefined;
         this.resources = new Resources();
         this.resources.load([
-            'spell-water.png'
+            'water-round-sprite.png',
+            'fire-sprite.png',
+            'wind-sprite-all.png'
         ]);
-        this.resources.onReady(() => console.log('loaded'));
+        this.resources.onReady(() => {
+            this.GameSpellWater = new GameSpell([520, 490], new Sprite(this.resources.get('water-round-sprite.png'), [0, 0], [330, 330], [100, 100], 9, [0, 1, 2, 3, 4, 5, 6, 4, 5, 6, 3, 4, 5, 6, 4, 5, 6, 7, 8], false));
+            this.GameSpellFire = new GameSpell([400, 200], new Sprite(this.resources.get('fire-sprite.png'), [0, 0], [512, 512], [100, 100], 6, [0, 1, 2, 0, 1, 2, 3, 2, 4, 5, 4, 5, 3, 4, 5, 4, 5], false));
+            this.GameSpellWind = new GameSpell([100, 500], new Sprite(this.resources.get('wind-sprite-all.png'), [0, 0], [230, 300], [100, 100], 9, [4, 5, 3, 4, 5, 6, 4, 5, 6, 3, 4, 5, 6, 4, 5, 6, 7, 8, 7, 6, 5 , 4 , 3, 2, 1, 0], false));
 
-        this.GameSpell = new GameSpell([100,200], new Sprite(this.resources.get('spell-water.png'), [0, 0], [184, 184], [184, 184], 7, [0, 1, 2, 3, 4, 3, 2, 3, 4, 3, 2, 3, 4, 5, 6, 7, 8, 9, 10], false))
-    }
+    });
+    };
 
-    render(spellWindow, showWindow, isWheelStop){
+    render(spellWindow, showWindow, isWheelStop, dt){
+        this.dt = dt
         if (spellWindow && showWindow) {
             if (isWheelStop === true) {
                 this.stopWheel();
@@ -45,20 +46,29 @@ class SpellWindow {
         this.ctx.rotate(Math.PI / 180 * this.ang);
         this.ctx.translate(-this.width / 2, -this.height / 2);
         this.ctx.drawImage(this.img, this.width / 2 - this.imgWidth / 2, this.height / 2 - this.imgHeight / 2, this.imgWidth, this.imgHeight);
-
-        this.Spell1.draw();
-        this.Spell2.draw();
-        this.Spell3.draw();
-        this.Spell4.draw();
-        this.GameSpell.sprite.update(this.dt);
-
         this.ctx.restore();
+        this.ctx.translate(this.GameSpellWater.positionOnCanvas[0], this.GameSpellWater.positionOnCanvas[1]);
+        this.GameSpellWater.sprite.render(this.ctx);
+        
+        this.ctx.restore();
+        this.ctx.translate(this.GameSpellFire.positionOnCanvas[0], this.GameSpellFire.positionOnCanvas[1]);
+        this.GameSpellFire.sprite.render(this.ctx);
+        
+        this.ctx.restore();
+        this.ctx.translate(this.GameSpellWind.positionOnCanvas[0], this.GameSpellWind.positionOnCanvas[1]);
+        this.GameSpellWind.sprite.render(this.ctx);
+        
     }
 
     animateWheel() {
+        
         if (!this.isWheelStop) {
-            this.ang += .2;
+            this.ang =this.ang + .2;
             this.draw();
+            this.GameSpellWater.sprite.update(this.dt);
+            this.GameSpellFire.sprite.update(this.dt);
+            this.GameSpellWind.sprite.update(this.dt);
+
         }
     };
 

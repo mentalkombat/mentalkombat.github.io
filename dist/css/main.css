@@ -1,8 +1,16 @@
+/* allerta-regular - latin */
+@font-face {
+  font-family: 'Allerta';
+  font-style: normal;
+  font-weight: 400;
+  src: local("Allerta Regular"), local("Allerta-Regular"), url("/fonts/allerta-v8-latin-regular.woff2") format("woff2"), url("/fonts/allerta-v8-latin-regular.woff") format("woff"); }
+
 body {
   margin: 0;
   padding: 0;
   text-align: center;
-  background: #43cbb5; }
+  background: #43cbb5;
+  font-family: 'Allerta'; }
 
 .title {
   color: red;
@@ -35,3 +43,6 @@ button {
     display: block;
     max-width: 300px;
     position: relative; }
+
+.task {
+  background-image: linear-gradient(-225deg, #D4FFEC 0%, #57F2CC 48%, #4596FB 100%); }
