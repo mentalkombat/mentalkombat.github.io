@@ -60,7 +60,7 @@ class Sprite {
 		}
 
 		let x = this.positionOnImg[0];
-		let y = this.positionOnImg[1];
+        let y = this.positionOnImg[1];
 		x += frame * this.sizeOnImg[0];
 		
 		ctx.drawImage(this.img, x, y, this.sizeOnImg[0], this.sizeOnImg[1], 0, 0, this.sizeOnCanvas[0], this.sizeOnCanvas[1]);
