@@ -56,11 +56,13 @@ class Game {
     }
 
     update(dt) {
+        if(this.SpellWindow){
+            this.SpellWindow.render(this.SpellWindow,this.SpellWindow.show, this.SpellWindow.isWheelStop, dt);
+        };
         this.player.sprite.update(dt);
         this.enemy.idleAnimate(dt);
         this.spellCastingLogic(dt);
         this.enemyHpReduction();
-
 
     }
 
@@ -80,22 +82,8 @@ class Game {
             this.renderEntity(this.spell);
         }
         if(this.SpellWindow){
-            this.SpellWindow.render(this.SpellWindow,this.SpellWindow.show, this.SpellWindow.isWheelStop);
+            this.SpellWindow.draw();
         };
-
-
-
-/*
-        if (this.SpellWindow && this.SpellWindow.show) {
-
-            if (this.SpellWindow.isWheelStop === true) {
-                this.SpellWindow.stopWheel();
-
-            } else {
-                this.SpellWindow.animateWheel();
-
-            }
-        }*/
     };
 
 
@@ -260,6 +248,7 @@ class Game {
         this.spell = new Entity(
             [this.player.positionOnCanvas[0] + this.player.sprite.sizeOnCanvas[0], this.player.sprite.sizeOnCanvas[1] + this.player.sprite.sizeOnCanvas[1] / 2 - 184 / 2],
             new Sprite(this.resources.get('spell-water.png'), [0, 0], [184, 184], [184, 184], 7, [0, 1, 2, 3, 4, 3, 2, 3, 4, 3, 2, 3, 4, 5, 6, 7, 8, 9, 10], true));
+
         this.spell.isSpellMoving = true;
     }
 }

@@ -6,8 +6,6 @@ class Entity {
 		this.positionOnCanvas = positionOnCanvas;
 		this.sprite = sprite;
 	}
-
-
 	changesprite(sprite) {
 		this.sprite = sprite;
 	}
