@@ -36,13 +36,14 @@ class Game {
 
 
 	init() {
-		this.ang = 0;
 		this.background = this.resources.get('background.jpg');
 
 		this.player = new PlayerEntity([100, 200], new Sprite(this.resources.get('player-sprite.png'), [0, 0], [634, 464], [634 / 2, 464 / 2], 5, [0, 1, 2, 1], false), 'Player');
 		this.enemy = new EnemyEntity([this.canvas.width - 300, 80], this.resources);
 		
 		this.addAttackButtonLogic();
+		this.canvas.addEventListener('mousemove', this.stopWheelOnMousemoveHandler.bind(this));
+		this.canvas.addEventListener('click', this.createTaskHandler.bind(this));
 		document.getElementById('add_answer').addEventListener('click', this.checkAnswerHanlder.bind(this));
 
 		this.lastTime = Date.now();
@@ -56,7 +57,7 @@ class Game {
 		this.update(dt);
 		this.render();
 		this.lastTime = now;
-		requestAnimationFrame(this.main.bind(this));
+		this.RAFid = requestAnimationFrame(this.main.bind(this));
 	}
 
 
@@ -128,8 +129,6 @@ class Game {
 			} else {
 				this.enemy.isHpReduction = false;
 				this.isShowingAttackButton = true;
-				this.canvas.addEventListener('click', this.attackButtonClickHanlder);
-				this.canvas.addEventListener('mousemove', this.attackButtonMousemoveHanlder);
 			}
 		}
 	}
@@ -158,57 +157,50 @@ class Game {
 		this.attackButtonParameters = {	x1: 140, y1: 500, x2: 340, y2: 550 };
 		this.isShowingAttackButton = true;
 
-		this.attackButtonClickHanlder = this.attackButtonClickHanlder.bind(this);
-		this.canvas.addEventListener('click', this.attackButtonClickHanlder);
-
-		this.attackButtonMousemoveHanlder = this.attackButtonMousemoveHanlder.bind(this);
-		this.canvas.addEventListener('mousemove', this.attackButtonMousemoveHanlder);
-
-		this.stopWheelOnMousemoveHandler = this.stopWheelOnMousemoveHandler.bind(this);
-		this.canvas.addEventListener('mousemove', this.stopWheelOnMousemoveHandler); 
+		this.canvas.addEventListener('click', this.attackButtonClickHanlder.bind(this));
+		this.canvas.addEventListener('mousemove', this.attackButtonMousemoveHanlder.bind(this));
 	}
 
 
 	attackButtonClickHanlder(event) {
-		let x = event.pageX - event.target.offsetLeft,
-				y = event.pageY - event.target.offsetTop;
+		if (this.isShowingAttackButton === true) {
+			let x = event.pageX - event.target.offsetLeft;
+			let	y = event.pageY - event.target.offsetTop;
 
-		if (x > this.attackButtonParameters.x1 && x < this.attackButtonParameters.x2 && y > this.attackButtonParameters.y1 && y < this.attackButtonParameters.y2) {
-			this.canvas.removeEventListener('click', this.attackButtonClickHanlder);
-			this.canvas.style.cursor = 'default';
-			this.canvas.removeEventListener('mousemove', this.attackButtonMousemoveHanlder);
-			this.isShowingAttackButton = false;
+			if (x > this.attackButtonParameters.x1 && x < this.attackButtonParameters.x2 && y > this.attackButtonParameters.y1 && y < this.attackButtonParameters.y2) {
+				this.canvas.style.cursor = 'default';
+				this.isShowingAttackButton = false;
 
-			
-			if (!this.SpellWindow) {
-				this.ang = 0;
-				this.SpellWindow = new SpellWindow(this.resources.get('wheel.png'), this.ctx, this.canvas.width, this.canvas.height, 70, this.ang);
-				this.SpellWindow.wheelRadius = 280;
-				this.taskNumber = 0;
+				if (!this.SpellWindow) {
+					this.ang = 0;
+					this.SpellWindow = new SpellWindow(this.resources.get('wheel.png'), this.ctx, this.canvas.width, this.canvas.height, 70, this.ang);
+					this.SpellWindow.wheelRadius = 280;
+					this.taskNumber = 0;
+				}
+				this.SpellWindow.show = true;
 			}
-			this.SpellWindow.show = true;
-			
-			this.createTaskHandler = this.createTaskHandler.bind(this);
-			this.canvas.addEventListener('click', this.createTaskHandler);
 		}
 	}
 
 
 	attackButtonMousemoveHanlder(event) {
-		let x = event.pageX - event.target.offsetLeft,
-				y = event.pageY - event.target.offsetTop;
+		if (this.isShowingAttackButton === true) {
+			let x = event.pageX - event.target.offsetLeft;
+			let y = event.pageY - event.target.offsetTop;
 
-		if (x > this.attackButtonParameters.x1 && x < this.attackButtonParameters.x2 && y > this.attackButtonParameters.y1 && y < this.attackButtonParameters.y2) {
-			this.canvas.style.cursor = 'pointer';
-		} else {
-			this.canvas.style.cursor = 'default';
+			if (x > this.attackButtonParameters.x1 && x < this.attackButtonParameters.x2 && y > this.attackButtonParameters.y1 && y < this.attackButtonParameters.y2
+				&& this.isShowingAttackButton === true) {
+				this.canvas.style.cursor = 'pointer';
+			} else {
+				this.canvas.style.cursor = 'default';
+			}
 		}
 	}
 
 
 	stopWheelOnMousemoveHandler(event) {
-		let x = event.pageX - event.target.offsetLeft,
-				y = event.pageY - event.target.offsetTop;
+		let x = event.pageX - event.target.offsetLeft;
+		let	y = event.pageY - event.target.offsetTop;
 
 		let wheelCenterX = this.canvas.width / 2;
 		let wheelCenterY = this.canvas.height / 2;
@@ -236,12 +228,20 @@ class Game {
 
 
 	createTaskHandler(event) {
-		if (event.x - 760 <= this.SpellWindow.wheelRadius && event.x - 760 > - this.SpellWindow.wheelRadius && event.y - 380 <= this.SpellWindow.wheelRadius && event.y - 380 > - this.SpellWindow.wheelRadius) {
-			document.getElementById('task').style.display = "block";
-			this.task = new Task;
-			this.task.createTask(this.taskNumber);
-			this.taskNumber++;
-			this.canvas.removeEventListener('click', this.createTaskHandler);
+		if (this.SpellWindow && this.SpellWindow.show) {
+			let x = event.pageX - event.target.offsetLeft;
+			let	y = event.pageY - event.target.offsetTop;
+
+			let wheelCenterX = this.canvas.width / 2;
+			let wheelCenterY = this.canvas.height / 2;
+			let wheelRadius = 280;
+
+			if (x > wheelCenterX - wheelRadius && x < wheelCenterX + wheelRadius && y > wheelCenterY - wheelRadius && y < wheelCenterY + wheelRadius) {
+				document.getElementById('task').style.display = "block";
+				this.task = new Task;
+				this.task.createTask(this.taskNumber);
+				this.taskNumber++;
+			}
 		}
 	}
 

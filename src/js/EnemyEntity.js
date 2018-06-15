@@ -16,7 +16,6 @@ class EnemyEntity {
 		this.positionOnCanvas = positionOnCanvas;
 		this.name = `${this.getRandomElement(adjectives)} ${this.getRandomElement(kinds)} ${this.getRandomElement(names)}`;
 		this.entities = [];
-		this.booleanValuesForAnimation = [[true], [true], [true]];
 		this.enemyGeneration(resources);
 		this.speed = 10;
 
@@ -82,6 +81,7 @@ class EnemyEntity {
 		if (entity.positionOnCanvas[isVertical] > startPosition[isVertical] + distance || entity.positionOnCanvas[isVertical] < startPosition[isVertical] - distance) {
 			bodyPart.animateOptions.speed = -bodyPart.animateOptions.speed;
 		}
+		
 		entity.positionOnCanvas[isVertical] += bodyPart.animateOptions.speed * dt;
 	}
 }
