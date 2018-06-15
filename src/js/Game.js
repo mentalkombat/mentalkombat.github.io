@@ -63,7 +63,7 @@ class Game {
 
 
 	update(dt) {
-		if(this.SpellWindow){
+		if (this.SpellWindow && this.SpellWindow.show){
 			this.SpellWindow.render(this.SpellWindow,this.SpellWindow.show, this.SpellWindow.isWheelStop, dt);
 		};
 		this.player.sprite.update(dt);
@@ -93,7 +93,7 @@ class Game {
 			this.renderEntity(this.spell);
 		}
 
-		if(this.SpellWindow){
+		if (this.SpellWindow && this.SpellWindow.show){
 			this.SpellWindow.draw();
 		}
 	};
@@ -221,7 +221,6 @@ class Game {
 		if (this.task.checkAnswer()) {
 			document.getElementById('task').style.display = "none";
 			this.SpellWindow.show = false;
-
 			this.player.attack(new Sprite(this.resources.get('player-sprite.png'), [0, 464], [634, 464], [634 / 2, 464 / 2], 5, [0, 1, 2, 3, 4, 0]));
 			setTimeout(() => this.createSpell(), 700);
 		};

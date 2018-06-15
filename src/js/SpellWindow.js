@@ -27,7 +27,6 @@ class SpellWindow {
             this.GameSpellFire = new GameSpell([430, 200], new Sprite(this.resources.get('fire-sprite.png'), [0, 0], [512, 512], [140, 140], 6, [0, 1, 2, 0, 1, 2, 3, 2, 4, 5, 4, 5, 3, 4, 5, 4, 5], false));
             this.GameSpellWind = new GameSpell([770, 200], new Sprite(this.resources.get('wind-sprite-all.png'), [0, 0], [230, 300], [140, 140], 9, [4, 5, 3, 4, 5, 6, 4, 5, 6, 3, 4, 5, 6, 4, 5, 6, 7, 8, 7, 6, 5 , 4 , 3, 2, 1, 0], false));
             this.isResourcesReady = true;
-            console.log('redy');
     });
     };
 
