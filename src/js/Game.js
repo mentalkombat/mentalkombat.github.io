@@ -40,7 +40,7 @@ class Game {
         this.background = this.resources.get('background.jpg');
         this.checkAnswerBtn.addEventListener('click', this.checkAnswerHanlder.bind(this));
         this.player = new PlayerEntity([100, 200], new Sprite(this.resources.get('player-sprite.png'), [0, 0], [634, 464], [634 / 2, 464 / 2], 5, [0, 1, 2, 1], false), 'Player');
-		this.enemy = new EnemyEntity([this.canvas.width - 300, 80], this.resources);
+        this.enemy = new EnemyEntity([this.canvas.width - 300, 80], this.resources);
         this.addAttackButtonLogic();
         this.lastTime = Date.now();
         this.main();
@@ -56,13 +56,13 @@ class Game {
     }
 
     update(dt) {
-		if(this.SpellWindow){
+        if(this.SpellWindow){
             this.SpellWindow.render(this.SpellWindow,this.SpellWindow.show, this.SpellWindow.isWheelStop, dt);
         };
         this.player.sprite.update(dt);
         this.enemy.idleAnimate(dt);
         this.spellCastingLogic(dt);
-		this.enemyHpReduction();
+        this.enemyHpReduction();
 
     }
 
@@ -81,23 +81,9 @@ class Game {
         if (this.spell) {
             this.renderEntity(this.spell);
         }
-		if(this.SpellWindow){
+        if(this.SpellWindow){
             this.SpellWindow.draw();
         };
-
-
-
-/*
-        if (this.SpellWindow && this.SpellWindow.show) {
-
-            if (this.SpellWindow.isWheelStop === true) {
-                this.SpellWindow.stopWheel();
-
-            } else {
-                this.SpellWindow.animateWheel();
-
-            }
-        }*/
     };
 
 
@@ -263,7 +249,7 @@ class Game {
             [this.player.positionOnCanvas[0] + this.player.sprite.sizeOnCanvas[0], this.player.sprite.sizeOnCanvas[1] + this.player.sprite.sizeOnCanvas[1] / 2 - 184 / 2],
             new Sprite(this.resources.get('spell-water.png'), [0, 0], [184, 184], [184, 184], 7, [0, 1, 2, 3, 4, 3, 2, 3, 4, 3, 2, 3, 4, 5, 6, 7, 8, 9, 10], true));
 
-			this.spell.isSpellMoving = true;
+        this.spell.isSpellMoving = true;
     }
 }
 
