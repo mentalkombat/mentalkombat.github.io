@@ -60,7 +60,9 @@ class Game {
 		this.update(dt);
 		this.render();
 		this.lastTime = now;
+		
 		requestAnimationFrame(this.main.bind(this));
+		
 	}
 
 
@@ -97,8 +99,9 @@ class Game {
 
 
 		if (this.SpellWindow && this.SpellWindow.show){
-			this.SpellWindow.draw();
+			this.SpellWindow.draw(this.SpellWindow.ang);
 		}
+		
 	};
 
 
@@ -219,13 +222,13 @@ class Game {
 	stopWheelOnMousemoveHandler(event) {
 		let x = event.pageX - event.target.offsetLeft;
 		let	y = event.pageY - event.target.offsetTop;
-
 		let wheelCenterX = this.canvas.width / 2;
 		let wheelCenterY = this.canvas.height / 2;
 		let wheelRadius = 280;
+		let distanceToWheel = (Math.sqrt((wheelCenterX - x)*(wheelCenterX - x)+(wheelCenterY - y)*(wheelCenterY - y)));
 
 		if (this.SpellWindow) {
-			if (x > wheelCenterX - wheelRadius && x < wheelCenterX + wheelRadius && y > wheelCenterY - wheelRadius && y < wheelCenterY + wheelRadius) {
+			if (distanceToWheel < 280) {
 				this.SpellWindow.isWheelStop = true;
 			} else {
 				this.SpellWindow.isWheelStop = false;
