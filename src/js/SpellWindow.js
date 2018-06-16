@@ -23,9 +23,9 @@ class SpellWindow {
         ]);
         this.isResourcesReady = false;
         this.resources.onReady(() => {
-            this.GameSpellWater = new GameSpell([500, 490], new Sprite(this.resources.get('water-round-sprite.png'), [0, 0], [330, 330], [100, 100], 9, [0, 1, 2, 3, 4, 5, 6, 4, 5, 6, 3, 4, 5, 6, 4, 5, 6, 7, 8], false));
-            this.GameSpellFire = new GameSpell([430, 200], new Sprite(this.resources.get('fire-sprite.png'), [0, 0], [512, 512], [140, 140], 6, [0, 1, 2, 0, 1, 2, 3, 2, 4, 5, 4, 5, 3, 4, 5, 4, 5], false));
-            this.GameSpellWind = new GameSpell([770, 200], new Sprite(this.resources.get('wind-sprite-all.png'), [0, 0], [230, 300], [140, 140], 9, [4, 5, 3, 4, 5, 6, 4, 5, 6, 3, 4, 5, 6, 4, 5, 6, 7, 8, 7, 6, 5 , 4 , 3, 2, 1, 0], false));
+            this.GameSpellWater = new GameSpell([530, 440], new Sprite(this.resources.get('water-round-sprite.png'), [0, 0], [330, 340], [150, 155], 9, [4, 5, 6], false));
+            this.GameSpellFire = new GameSpell([430, 150], new Sprite(this.resources.get('fire-sprite.png'), [0, 0], [512, 512], [227, 227], 6, [0, 1, 2, 0, 1, 2, 3, 2, 4, 5, 4, 5, 3, 4, 5, 4, 5], false));
+            this.GameSpellWind = new GameSpell([710, 220], new Sprite(this.resources.get('wind-sprite-all.png'), [0, 0], [227, 202], [227, 202], 9, [5, 6, 7, 8], false));
             this.isResourcesReady = true;
     });
     };
@@ -80,6 +80,9 @@ class SpellWindow {
     stopWheel() {
         this.isWheelStop = true;
         this.draw();
+        this.GameSpellWater.sprite.update(this.dt);
+        this.GameSpellFire.sprite.update(this.dt);
+        this.GameSpellWind.sprite.update(this.dt);
     }
 }
 
