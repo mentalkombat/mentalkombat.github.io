@@ -19,19 +19,20 @@ class SpellWindow {
         this.resources.load([
             'water-round-sprite.png',
             'fire-sprite.png',
-            'wind-sprite-all.png'
+            'wind-sprite-all.png',
+            'wind-round-sprite.png'
         ]);
         this.isResourcesReady = false;
         this.resources.onReady(() => {
             this.GameSpellWater = new GameSpell([500, 490], new Sprite(this.resources.get('water-round-sprite.png'), [0, 0], [330, 330], [100, 100], 9, [0, 1, 2, 3, 4, 5, 6, 4, 5, 6, 3, 4, 5, 6, 4, 5, 6, 7, 8], false));
             this.GameSpellFire = new GameSpell([430, 200], new Sprite(this.resources.get('fire-sprite.png'), [0, 0], [512, 512], [140, 140], 6, [0, 1, 2, 0, 1, 2, 3, 2, 4, 5, 4, 5, 3, 4, 5, 4, 5], false));
-            this.GameSpellWind = new GameSpell([770, 200], new Sprite(this.resources.get('wind-sprite-all.png'), [0, 0], [230, 300], [140, 140], 9, [4, 5, 3, 4, 5, 6, 4, 5, 6, 3, 4, 5, 6, 4, 5, 6, 7, 8, 7, 6, 5 , 4 , 3, 2, 1, 0], false));
+            // this.GameSpellWind = new GameSpell([770, 200], new Sprite(this.resources.get('wind-sprite-all.png'), [0, 0], [230, 300], [140, 140], 9, [4, 5, 3, 4, 5, 6, 4, 5, 6, 3, 4, 5, 6, 4, 5, 6, 7, 8, 7, 6, 5 , 4 , 3, 2, 1, 0], false));
+            this.GameSpellWind = new GameSpell([770, 200], new Sprite(this.resources.get('wind-round-sprite.png'), [0, 0], [131, 131], [140, 140], 9, [0, 1, 2, 3], false));
             this.isResourcesReady = true;
     });
     };
 
     render(spellWindow, showWindow, isWheelStop, dt){
-        this.dt = dt
         this.dt = dt
         if (spellWindow && showWindow) {
             if (isWheelStop === true) {
@@ -44,6 +45,8 @@ class SpellWindow {
 
     draw(){
         if (this.isResourcesReady){
+            // let lengthToWheelCenterX = this.width / 2 - 500 - 100 / 2;
+            // console.log((lengthToWheelCenterX * Math.cos(Math.PI / 180 * this.ang)) - (lengthToWheelCenterX * Math.sin(Math.PI / 180 * this.ang)));
             this.ctx.save();
             this.ctx.translate(this.width / 2, this.height / 2);
             this.ctx.rotate(Math.PI / 180 * this.ang);
@@ -62,6 +65,7 @@ class SpellWindow {
             this.GameSpellWind.sprite.render(this.ctx);
             this.ctx.translate(-this.GameSpellWind.positionOnCanvas[0], -this.GameSpellWind.positionOnCanvas[1]);
             this.ctx.restore();
+            // this.ctx.strokeRect(this.width / 2, this.height / 2, 50, (lengthToWheelCenterX * Math.cos(Math.PI / 180 * this.ang)) - (lengthToWheelCenterX * Math.sin(Math.PI / 180 * this.ang)));
         }
     }
 
@@ -69,7 +73,7 @@ class SpellWindow {
         
         if (!this.isWheelStop && this.isResourcesReady) {
             this.ang =this.ang + .2;
-            this.draw();
+            // this.draw();
             this.GameSpellWater.sprite.update(this.dt);
             this.GameSpellFire.sprite.update(this.dt);
             this.GameSpellWind.sprite.update(this.dt);
@@ -79,7 +83,7 @@ class SpellWindow {
 
     stopWheel() {
         this.isWheelStop = true;
-        this.draw();
+        // this.draw();
     }
 }
 

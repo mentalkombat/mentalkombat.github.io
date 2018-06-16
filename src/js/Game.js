@@ -20,7 +20,9 @@ class Game {
 			'legs1.png', 'legs2.png', 'legs3.png', 'legs4.png', 'legs5.png',
 			'player-head.png',
 			'spell-water.png',
-			'wheel.png'
+			'spell-fire.png',
+			'wheel.png',
+			'spell-wind.png'
 		]);
 		this.resources.onReady(() => this.init());
     this.checkAnswerBtn = document.getElementById('add_answer');
@@ -93,6 +95,7 @@ class Game {
 			this.renderEntity(this.spell);
 		}
 
+
 		if (this.SpellWindow && this.SpellWindow.show){
 			this.SpellWindow.draw();
 		}
@@ -110,7 +113,9 @@ class Game {
 	spellCastingLogic(dt) {
 		if (this.spell) {
 			if (this.spell.isSpellMoving) {
-				this.spell.positionOnCanvas[0] += 10;
+				// this.spell.positionOnCanvas[0] += 10;
+				this.spell.positionOnCanvas[1] -= 10;
+				// this.spell.positionOnCanvas[1] += 10;
 			}
 			this.spell.sprite.update(dt);
 			this.checkCollisionSpellWithEnemy();
@@ -135,11 +140,23 @@ class Game {
 
 
 	checkCollisionSpellWithEnemy() {
-		let spellCenterX = this.spell.positionOnCanvas[0] + this.spell.sprite.sizeOnCanvas[0] / 2;
-		let enemyBodyCenterX = this.enemy.entities[1].positionOnCanvas[0] + this.enemy.entities[1].sprite.sizeOnCanvas[0] / 2;
-		if (spellCenterX > enemyBodyCenterX) {
+		// let spellCenterX = this.spell.positionOnCanvas[0] + this.spell.sprite.sizeOnCanvas[0] / 2;
+		// let enemyBodyCenterX = this.enemy.entities[1].positionOnCanvas[0] + this.enemy.entities[1].sprite.sizeOnCanvas[0] / 2;
+		// if (spellCenterX > enemyBodyCenterX) {
+		// 	this.spell.isSpellMoving = false;
+		// }
+		
+		let spellCenterY = this.spell.positionOnCanvas[1] + this.spell.sprite.sizeOnCanvas[1] / 2;
+		let enemyBodyCenterY = this.enemy.entities[1].positionOnCanvas[1] + this.enemy.entities[1].sprite.sizeOnCanvas[1] / 2;
+		if (spellCenterY < enemyBodyCenterY) {
 			this.spell.isSpellMoving = false;
 		}
+
+		// let spellCenterY = this.spell.positionOnCanvas[1] + this.spell.sprite.sizeOnCanvas[1] / 2;
+		// let enemyBodyCenterY = this.enemy.entities[1].positionOnCanvas[1] + this.enemy.entities[1].sprite.sizeOnCanvas[1] / 2;
+		// if (spellCenterY > enemyBodyCenterY) {
+		// 	this.spell.isSpellMoving = false;
+		// }
 	}
 
 
@@ -174,7 +191,7 @@ class Game {
 				if (!this.SpellWindow) {
 //        this.audioWheel.play();
 					this.ang = 0;
-					this.SpellWindow = new SpellWindow(this.resources.get('wheel.png'), this.ctx, this.canvas.width, this.canvas.height, 70, this.ang);
+					this.SpellWindow = new SpellWindow(this.resources.get('wheel.png'), this.ctx, this.canvas.width, this.canvas.height, this.ang);
 					this.SpellWindow.wheelRadius = 280;
 					this.taskNumber = 0;
 				}
@@ -253,9 +270,16 @@ class Game {
 		if (this.enemy.currentHP > 0) {
 			this.enemy.newHP = this.enemy.currentHP - 20;
 		}
+		
 		this.spell = new Entity(
-			[this.player.positionOnCanvas[0] + this.player.sprite.sizeOnCanvas[0], this.player.sprite.sizeOnCanvas[1] + this.player.sprite.sizeOnCanvas[1] / 2 - 184 / 2],
-			new Sprite(this.resources.get('spell-water.png'), [0, 0], [184, 184], [184, 184], 7, [0, 1, 2, 3, 4, 3, 2, 3, 4, 3, 2, 3, 4, 5, 6, 7, 8, 9, 10], true));
+			// [this.player.positionOnCanvas[0] + this.player.sprite.sizeOnCanvas[0], this.player.sprite.sizeOnCanvas[1] + this.player.sprite.sizeOnCanvas[1] / 2 - 192 / 2],
+			// new Sprite(this.resources.get('spell-wind.png'), [0, 0], [192, 192], [192, 192], 7, [0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2], true));
+
+			[this.enemy.entities[1].positionOnCanvas[0] + this.enemy.entities[1].sprite.sizeOnCanvas[0] / 2 - 250 / 2, this.enemy.entities[1].positionOnCanvas[1] + 200],
+			new Sprite(this.resources.get('spell-fire.png'), [0, 0], [512, 512], [250, 250], 7, [0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5], true));
+
+			// [this.enemy.entities[1].positionOnCanvas[0] + this.enemy.entities[1].sprite.sizeOnCanvas[0] / 2 - 184 / 2, this.enemy.entities[1].positionOnCanvas[1] - 250],
+			// new Sprite(this.resources.get('spell-water.png'), [0, 0], [184, 184], [184, 184], 7, [0, 1, 2, 3, 4, 3, 2, 3, 4, 3, 2, 3, 4, 5, 6, 7, 8, 9, 10], true));
 		this.spell.isSpellMoving = true;
 	}
 }
