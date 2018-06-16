@@ -11,9 +11,9 @@ let bodies = ['body1.png', 'body2.png', 'body3.png', 'body4.png', 'body5.png'];
 let legs = ['legs1.png', 'legs2.png', 'legs3.png', 'legs4.png', 'legs5.png'];
 
 
-class EnemyEntity {
+class EnemyEntity extends Entity {
 	constructor(positionOnCanvas, resources) {
-		this.positionOnCanvas = positionOnCanvas;
+		super(positionOnCanvas, null);
 		this.name = `${this.getRandomElement(adjectives)} ${this.getRandomElement(kinds)} ${this.getRandomElement(names)}`;
 		this.entities = [];
 		this.enemyGeneration(resources);
@@ -43,7 +43,7 @@ class EnemyEntity {
 			},
 			body: {
 				url: this.getRandomElement(bodies),
-				startPosition: [x - 3, y + 220],
+				startPosition: [x - 31, y + 220],
 				animateOptions: {isVertical: 0, distance: 1, speed: 3}
 			},
 			head: {
@@ -57,7 +57,7 @@ class EnemyEntity {
 			this.entities.push(
 				new Entity(
 					[this.bodyParts[bodyPart].startPosition[0], this.bodyParts[bodyPart].startPosition[1]], 
-					new Sprite(resources.get(this.bodyParts[bodyPart].url), [0, 0], [200, 200], [200 / 2, 200 / 2])
+					new Sprite(resources.get(this.bodyParts[bodyPart].url), [0, 0], [246, 200], [246 / 2, 200 / 2])
 				)
 			);
 		}
@@ -70,6 +70,7 @@ class EnemyEntity {
 			this.changeAnimatePosition(dt, this.entities[i], this.bodyParts[bodyPart]);
 			i++;
 		}
+		this.entities[1].sprite.update(dt);
 	}
 
 
@@ -83,6 +84,24 @@ class EnemyEntity {
 		}
 		
 		entity.positionOnCanvas[isVertical] += bodyPart.animateOptions.speed * dt;
+	}
+
+
+	attack(attackSprite) {
+		let spriteOptions = {
+			img: this.entities[1].sprite.img,
+			positionOnImg: this.entities[1].sprite.positionOnImg,
+			sizeOnImg: this.entities[1].sprite.sizeOnImg,
+			sizeOnCanvas: this.entities[1].sprite.sizeOnCanvas,
+			speed: this.entities[1].sprite.speed,
+			frames: this.entities[1].sprite.frames
+		};
+
+		this.entities[1].changesprite(attackSprite);
+		this.entities[1].sprite.state = this.entities[1].sprite.index;
+		this.entities[1].sprite.newSpriteFramesNumber = attackSprite.frames.length;
+
+		this.entities[1].sprite.oldSpriteOptions = spriteOptions;
 	}
 }
 

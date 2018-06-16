@@ -31,9 +31,11 @@ class Sprite {
 				// console.log('end attack');
 				this.isNewSpriteActive = false;
 
-				this.url = this.oldSpriteOptions.url;
+				this.img = this.oldSpriteOptions.img;
 				this.positionOnImg = this.oldSpriteOptions.positionOnImg;
 				this.sizeOnImg = this.oldSpriteOptions.sizeOnImg;
+				this.sizeOnCanvas = this.oldSpriteOptions.sizeOnCanvas;
+				this.speed = this.oldSpriteOptions.speed;
 				this.frames = this.oldSpriteOptions.frames;
 			}
 		}

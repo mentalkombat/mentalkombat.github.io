@@ -14,9 +14,11 @@ class PlayerEntity extends Entity {
 
 	attack(attackSprite) {
 		let spriteOptions = {
-			url: this.sprite.url,
+			img: this.sprite.img,
 			positionOnImg: this.sprite.positionOnImg,
 			sizeOnImg: this.sprite.sizeOnImg,
+			sizeOnCanvas: this.sprite.sizeOnCanvas,
+			speed: this.sprite.speed,
 			frames: this.sprite.frames
 		};
 

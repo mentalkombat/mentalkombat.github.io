@@ -4,7 +4,6 @@ import PlayerEntity from './PlayerEntity.js';
 import EnemyEntity from './EnemyEntity.js';
 import SpellWindow from './SpellWindow.js';
 import Drawing from './Drawing.js';
-import Entity from './Entity.js';
 import Task from './Task.js';
 
 
@@ -20,7 +19,8 @@ class Game {
 			'legs1.png', 'legs2.png', 'legs3.png', 'legs4.png', 'legs5.png',
 			'wheel.png',
 			'spell-water.png', 'spell-fire.png',	'spell-wind.png',
-			'water-round-sprite.png',	'fire-sprite.png', 'wind-round-sprite.png'
+			'water-round-sprite.png',	'fire-sprite.png', 'wind-round-sprite.png',
+			'body1-attack.png'
 		]);
 		this.resources.onReady(() => this.init());
     this.checkAnswerBtn = document.getElementById('add_answer');
@@ -234,6 +234,7 @@ class Game {
 			document.getElementById('task').style.display = "none";
 			this.SpellWindow.show = false;
 			this.player.attack(new Sprite(this.resources.get('player-sprite.png'), [0, 464], [634, 464], [634 / 2, 464 / 2], 5, [0, 1, 2, 3, 4, 0]));
+			this.enemy.attack(new Sprite(this.resources.get('body1-attack.png'), [0, 0], [246, 170], [246 / 2, 170 / 2], 5, [0, 1, 2, 1, 0]));
 			setTimeout(() => this.createSpell(), 700);
 		};
 	}
