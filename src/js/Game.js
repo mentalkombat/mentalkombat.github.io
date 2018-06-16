@@ -191,7 +191,7 @@ class Game {
 				if (!this.SpellWindow) {
 //        this.audioWheel.play();
 					this.ang = 0;
-					this.SpellWindow = new SpellWindow(this.resources.get('wheel.png'), this.ctx, this.canvas.width, this.canvas.height, this.ang);
+					this.SpellWindow = new SpellWindow(this.resources.get('wheel.png'), this.ctx, this.canvas.width, this.canvas.height, this.ang, this.resources);
 					this.SpellWindow.wheelRadius = 280;
 					this.taskNumber = 0;
 				}

@@ -5,7 +5,7 @@ import Resources from "./Resources";
 
 
 class SpellWindow {
-    constructor(img, ctx, width, height, ang) {
+    constructor(img, ctx, width, height, ang, resources) {
         this.isWheelStop = false;
         this.img = img;
         this.imgWidth = img.width;
@@ -25,9 +25,15 @@ class SpellWindow {
         this.isResourcesReady = false;
         this.resources.onReady(() => {
             this.GameSpellWater = new GameSpell([500, 490], new Sprite(this.resources.get('water-round-sprite.png'), [0, 0], [330, 330], [100, 100], 9, [0, 1, 2, 3, 4, 5, 6, 4, 5, 6, 3, 4, 5, 6, 4, 5, 6, 7, 8], false));
+            this.GameSpellWater.addSpellCastAnimation('top', new Sprite(resources.get('spell-water.png'), [0, 0], [184, 184], [184, 184], 7, [0, 1, 2, 3, 4, 3, 2, 3, 4, 3, 2, 3, 4, 5, 6, 7, 8, 9, 10], true));
+            
             this.GameSpellFire = new GameSpell([430, 200], new Sprite(this.resources.get('fire-sprite.png'), [0, 0], [512, 512], [140, 140], 6, [0, 1, 2, 0, 1, 2, 3, 2, 4, 5, 4, 5, 3, 4, 5, 4, 5], false));
-            // this.GameSpellWind = new GameSpell([770, 200], new Sprite(this.resources.get('wind-sprite-all.png'), [0, 0], [230, 300], [140, 140], 9, [4, 5, 3, 4, 5, 6, 4, 5, 6, 3, 4, 5, 6, 4, 5, 6, 7, 8, 7, 6, 5 , 4 , 3, 2, 1, 0], false));
+            this.GameSpellFire.addSpellCastAnimation('bottom', new Sprite(this.resources.get('spell-fire.png'), [0, 0], [512, 512], [250, 250], 7, [0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5], true));
+            
+            // this.GameSpellWind = new GameSpell([770, 200], new Sprite(this.resources.get('wind-sprite-all.png'), [0, 0], [230, 300], [140, 140], 9, [4, 5, 3, 4, 5, 6, 4, 5, 6, 3, 4, 5, 6, 4, 5, 6, 7, 8, 7, 6, 5 , 4 , 3, 2, 1, 0], false));            
             this.GameSpellWind = new GameSpell([770, 200], new Sprite(this.resources.get('wind-round-sprite.png'), [0, 0], [131, 131], [140, 140], 9, [0, 1, 2, 3], false));
+            this.GameSpellWind.addSpellCastAnimation('left', new Sprite(this.resources.get('spell-water.png'), [0, 0], [184, 184], [184, 184], 7, [0, 1, 2, 3, 4, 3, 2, 3, 4, 3, 2, 3, 4, 5, 6, 7, 8, 9, 10], true));
+
             this.isResourcesReady = true;
     });
     };
