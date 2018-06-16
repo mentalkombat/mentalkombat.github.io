@@ -13,7 +13,7 @@ class SpellWindow {
         this.ctx = ctx;
         this.width = width;
         this.height = height;
-        this.ang = ang;
+        this.ang = 0;
         this.dt = undefined;
         this.resources = new Resources();
         this.resources.load([
@@ -42,11 +42,11 @@ class SpellWindow {
         }
 	}
 
-    draw(){
+    draw(angg){
         if (this.isResourcesReady){
             this.ctx.save();
             this.ctx.translate(this.width / 2, this.height / 2);
-            this.ctx.rotate(Math.PI / 180 * this.ang);
+            this.ctx.rotate(Math.PI / 180 * angg);
             this.ctx.translate(-this.width / 2, -this.height / 2);
             this.ctx.drawImage(this.img, this.width / 2 - this.imgWidth / 2, this.height / 2 - this.imgHeight / 2, this.imgWidth, this.imgHeight);
 
@@ -68,8 +68,7 @@ class SpellWindow {
     animateWheel() {
         
         if (!this.isWheelStop && this.isResourcesReady) {
-            this.ang =this.ang + .2;
-            this.draw();
+            this.draw(this.ang);
             this.GameSpellWater.sprite.update(this.dt);
             this.GameSpellFire.sprite.update(this.dt);
             this.GameSpellWind.sprite.update(this.dt);
@@ -78,11 +77,10 @@ class SpellWindow {
     };
 
     stopWheel() {
-        this.isWheelStop = true;
         this.draw();
-        this.GameSpellWater.sprite.update(this.dt);
-        this.GameSpellFire.sprite.update(this.dt);
-        this.GameSpellWind.sprite.update(this.dt);
+            this.GameSpellWater.sprite.update(this.dt);
+            this.GameSpellFire.sprite.update(this.dt);
+            this.GameSpellWind.sprite.update(this.dt);
     }
 }
 
