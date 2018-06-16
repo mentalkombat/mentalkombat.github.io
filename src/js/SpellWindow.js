@@ -1,7 +1,5 @@
-import Spell from './Spell.js';
 import SpellEntity from './SpellEntity.js';
 import Sprite from './Sprite.js';
-import Resources from "./Resources";
 
 
 class SpellWindow {
@@ -16,17 +14,17 @@ class SpellWindow {
         this.ang = 0;
         this.dt = undefined;
             
-        this.GameSpellWater = new SpellEntity([530, 440], new Sprite(resources.get('water-round-sprite.png'), [0, 0], [330, 340], [150, 155], 9, [4, 5, 6], false));
-        this.GameSpellWater.addSpellCastAnimation('top', new Sprite(resources.get('spell-water.png'), [0, 0], [184, 184], [184, 184], 7, [0, 1, 2, 3, 4, 3, 2, 3, 4, 3, 2, 3, 4, 5, 6, 7, 8, 9, 10], true));
+        this.GameSpellWater = new SpellEntity([500, 420], new Sprite(resources.get('water-round-sprite.png'), [0, 0], [330, 340], [150, 155], 9, [4, 5, 6], false));
+        this.GameSpellWater.addSpellCastEntity('top', new Sprite(resources.get('spell-water.png'), [0, 0], [184, 184], [184, 184], 7, [0, 1, 2, 3, 4, 3, 2, 3, 4, 3, 2, 3, 4, 5, 6, 7, 8, 9, 10], true));
         this.spells = [];
         this.spells.push(this.GameSpellWater);
         
-        this.GameSpellFire = new SpellEntity([430, 150], new Sprite(resources.get('fire-sprite.png'), [0, 0], [512, 512], [227, 227], 6, [0, 1, 2, 0, 1, 2, 3, 2, 4, 5, 4, 5, 3, 4, 5, 4, 5], false));
-        this.GameSpellFire.addSpellCastAnimation('bottom', new Sprite(resources.get('spell-fire.png'), [0, 0], [512, 512], [250, 250], 7, [0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5], true));
+        this.GameSpellFire = new SpellEntity([430, 150], new Sprite(resources.get('fire-sprite.png'), [0, 0], [512, 512], [200, 200], 6, [0, 1, 2, 0, 1, 2, 3, 2, 4, 5, 4, 5, 3, 4, 5, 4, 5], false));
+        this.GameSpellFire.addSpellCastEntity('bottom', new Sprite(resources.get('spell-fire.png'), [0, 0], [512, 512], [250, 250], 7, [0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5], true));
         this.spells.push(this.GameSpellFire);
         
-        this.GameSpellWind = new SpellEntity([710, 220], new Sprite(resources.get('wind-sprite-all.png'), [0, 0], [227, 202], [227, 202], 9, [5, 6, 7, 8], false));
-        this.GameSpellWind.addSpellCastAnimation('left', new Sprite(resources.get('spell-wind.png'), [0, 0], [192, 192], [192, 192], 7, [0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2], true));
+        this.GameSpellWind = new SpellEntity([710, 250], new Sprite(resources.get('wind-round-sprite.png'), [0, 0], [131, 131], [160, 160], 9, [0, 1, 2, 3], false));
+        this.GameSpellWind.addSpellCastEntity('left', new Sprite(resources.get('spell-wind.png'), [0, 0], [192, 192], [192, 192], 7, [0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2], true));
         this.spells.push(this.GameSpellWind);
     };
 
