@@ -9,8 +9,16 @@
   <script defer src="dist/js/main.js"></script>
 <link href="dist/css/main.css" rel="stylesheet"></head>
 <body>
+  <div id="select_task_group" class="select_task_group">
+    <div class="task_pictures">pictures</div>
+    <div class="task_translate">translate</div>
+    <div class="task_math">math</div>
+    <div class="task_listening">listening</div>
+    <div class="task_draganddrop">dragAndDrop</div>
+  </div>
   <div id="task" class="task">
     <h3 id="question" class="question"></h3>
+    <div id="sortable" class="sortable"></div>
     <input id="gamer_answer" class="answer_input" type="text">
     <button class="btn" id='add_answer'>check</button>
     <audio id="rotateWheel"><source src="audio/audio-wheel.mp3"></source></audio>

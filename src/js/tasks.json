@@ -202,5 +202,8 @@
     {"task" : "passanger.mp3", 
       "answer" : ["passanger"]
       }
+  ],
+  "dragAndDrop" : [
+    "boy", "girl", "hero", "book", "friend", "game", "hello", "passanger"
   ]
 }

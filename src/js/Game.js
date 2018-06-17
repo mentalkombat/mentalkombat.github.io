@@ -29,7 +29,7 @@ class Game {
     	this.checkAnswerBtn = document.getElementById('add_answer');
 		this.audioWheel = document.getElementById("rotateWheel");
 		this.TasksGroups = ["pictures", "translate", "math", "listening", "dragAndDrop"];
-		this.currentTaskGroup = "listening";	
+		this.currentTaskGroup = "dragAndDrop";	
 		this.taskQuestion = document.getElementById('question');
 		this.taskWindow = document.getElementById('task');	
 	}
@@ -202,17 +202,34 @@ class Game {
 		if (this.SpellWindow && this.SpellWindow.show) {
 			let x = event.pageX - event.target.offsetLeft;
 			let	y = event.pageY - event.target.offsetTop;
-			
 			for (let i = 0; i < this.SpellWindow.spells.length; i++) {
 				if (this.SpellWindow.spells[i].isMouseOnSpell(x, y)) {
-					this.activeSpellCastEntity = this.SpellWindow.spells[i];
+					this.activeSpellCastEntity = this.SpellWindow.spells[i];	
 
-					this.taskWindow.style.display = "block";
-					this.task = new Task(this.resources, this.taskQuestion);
-					console.log(this.taskNumber, 'this.taskNumber');
-					this.task.createTask(this.currentTaskGroup, this.taskNumber);
 
-					this.taskNumber++;
+					document.getElementById("select_task_group").style.display = "block";
+					document.getElementById("select_task_group").addEventListener('click', (event)=>{
+						let target = event.target;
+						if(target.tagName != 'DIV') return;
+						this.currentTaskGroup = target.innerHTML;
+						console.log('this.currentTaskGroup', this.currentTaskGroup, target);
+						document.getElementById("select_task_group").style.display = "none";	
+
+
+						this.taskWindow.style.display = "block";
+						this.task = new Task(this.resources, this.taskQuestion);
+						console.log(this.taskNumber, 'this.taskNumber');
+	
+	
+						this.task.createTask(this.currentTaskGroup, this.taskNumber);
+	
+						this.taskNumber++;
+
+					});
+
+
+
+
 
 					break;
 				}
