@@ -53,4 +53,23 @@ button
     img
       position: relative
 
-  
+h3
+  text-transform: uppercase
+  color: red
+  font-size: 30px
+  margin: 15px auto
+
+.passLevelModal, .loseGameModal, .winGameModal
+  display: none
+  width: 400px
+  position: fixed
+  top: 100px
+  left: calc(50% - 200px)
+  button
+    position: relative
+    cursor: pointer
+
+.loseGameModal, .winGameModal
+  .flex-wrapper
+    display: flex
+    justify-content: space-between

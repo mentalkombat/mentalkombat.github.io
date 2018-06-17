@@ -68,6 +68,17 @@ class Drawing {
 		ctx.fillText(text, textPositionX, textPositionY);
 		ctx.restore();
 	}
+
+
+	static drawLevelResult(ctx, text, textPositionX, textPositionY) {
+		ctx.save();
+		ctx.font = "50px Arial";
+    ctx.textBaseline = "middle";
+		ctx.textAlign = "center";
+		ctx.fillStyle = "red";
+		ctx.fillText(text, textPositionX, textPositionY);
+		ctx.restore();
+	}
 }
 
 export default Drawing;
