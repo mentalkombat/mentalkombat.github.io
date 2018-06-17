@@ -1,0 +1,118 @@
+/* advent-pro-300 - latin */
+@font-face {
+    font-family: 'Advent Pro';
+    font-style: normal;
+    font-weight: 300;
+    src: local('Advent Pro Light'), local('AdventPro-Light'),
+         url('../fonts/advent-pro-v7-latin-300.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+         url('../fonts/advent-pro-v7-latin-300.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  }
+  /* advent-pro-regular - latin */
+  @font-face {
+    font-family: 'Advent Pro';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Advent Pro Regular'), local('AdventPro-Regular'),
+         url('../fonts/advent-pro-v7-latin-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+         url('../fonts/advent-pro-v7-latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  }
+  /* advent-pro-700 - latin */
+  @font-face {
+    font-family: 'Advent Pro';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Advent Pro Bold'), local('AdventPro-Bold'),
+         url('../fonts/advent-pro-v7-latin-700.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+         url('../fonts/advent-pro-v7-latin-700.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  }
+
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    background: #fdda8d url(../img/dark-mosaic.png);
+    text-align: center;
+    font: 400 16px 'Advent Pro', Arial, sans-serif;
+    padding: 60px 10px;
+    color: #191313;
+}
+.page_title{
+    font: 700 90px 'Advent Pro', Arial, sans-serif;
+    margin-bottom: 50px;
+    line-height: 1;
+}
+.page_title span{
+    display: block;
+}
+.container{
+    max-width: 1170px;
+    margin: 0 auto;
+    width: 100%;
+}
+img{
+    max-width: 800px;
+    margin: 30px auto;
+    display: block;
+}
+.game_authors{
+    padding: 50px 0;
+}
+.author{
+    width: 40%;
+    margin: 0 50px;
+    font-size: 24px;
+    font-weight: 700;
+}
+.author ul{
+    list-style-type: none;
+}
+.name{
+    text-transform: uppercase;
+    font-size: 32px;
+    font-weight: 700;
+}
+.flex_container{
+    display: flex;
+    justify-content: space-between;
+}
+.section_title{
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+.game_link{
+    color: #2f2a2a;
+    font-weight: 700;
+    font-size: 24px;
+    text-decoration: none;
+    border-bottom: 1px solid;
+    margin: 20px 0;
+}
+
+@media (max-width: 1200px) {
+    .container {
+        max-width: 100%;
+        padding: 0 20px;
+    }
+    img{
+        max-width: 90%;
+    }
+    .page_title{
+        font-size: 70px;
+    }
+}
+@media (max-width: 800px){
+    .page_title{
+        font-size: 50px;
+    }
+}
+@media (max-width: 600px){
+    .flex_container{
+        flex-direction: column;
+    }
+    .author{
+        width: 100%;
+        margin: 0 0 30px;
+    }
+}

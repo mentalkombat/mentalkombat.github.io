@@ -100,7 +100,7 @@ button {
   justify-content: space-between; }
   .select_task_group div {
     padding: 50px 0;
-    background: rgba(255, 244, 118, 0.7);
+    background: rgba(255, 244, 118, 0.95);
     border: 7px solid transparent;
     width: 19%;
     color: #223333;
@@ -110,7 +110,7 @@ button {
     font-weight: bold;
     cursor: pointer; }
     .select_task_group div:hover, .select_task_group div:focus {
-      background: rgba(255, 244, 118, 0.85);
+      background: rgba(255, 244, 118, 0.99);
       border-bottom: 4px solid #f0c054; }
 
 h3 {
