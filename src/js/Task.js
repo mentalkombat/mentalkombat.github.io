@@ -20,9 +20,11 @@ class Task {
         for (let i = 0; i <= this.rightAnswersArray.length - 1; i++) {
             if (this.userAnswer == this.rightAnswersArray[i]) {
                 document.getElementById('gamer_answer').value = '';
+                console.log('correct');
                 return true;
             } else {
-                alert("it's wrong");
+                console.log('incorrect');
+                return false;
             }
         }
     }

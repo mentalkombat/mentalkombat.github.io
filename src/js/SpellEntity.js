@@ -24,7 +24,7 @@ export default class SpellEntity extends Entity {
 	setPositionOnCanvas(playerPosition, playerSpriteSize, enemyPosition, enemySpriteSize) {
 		switch(this.direction) {
 			case 'left': {
-				this.spellCastEntity.positionOnCanvas = [playerPosition[0] + playerSpriteSize[0], playerSpriteSize[1] + playerSpriteSize[1] / 2 - this.spellCastEntity.sprite.sizeOnCanvas[1] / 2];
+				this.spellCastEntity.positionOnCanvas = [playerPosition[0] + playerSpriteSize[0], playerPosition[1] + playerSpriteSize[1] / 2 - this.spellCastEntity.sprite.sizeOnCanvas[1] / 2];
 				break;
 			}
 			case 'bottom': {
@@ -32,18 +32,22 @@ export default class SpellEntity extends Entity {
 				break;
 			}
 			case 'top': {
-				this.spellCastEntity.positionOnCanvas = [enemyPosition[0] + enemySpriteSize[0] / 2 - this.spellCastEntity.sprite.sizeOnCanvas[0] / 2, enemyPosition[1] - 250];
+				this.spellCastEntity.positionOnCanvas = [enemyPosition[0] + enemySpriteSize[0] / 2 - this.spellCastEntity.sprite.sizeOnCanvas[0] / 2, enemyPosition[1] - 300];
+				break;
+			}
+			case 'right': {
+				this.spellCastEntity.positionOnCanvas = [enemyPosition[0] - this.spellCastEntity.sprite.sizeOnCanvas[0], enemyPosition[1] + enemySpriteSize[1] / 2 - this.spellCastEntity.sprite.sizeOnCanvas[1] / 2];
 			}
 		}
 
 		this.isSpellMoving = true;
 	}
 
-	checkCollisionWithEntity(entityPosition, entitySpriteSize) {
+	checkCollisionWithEntity(playerPosition, playerSpriteSize, enemyPosition, enemySpriteSize) {
 		switch(this.direction) {
 			case 'left': {
 				let spellCenterX = this.spellCastEntity.positionOnCanvas[0] + this.spellCastEntity.sprite.sizeOnCanvas[0] / 2;
-				let enemyBodyCenterX = entityPosition[0] + entitySpriteSize[0] / 2;
+				let enemyBodyCenterX = enemyPosition[0] + enemySpriteSize[0] / 2;
 				if (spellCenterX > enemyBodyCenterX) {
 					this.isSpellMoving = false;
 				}
@@ -51,7 +55,7 @@ export default class SpellEntity extends Entity {
 			}
 			case 'bottom': {
 				let spellCenterY = this.spellCastEntity.positionOnCanvas[1] + this.spellCastEntity.sprite.sizeOnCanvas[1] / 2;
-				let enemyBodyCenterY = entityPosition[1] + entitySpriteSize[1] / 2;
+				let enemyBodyCenterY = enemyPosition[1] + enemySpriteSize[1] / 2;
 				if (spellCenterY < enemyBodyCenterY) {
 					this.isSpellMoving = false;
 				}
@@ -59,8 +63,16 @@ export default class SpellEntity extends Entity {
 			}
 			case 'top': {
 				let spellCenterY = this.spellCastEntity.positionOnCanvas[1] + this.spellCastEntity.sprite.sizeOnCanvas[1] / 2;
-				let enemyBodyCenterY = entityPosition[1] + entitySpriteSize[1] / 2;
+				let enemyBodyCenterY = enemyPosition[1] + enemySpriteSize[1] / 2;
 				if (spellCenterY > enemyBodyCenterY) {
+					this.isSpellMoving = false;
+				}
+				break;
+			}
+			case 'right': {
+				let spellCenterX = this.spellCastEntity.positionOnCanvas[0] + this.spellCastEntity.sprite.sizeOnCanvas[0] / 2;
+				let playerBodyCenterX = playerPosition[0] + playerSpriteSize[0] / 2;
+				if (spellCenterX < playerBodyCenterX) {
 					this.isSpellMoving = false;
 				}
 			}
@@ -80,6 +92,10 @@ export default class SpellEntity extends Entity {
 				}
 				case 'top': {
 					this.spellCastEntity.positionOnCanvas[1] += 10;
+					break;
+				}
+				case 'right': {
+					this.spellCastEntity.positionOnCanvas[0] -= 10;
 				}
 			}		
 		}

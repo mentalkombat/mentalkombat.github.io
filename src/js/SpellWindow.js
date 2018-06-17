@@ -13,10 +13,10 @@ class SpellWindow {
         this.height = height;
         this.ang = 0;
         this.dt = undefined;
+        this.spells = [];
             
         this.GameSpellWater = new SpellEntity([500, 420], new Sprite(resources.get('water-round-sprite.png'), [0, 0], [330, 340], [150, 155], 9, [4, 5, 6], false));
         this.GameSpellWater.addSpellCastEntity('top', new Sprite(resources.get('spell-water.png'), [0, 0], [184, 184], [184, 184], 7, [0, 1, 2, 3, 4, 3, 2, 3, 4, 3, 2, 3, 4, 5, 6, 7, 8, 9, 10], true));
-        this.spells = [];
         this.spells.push(this.GameSpellWater);
         
         this.GameSpellFire = new SpellEntity([430, 150], new Sprite(resources.get('fire-sprite.png'), [0, 0], [512, 512], [200, 200], 6, [0, 1, 2, 0, 1, 2, 3, 2, 4, 5, 4, 5, 3, 4, 5, 4, 5], false));
