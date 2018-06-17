@@ -28,13 +28,14 @@ button
   min-height: 100vh
   color: #000012
   position: fixed
-  padding: 15% 20%
+  padding: 5% 20%
   background-image: linear-gradient(-225deg, #D4FFEC 0%, #57F2CC 48%, #4596FB 100%)
   .question
     font-size: 24px
     text-transform: uppercase
-    text-align: left
+    text-align: center
     display: block
+    color: #223333 
     img
       max-height: 300px
       position: absolute
@@ -42,11 +43,24 @@ button
       right: 300px
   .answer_input
     display: block
-    margin-bottom: 30px
+    width: 300px
+    margin: 30px auto 10px
+    background: transparent
+    border: 1px solid #ffffff
+    border-radius: 4px
+    height: 40px
+    padding: 5px 10px
+    font-size: 16px
   .btn
+    height: 44px
     display: block
-    max-width: 300px
+    border-radius: 4px
+    border: none
+    width: 300px
+    background: rgba(250,250,250, .8)
+    color: #223333 
     position: relative
+    margin: 0 auto
   .playAudio
     background: transparent
     border: none
@@ -57,14 +71,23 @@ button
     img
       position: relative
 .sortable
+  display: none
+  border-radius: 5px
+  width: 60%
+  margin: 0 auto
+  height: 117px
+  padding-top: 20px
   span
-    display: inline-block
     padding: 15px
+    border-radius: 3px
+    width: 50px
+    height: 70px
     font-size: 28px
     background: #1c7084
     color: #ffffff
     margin: 0 15px
     text-transform: uppercase
+    cursor: pointer
 .select_task_group
   display: none
   position: absolute
@@ -74,18 +97,19 @@ button
   justify-content: space-between
   div
     padding: 50px 0
-    background: hsla(178, 12%, 57%, 0.4)
+    background: rgba(255, 244, 118, .7)
     border: 7px solid transparent
     width: 19%
-    color: #443838
+    color: #223333
     transition: all ease .3s
     text-transform: uppercase
     font-size: 26px
     font-weight: bold
+    cursor: pointer
     &:hover,
     &:focus
-      background: hsla(178, 12%, 57%, 0.6)
-      border-bottom: 3px solid hsla(178, 12%, 57%, 0.9)
+      background: rgba(255, 244, 118, .85)
+      border-bottom: 4px solid rgb(240, 192, 84)
 
 h3
   text-transform: uppercase

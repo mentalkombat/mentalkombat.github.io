@@ -9,6 +9,7 @@ class Task {
         this.rightAnswersArray = null;
         this.question = question;
         this.answer = document.getElementById('gamer_answer');
+        this.sortable = document.querySelector("#sortable");
     }
 
     createTask(currentTaskGroup, number) {
@@ -41,6 +42,8 @@ class Task {
                 const word = this.dict[currentTaskGroup][number];
                 const letters = word.split('');
                 const wordLength = letters.length;
+                this.answer.style.display = 'none';
+                this.sortable.style.display = 'block';
                 let randomLetters = [];
                 let addedLettersIndices = [];
                 for (let i = 0; i < wordLength; i++){
@@ -48,7 +51,7 @@ class Task {
                     if(addedLettersIndices.indexOf(randomIndex) === -1){
                         let sortable = document.createElement("span");
                         sortable.innerHTML = letters[randomIndex];
-                        document.querySelector("#sortable").appendChild(sortable);
+                        this.sortable.appendChild(sortable);
                         randomLetters.push(letters[randomIndex]);
                         addedLettersIndices.push(randomIndex);
                     } else {
@@ -78,7 +81,6 @@ class Task {
                 return false;
             };
         } else {
-            document.querySelector("#sortable")
             const word = this.dict[currentTaskGroup][this.number];
             const wordLength = word.length;
             let isAnswerCorrect = true;

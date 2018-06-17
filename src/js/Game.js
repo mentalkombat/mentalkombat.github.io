@@ -229,7 +229,7 @@ class Game {
 			for (let i = 0; i < this.SpellWindow.spells.length; i++) {
 				if (this.SpellWindow.spells[i].isMouseOnSpell(x, y)) {
 					this.activeSpellCastEntity = this.SpellWindow.spells[i];	
-					document.getElementById("select_task_group").style.display = "block";
+					document.getElementById("select_task_group").style.display = "flex";
 					break;
 				}
 			}
@@ -260,17 +260,7 @@ class Game {
 		this.isCorrectAnswer = this.task.checkAnswer(this.currentTaskGroup);
 
 		if (this.isCorrectAnswer) {
-			if (this.currentTaskGroup === "listening"){
-				let audio = document.querySelector('#question audio');
-				let button = document.querySelector('#question .playAudio');
-
-				this.taskQuestion.removeChild(audio);
-				this.taskQuestion.removeChild(button);
-			};
-			if (this.currentTaskGroup === "pictures"){
-				let img = document.querySelector('#question img');
-				this.taskQuestion.removeChild(img);
-			};
+			this.clearTaskWindow();
 			this.player.changesprite(new Sprite(this.resources.get('player-sprite.png'), [0, 464], [634, 464], [634 / 2, 464 / 2], 5, [0, 1, 2, 3, 4, 0]));
 			this.enemy.newHP = this.enemy.currentHP - 20;
 			this.score += 20;
@@ -289,6 +279,31 @@ class Game {
 		}, 700);
 	}
 
+	clearTaskWindow(){
+		switch (this.currentTaskGroup) {
+			case "listening":
+				let audio = document.querySelector('#question audio');
+				let button = document.querySelector('#question .playAudio');
+
+				this.taskQuestion.removeChild(audio);
+				this.taskQuestion.removeChild(button);
+				break;
+
+			case "pictures":
+				let img = document.querySelector('#question img');
+				this.taskQuestion.removeChild(img);
+				break;
+
+			case "dragAndDrop":
+				document.getElementById('gamer_answer').style.display = 'block';
+				document.getElementById("sortable").style.display = 'none';
+				break;
+			
+			default:
+				document.querySelector("#question").innerHTML = '';
+	
+		}
+	};
 
 	LevelEnd() {
 		if (this.isPlayerWinLevel) {
@@ -331,10 +346,10 @@ class Game {
 			this.canvas.style.cursor = 'default';
 			this.taskWindow.style.display = "block";
 			this.task = new Task(this.resources, this.taskQuestion);
-			console.log(this.taskNumber, 'this.taskNumber');
+			console.log(this.taskNumber, 'this.taskNumber', this.taskQuestion, 'this.taskQuestion');
 
-			this.task.createTask(this.currentTaskGroup, this.taskNumber);
-			this.taskNumber++;
+			this.task.createTask(this.currentTaskGroup, this.tasksGroupsNumbers[this.currentTaskGroup]);
+			this.tasksGroupsNumbers[this.currentTaskGroup]++;
 		});
 	}
 }
