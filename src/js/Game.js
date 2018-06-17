@@ -25,13 +25,14 @@ class Game {
 			'enemy-spell-sprite.png',
 			'cat.jpg', 'dog.jpg', 'house.jpg', 'lion.jpg', 'rabbit.jpg', 'speaker.png'
 		]);
-		this.resources.onReady(() => this.init());
-    	this.checkAnswerBtn = document.getElementById('add_answer');
+		this.resources.onReady(() => this.init(100));
+    this.checkAnswerBtn = document.getElementById('add_answer');
 		this.audioWheel = document.getElementById("rotateWheel");
 		this.TasksGroups = ["pictures", "translate", "math", "listening", "dragAndDrop"];
 		this.currentTaskGroup = "dragAndDrop";	
 		this.taskQuestion = document.getElementById('question');
-		this.taskWindow = document.getElementById('task');	
+		this.taskWindow = document.getElementById('task');
+		this.isFirstLevel = true;
 	}
 
 	createCanvas(canvasParent) {
@@ -43,20 +44,28 @@ class Game {
 	}
 
 
-	init() {
-		this.background = this.resources.get('background.jpg');
-
+	init(enemyHP) {
 		this.player = new PlayerEntity([100, 200], new Sprite(this.resources.get('player-sprite.png'), [0, 0], [634, 464], [634 / 2, 464 / 2], 5, [0, 1, 2, 1], false), 'Player');
-		this.enemy = new EnemyEntity([this.canvas.width - 300, 80], this.resources);
-		
-		this.addAttackButtonLogic();
-		this.canvas.addEventListener('click', this.spellsOnWheelClickHandler.bind(this));
-		this.canvas.addEventListener('mousemove', this.spellsOnWheelMousemoveHandler.bind(this));
-		this.checkAnswerBtn.addEventListener('click', this.checkAnswerHanlder.bind(this));
+		this.enemy = new EnemyEntity([this.canvas.width - 300, 80], this.resources, enemyHP);
 		this.isHpReduction = false;
+		// this.isLevelEnd = false;
+		this.isPlayerWinLevel = false;
+		this.isShowingAttackButton = true;
+		this.score = 0;
 
-		this.lastTime = Date.now();
-		this.main();
+		if (this.isFirstLevel) {
+			this.isFirstLevel = false;
+			this.background = this.resources.get('background.jpg');
+
+			this.addAttackButtonLogic();
+			this.canvas.addEventListener('click', this.spellsOnWheelClickHandler.bind(this));
+			this.canvas.addEventListener('mousemove', this.spellsOnWheelMousemoveHandler.bind(this));
+			this.checkAnswerBtn.addEventListener('click', this.checkAnswerHanlder.bind(this));
+			this.initEvents();
+
+			this.lastTime = Date.now();
+			this.main();
+		}
 	}
 
 
@@ -104,6 +113,11 @@ class Game {
 		if (this.SpellWindow && this.SpellWindow.show){
 			this.SpellWindow.draw();
 		}
+
+		// if (this.isLevelEnd) {
+		// 	let text = this.isPlayerWinLevel ? 'You passed the level!' : 'You lose!';
+		// 	Drawing.drawLevelResult(this.ctx, text, this.canvas.width / 2, this.canvas.height / 2);
+		// }
 	};
 
 
@@ -136,10 +150,19 @@ class Game {
 				this.isCorrectAnswer ? this.enemy.currentHP -= 0.5 : this.player.currentHP -= 0.5;
 			} else {
 				this.isHpReduction = false;
-				this.isShowingAttackButton = true;
+				
+				if (this.enemy.currentHP === 80) {
+					this.isPlayerWinLevel = true;
+					this.LevelEnd();
+				} else if (this.player.currentHP === 80) {
+					this.LevelEnd();
+				} else {
+					this.isShowingAttackButton = true;
+				}
 			}
 			this.activeSpellCastEntity.spellCastEntity.sprite.done = false;
 			this.activeSpellCastEntity.spellCastEntity.sprite.index = 0;
+
 		}
 	}
 
@@ -206,7 +229,6 @@ class Game {
 				if (this.SpellWindow.spells[i].isMouseOnSpell(x, y)) {
 					this.activeSpellCastEntity = this.SpellWindow.spells[i];	
 
-
 					document.getElementById("select_task_group").style.display = "block";
 					document.getElementById("select_task_group").addEventListener('click', (event)=>{
 						let target = event.target;
@@ -215,22 +237,14 @@ class Game {
 						console.log('this.currentTaskGroup', this.currentTaskGroup, target);
 						document.getElementById("select_task_group").style.display = "none";	
 
-
+						this.canvas.style.cursor = 'default';
 						this.taskWindow.style.display = "block";
 						this.task = new Task(this.resources, this.taskQuestion);
 						console.log(this.taskNumber, 'this.taskNumber');
 	
-	
 						this.task.createTask(this.currentTaskGroup, this.taskNumber);
-	
 						this.taskNumber++;
-
 					});
-
-
-
-
-
 					break;
 				}
 			}
@@ -272,25 +286,55 @@ class Game {
 				let img = document.querySelector('#question img');
 				this.taskQuestion.removeChild(img);
 			};
+			this.player.changesprite(new Sprite(this.resources.get('player-sprite.png'), [0, 464], [634, 464], [634 / 2, 464 / 2], 5, [0, 1, 2, 3, 4, 0]));
+			this.enemy.newHP = this.enemy.currentHP - 20;
+			this.score += 20;
 
-
-			this.player.attack(new Sprite(this.resources.get('player-sprite.png'), [0, 464], [634, 464], [634 / 2, 464 / 2], 5, [0, 1, 2, 3, 4, 0]));
-			if (this.enemy.currentHP > 0) {
-				this.enemy.newHP = this.enemy.currentHP - 20;
-			}
 		} else {
 			let attackEntityImgLink = this.enemy.entities[1].sprite.img.src.split("/").pop().split(".")[0] + '-attack.png';
 			this.enemy.attack(new Sprite(this.resources.get(attackEntityImgLink), [0, 0], [246, 170], [246 / 2, 170 / 2], 5, [0, 1, 2, 1, 0]));
 			this.activeSpellCastEntity = new SpellEntity();
 			this.activeSpellCastEntity.addSpellCastEntity('right', new Sprite(this.resources.get('enemy-spell-sprite.png'), [0, 128], [256, 128], [256, 128], 7, [0, 1, 2, 3, 4, 3, 2, 3, 4, 3, 2, 3, 4, 3, 2, 3, 4, 5], true));
-			if (this.player.currentHP > 0) {
-				this.player.newHP = this.player.currentHP - 20;
-			}
+			this.player.newHP = this.player.currentHP - 20;
+			this.score = this.score === 0 ? 0 : this.score - 20;
 		};
 		setTimeout(() => {
 			this.activeSpellCastEntity.setPositionOnCanvas(this.player.positionOnCanvas, this.player.sprite.sizeOnCanvas, this.enemy.entities[1].positionOnCanvas, this.enemy.entities[1].sprite.sizeOnCanvas);
-			this.showspellCastEntity = true;	
+			this.showspellCastEntity = true;
 		}, 700);
+	}
+
+
+	LevelEnd() {
+		if (this.isPlayerWinLevel) {
+			console.log('player Win');
+			this.enemy.die();
+			if (this.enemy.maxHP === 120) {
+				document.querySelector('#winGameModal p').innerText += this.score;
+				document.getElementById('winGameModal').style.display = 'block';
+			} else {
+				document.getElementById('passLevelModal').style.display = 'block';
+			}
+		} else {
+			console.log('enemy Win');
+			this.player.changesprite(new Sprite(this.resources.get('player-sprite.png'), [0, 928], [634, 464], [634 / 2, 464 / 2], 5, [0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3], true));
+			document.querySelector('#loseGameModal p').innerText += this.score;
+			document.getElementById('loseGameModal').style.display = 'block';
+		}
+	}
+
+
+	initEvents() {
+		document.getElementById('nextLevelButton').addEventListener('click', () => {
+			document.getElementById('passLevelModal').style.display = 'none';
+			this.init(this.enemy.maxHP + 20);
+		});
+
+		document.querySelectorAll('.newGameButton').forEach(element => {
+			element.addEventListener('click', () => {
+				document.location.reload();
+			});
+		});
 	}
 }
 

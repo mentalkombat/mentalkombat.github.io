@@ -12,7 +12,7 @@ class PlayerEntity extends Entity {
 		this.maxHP = 100;
 	}
 
-	attack(attackSprite) {
+	changesprite(attackSprite) {
 		let spriteOptions = {
 			img: this.sprite.img,
 			positionOnImg: this.sprite.positionOnImg,

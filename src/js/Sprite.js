@@ -3,10 +3,10 @@ class Sprite {
 		this.img = img;
 		this.positionOnImg = positionOnImg;
 		this.sizeOnImg = sizeOnImg;
+		this.sizeOnCanvas = sizeOnCanvas;
 		this.speed = typeof speed === 'number' ? speed : 0;
 		this.frames = frames;
 		this.once = once;
-		this.sizeOnCanvas = sizeOnCanvas;
 		this.index = 0;
 
 		this.newSpriteFramesNumber = 0;

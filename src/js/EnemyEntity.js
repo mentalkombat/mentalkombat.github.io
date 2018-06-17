@@ -11,18 +11,19 @@ let bodies = ['body1.png', 'body2.png', 'body3.png', 'body4.png', 'body5.png'];
 let legs = ['legs1.png', 'legs2.png', 'legs3.png', 'legs4.png', 'legs5.png'];
 
 
-class EnemyEntity extends Entity {
-	constructor(positionOnCanvas, resources) {
-		super(positionOnCanvas, null);
+class EnemyEntity {
+	constructor(positionOnCanvas, resources, enemyHP) {
+		this.positionOnCanvas = positionOnCanvas;
 		this.name = `${this.getRandomElement(adjectives)} ${this.getRandomElement(kinds)} ${this.getRandomElement(names)}`;
 		this.entities = [];
 		this.enemyGeneration(resources);
 		this.speed = 10;
+		this.isDead = false;
 
 		this.isHpReducing = false;
-		this.currentHP = 100;
-		this.newHP = 100;
-		this.maxHP = 100;
+		this.currentHP = enemyHP;
+		this.newHP = enemyHP;
+		this.maxHP = enemyHP;
 	}
 
 
@@ -66,9 +67,11 @@ class EnemyEntity extends Entity {
 
 	idleAnimate(dt) {
 		let i = 0;
-		for (let bodyPart in this.bodyParts) {
-			this.changeAnimatePosition(dt, this.entities[i], this.bodyParts[bodyPart]);
-			i++;
+		if (!this.isDead) {
+			for (let bodyPart in this.bodyParts) {
+				this.changeAnimatePosition(dt, this.entities[i], this.bodyParts[bodyPart]);
+				i++;
+			}
 		}
 		this.entities[1].sprite.update(dt);
 	}
@@ -102,6 +105,15 @@ class EnemyEntity extends Entity {
 		this.entities[1].sprite.newSpriteFramesNumber = attackSprite.frames.length;
 
 		this.entities[1].sprite.oldSpriteOptions = spriteOptions;
+	}
+
+
+	die() {
+		this.isDead = true;
+		this.entities[1].positionOnCanvas[0] += 70;
+		this.entities[1].positionOnCanvas[1] += 50;
+		this.entities[2].positionOnCanvas[0] += 140;
+		this.entities[2].positionOnCanvas[1] += 100;
 	}
 }
 
