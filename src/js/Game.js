@@ -275,22 +275,6 @@ class Game {
 			this.showspellCastEntity = true;	
 		}, 700);
 	}
-
-
-
-
-
-	
-
-
-
-
-
-
-
-
-
-}
 }
 
 export default Game;

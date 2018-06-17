@@ -1,15 +1,8 @@
 import SpellEntity from './SpellEntity.js';
 import Sprite from './Sprite.js';
-<<<<<<< HEAD
 
 class SpellWindow {
     constructor(img, ctx, width, height, resources) {
-=======
-
-
-class SpellWindow {
-    constructor(img, ctx, width, height, ang, resources) {
->>>>>>> 7a2219d4e5d8ff5913efad7407b130db05597510
         this.isWheelStop = false;
         this.img = img;
         this.imgWidth = img.width;
