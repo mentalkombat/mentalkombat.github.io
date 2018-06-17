@@ -26,9 +26,16 @@ class Game {
 			'cat.jpg', 'dog.jpg', 'house.jpg', 'lion.jpg', 'rabbit.jpg', 'speaker.png'
 		]);
 		this.resources.onReady(() => this.init(100));
-    this.checkAnswerBtn = document.getElementById('add_answer');
+    	this.checkAnswerBtn = document.getElementById('add_answer');
 		this.audioWheel = document.getElementById("rotateWheel");
 		this.TasksGroups = ["pictures", "translate", "math", "listening", "dragAndDrop"];
+		this.tasksGroupsNumbers = {
+			"pictures" : 0,
+			"translate" : 0,
+			"math" : 0,
+			"listening" : 0,
+			"dragAndDrop" : 0
+		};
 		this.currentTaskGroup = "dragAndDrop";	
 		this.taskQuestion = document.getElementById('question');
 		this.taskWindow = document.getElementById('task');
@@ -229,7 +236,7 @@ class Game {
 				if (this.SpellWindow.spells[i].isMouseOnSpell(x, y)) {
 					this.activeSpellCastEntity = this.SpellWindow.spells[i];	
 
-					document.getElementById("select_task_group").style.display = "block";
+					document.getElementById("select_task_group").style.display = "flex";
 					document.getElementById("select_task_group").addEventListener('click', (event)=>{
 						let target = event.target;
 						if(target.tagName != 'DIV') return;
@@ -242,8 +249,8 @@ class Game {
 						this.task = new Task(this.resources, this.taskQuestion);
 						console.log(this.taskNumber, 'this.taskNumber');
 	
-						this.task.createTask(this.currentTaskGroup, this.taskNumber);
-						this.taskNumber++;
+						this.task.createTask(this.currentTaskGroup, this.tasksGroupsNumbers[this.currentTaskGroup]);
+						this.tasksGroupsNumbers[this.currentTaskGroup]++;
 					});
 					break;
 				}
