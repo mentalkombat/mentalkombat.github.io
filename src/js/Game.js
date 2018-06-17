@@ -40,6 +40,7 @@ class Game {
 		this.taskQuestion = document.getElementById('question');
 		this.taskWindow = document.getElementById('task');
 		this.isFirstLevel = true;
+		this.score = 0;
 	}
 
 	createCanvas(canvasParent) {
@@ -55,10 +56,8 @@ class Game {
 		this.player = new PlayerEntity([100, 200], new Sprite(this.resources.get('player-sprite.png'), [0, 0], [634, 464], [634 / 2, 464 / 2], 5, [0, 1, 2, 1], false), 'Player');
 		this.enemy = new EnemyEntity([this.canvas.width - 300, 80], this.resources, enemyHP);
 		this.isHpReduction = false;
-		// this.isLevelEnd = false;
 		this.isPlayerWinLevel = false;
 		this.isShowingAttackButton = true;
-		this.score = 0;
 
 		if (this.isFirstLevel) {
 			this.isFirstLevel = false;
@@ -120,11 +119,6 @@ class Game {
 		if (this.SpellWindow && this.SpellWindow.show){
 			this.SpellWindow.draw();
 		}
-
-		// if (this.isLevelEnd) {
-		// 	let text = this.isPlayerWinLevel ? 'You passed the level!' : 'You lose!';
-		// 	Drawing.drawLevelResult(this.ctx, text, this.canvas.width / 2, this.canvas.height / 2);
-		// }
 	};
 
 
@@ -235,23 +229,7 @@ class Game {
 			for (let i = 0; i < this.SpellWindow.spells.length; i++) {
 				if (this.SpellWindow.spells[i].isMouseOnSpell(x, y)) {
 					this.activeSpellCastEntity = this.SpellWindow.spells[i];	
-
-					document.getElementById("select_task_group").style.display = "flex";
-					document.getElementById("select_task_group").addEventListener('click', (event)=>{
-						let target = event.target;
-						if(target.tagName != 'DIV') return;
-						this.currentTaskGroup = target.innerHTML;
-						console.log('this.currentTaskGroup', this.currentTaskGroup, target);
-						document.getElementById("select_task_group").style.display = "none";	
-
-						this.canvas.style.cursor = 'default';
-						this.taskWindow.style.display = "block";
-						this.task = new Task(this.resources, this.taskQuestion);
-						console.log(this.taskNumber, 'this.taskNumber');
-	
-						this.task.createTask(this.currentTaskGroup, this.tasksGroupsNumbers[this.currentTaskGroup]);
-						this.tasksGroupsNumbers[this.currentTaskGroup]++;
-					});
+					document.getElementById("select_task_group").style.display = "block";
 					break;
 				}
 			}
@@ -341,6 +319,22 @@ class Game {
 			element.addEventListener('click', () => {
 				document.location.reload();
 			});
+		});
+
+		document.getElementById("select_task_group").addEventListener('click', (event)=>{
+			let target = event.target;
+			if(target.tagName != 'DIV') return;
+			this.currentTaskGroup = target.innerHTML;
+			console.log('this.currentTaskGroup', this.currentTaskGroup, target);
+			document.getElementById("select_task_group").style.display = "none";	
+
+			this.canvas.style.cursor = 'default';
+			this.taskWindow.style.display = "block";
+			this.task = new Task(this.resources, this.taskQuestion);
+			console.log(this.taskNumber, 'this.taskNumber');
+
+			this.task.createTask(this.currentTaskGroup, this.taskNumber);
+			this.taskNumber++;
 		});
 	}
 }
