@@ -31,9 +31,11 @@ class Sprite {
 				// console.log('end attack');
 				this.isNewSpriteActive = false;
 
-				this.url = this.oldSpriteOptions.url;
+				this.img = this.oldSpriteOptions.img;
 				this.positionOnImg = this.oldSpriteOptions.positionOnImg;
 				this.sizeOnImg = this.oldSpriteOptions.sizeOnImg;
+				this.sizeOnCanvas = this.oldSpriteOptions.sizeOnCanvas;
+				this.speed = this.oldSpriteOptions.speed;
 				this.frames = this.oldSpriteOptions.frames;
 			}
 		}
@@ -62,7 +64,7 @@ class Sprite {
 		let x = this.positionOnImg[0];
 		let y = this.positionOnImg[1];
 		x += frame * this.sizeOnImg[0];
-
+		// ctx.strokeRect(0, 0, this.sizeOnCanvas[0], this.sizeOnCanvas[1]);
 		ctx.drawImage(this.img, x, y, this.sizeOnImg[0], this.sizeOnImg[1], 0, 0, this.sizeOnCanvas[0], this.sizeOnCanvas[1]);
 	}
 }

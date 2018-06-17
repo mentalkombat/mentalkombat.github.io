@@ -46,12 +46,14 @@ class Task {
         this.userAnswer = this.answer.value.toLowerCase();
         if (this.rightAnswersArray.indexOf(this.userAnswer) > -1) {
             this.answer.value = '';
+            console.log('correct');
             return true;
         } else {
             this.answer.value = '';
-            alert("it's wrong");
+            console.log('incorrect');
+            return false;
         };
-        
+
     }
 }
 
