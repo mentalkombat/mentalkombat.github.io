@@ -1,130 +1,206 @@
 {
-  "d": [
+  "translate": [
     {
-      "word": "dog",
-      "translation": [
+      "task": "dog",
+      "answer": [
         "собака",
         "собачка"
       ]
     },
     {
-      "word": "cat",
-      "translation": [
+      "task": "cat",
+      "answer": [
         "кот",
         "котик",
         "кошка"
       ]
     },
     {
-      "word": "man",
-      "translation": [
+      "task": "man",
+      "answer": [
         "человек",
         "мужчина"
       ]
     },
     {
-      "word": "house",
-      "translation": [
+      "task": "house",
+      "answer": [
         "дом",
         "домик"
       ]
     },
     {
-      "word": "Rabbit",
-      "translation": [
+      "task": "Rabbit",
+      "answer": [
         "кролик"
       ]
     },
     {
-      "word": "Lion",
-      "translation": [
+      "task": "Lion",
+      "answer": [
         "лев"
       ]
     },
     {
-      "word": "Elephant",
-      "translation": [
+      "task": "Elephant",
+      "answer": [
         "слон",
         "слоненок",
         "слоник"
       ]
     },
     {
-      "word": "Parrot",
-      "translation": [
+      "task": "Parrot",
+      "answer": [
         "попугай",
         "попугайчик"
       ]
     },
     {
-      "word": "Owl",
-      "translation": [
+      "task": "Owl",
+      "answer": [
         "сова",
         "филин"
       ]
     },
     {
-      "word": "dog",
-      "translation": [
+      "task": "dog",
+      "answer": [
         "собака",
         "собачка"
       ]
     },
     {
-      "word": "cat",
-      "translation": [
+      "task": "cat",
+      "answer": [
         "кот",
         "котик",
         "кошка"
       ]
     },
     {
-      "word": "man",
-      "translation": [
+      "task": "man",
+      "answer": [
         "человек",
         "мужчина"
       ]
     },
     {
-      "word": "house",
-      "translation": [
+      "task": "house",
+      "answer": [
         "дом",
         "домик"
       ]
     },
     {
-      "word": "Rabbit",
-      "translation": [
+      "task": "Rabbit",
+      "answer": [
         "кролик"
       ]
     },
     {
-      "word": "Lion",
-      "translation": [
+      "task": "Lion",
+      "answer": [
         "лев"
       ]
     },
     {
-      "word": "Elephant",
-      "translation": [
+      "task": "Elephant",
+      "answer": [
         "слон",
         "слоненок",
         "слоник"
       ]
     },
     {
-      "word": "Parrot",
-      "translation": [
+      "task": "Parrot",
+      "answer": [
         "попугай",
         "попугайчик"
       ]
     },
     {
-      "word": "Owl",
-      "translation": [
+      "task": "Owl",
+      "answer": [
         "сова",
         "филин"
       ]
     }
+  ],
+  "math" : [
+    {"task" : "one plus one equals", 
+    "answer" : ["two"]
+    }, 
+
+    {"task" : "five minus three equals", 
+      "answer" : ["two"]
+      },
+    
+    {"task" : "one plus two equals", 
+      "answer" : ["three"]
+      },
+      
+    {"task" : "one plus three equals", 
+      "answer" : ["four"]
+      },
+      
+    {"task" : "one minus one equals", 
+      "answer" : ["zero"]
+      },
+      
+    {"task" : "five plus three equals", 
+      "answer" : ["eight"]
+      },
+      
+    {"task" : "five plus two equals", 
+      "answer" : ["seven"]
+      },
+      
+    {"task" : "five plus five equals", 
+      "answer" : ["ten"]
+      }
+    
+  ],
+  "pictures" : [
+    {"task" : "cat.jpg", 
+    "answer" : ["cat", "kitten", "kitty", "kit"]
+    }, 
+
+    {"task" : "dog.jpg", 
+      "answer" : ["dog", "hound", "pooch", "bowwow"]
+      },
+    
+    {"task" : "house.jpg", 
+      "answer" : ["house", "home" ]
+      },
+      
+    {"task" : "lion.jpg", 
+      "answer" : ["lev", "lion", "lew"]
+      },
+      
+    {"task" : "rabbit.jpg", 
+      "answer" : ["rabbit", "lapin", "hare", "bunny", "coney", "cony"]
+      }
+  ],
+  "listening" : [
+    {"task" : "book.ogg", 
+    "answer" : ["book"]
+    }, 
+
+    {"task" : "friend.ogg", 
+      "answer" : ["friend"]
+      },
+    
+    {"task" : "game.mp3", 
+      "answer" : ["game" ]
+      },
+      
+    {"task" : "hello.mp3", 
+      "answer" : ["hello"]
+      },
+      
+    {"task" : "passanger.mp3", 
+      "answer" : ["passanger"]
+      }
   ]
 }

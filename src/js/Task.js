@@ -1,30 +1,57 @@
 import dictionary from './tasks.json'
 
 class Task {
-    constructor(number) {
-        this.answer = null;
-        this.number = number;
+    constructor(resources, question) {
+        this.number = null;
+        this.resources = resources;
         this.dict = dictionary;
         this.userAnswer = null;
         this.rightAnswersArray = null;
+        this.question = question;
+        this.answer = document.getElementById('gamer_answer');
     }
 
-    createTask(number) {
-        document.getElementById('question').innerHTML = this.dict.d[number].word;
+    createTask(currentTaskGroup, number) {
+        switch (currentTaskGroup) {
+            case "listening" :
+                let audio = document.createElement("audio");
+
+                audio.src = `audio/task/${this.dict[currentTaskGroup][number].task}`;
+                this.question.appendChild(audio);
+                setTimeout(() => {
+                    audio.play();
+                }, 600);
+                let playAudioBtn = document.createElement("button");
+                playAudioBtn.className = "playAudio";
+                this.question.appendChild(playAudioBtn);
+                let playerImg = this.resources.get('speaker.png');
+                document.querySelector("#question .playAudio").appendChild(playerImg);
+                
+
+                break;
+
+            case "pictures" :
+                let img = this.resources.get(this.dict[currentTaskGroup][number].task);
+                this.question.appendChild(img);
+                break;
+
+            default:
+                this.question.innerHTML = this.dict[currentTaskGroup][number].task;
+        }
         this.number = number;
     }
 
-    checkAnswer() {
-        this.rightAnswersArray = this.dict.d[this.number].translation;
-        this.userAnswer = document.getElementById('gamer_answer').value.toLowerCase();
-        for (let i = 0; i <= this.rightAnswersArray.length - 1; i++) {
-            if (this.userAnswer == this.rightAnswersArray[i]) {
-                document.getElementById('gamer_answer').value = '';
-                return true;
-            } else {
-                alert("it's wrong");
-            }
-        }
+    checkAnswer(currentTaskGroup) {
+        this.rightAnswersArray = this.dict[currentTaskGroup][this.number].answer;
+        this.userAnswer = this.answer.value.toLowerCase();
+        if (this.rightAnswersArray.indexOf(this.userAnswer) > -1) {
+            this.answer.value = '';
+            return true;
+        } else {
+            this.answer.value = '';
+            alert("it's wrong");
+        };
+        
     }
 }
 

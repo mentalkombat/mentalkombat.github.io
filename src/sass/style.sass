@@ -4,7 +4,8 @@
   font-style: normal
   font-weight: 400
   src: local('Allerta Regular'), local('Allerta-Regular'), url('/fonts/allerta-v8-latin-regular.woff2') format('woff2'),  url('/fonts/allerta-v8-latin-regular.woff') format('woff')
-
+*
+  box-sizing: border-box
 body
   margin: 0
   padding: 0
@@ -24,16 +25,21 @@ button
   display: none
   background: #ffffff
   width: 100vw
-  height: 100vh
-  position: absolute
+  min-height: 100vh
   color: #000012
   position: fixed
   padding: 15% 20%
+  background-image: linear-gradient(-225deg, #D4FFEC 0%, #57F2CC 48%, #4596FB 100%)
   .question
     font-size: 24px
     text-transform: uppercase
     text-align: left
     display: block
+    img
+      max-height: 300px
+      position: absolute
+      top: 50px
+      right: 300px
   .answer_input
     display: block
     margin-bottom: 30px
@@ -41,5 +47,10 @@ button
     display: block
     max-width: 300px
     position: relative
-.task
-  background-image: linear-gradient(-225deg, #D4FFEC 0%, #57F2CC 48%, #4596FB 100%);
+  .playAudio
+    background: transparent
+    border: none
+    img
+      position: relative
+
+  

@@ -13,19 +13,24 @@ class Game {
 		this.createCanvas(canvasParent);
 		this.resources = new Resources();
 		this.resources.load([
-			'player-sprite.png',
+			'player-sprite.png', 'player-head.png',
 			'background.jpg',
 			'head1.png', 'head2.png', 'head3.png', 'head4.png', 'head5.png',
 			'body1.png', 'body2.png', 'body3.png', 'body4.png', 'body5.png',
 			'legs1.png', 'legs2.png', 'legs3.png', 'legs4.png', 'legs5.png',
-			'player-head.png',
-			'spell-water.png',
-			'wheel.png'
+			'wheel.png',
+			'spell-water.png', 'spell-fire.png',	'spell-wind.png',
+			'water-round-sprite.png',	'fire-sprite.png', 'wind-round-sprite.png',
+			'cat.jpg', 'dog.jpg', 'house.jpg', 'lion.jpg', 'rabbit.jpg', 'speaker.png'
 		]);
 		this.resources.onReady(() => this.init());
-    this.checkAnswerBtn = document.getElementById('add_answer');
-    this.audioWheel = document.getElementById("rotateWheel");	}
-
+    	this.checkAnswerBtn = document.getElementById('add_answer');
+		this.audioWheel = document.getElementById("rotateWheel");
+		this.TasksGroups = ["pictures", "translate", "math", "listening", "dragAndDrop"];
+		this.currentTaskGroup = "listening";	
+		this.taskQuestion = document.getElementById('question');
+		this.taskWindow = document.getElementById('task');
+	}
 
 	createCanvas(canvasParent) {
 		this.canvas = document.createElement('canvas');
@@ -43,8 +48,8 @@ class Game {
 		this.enemy = new EnemyEntity([this.canvas.width - 300, 80], this.resources);
 		
 		this.addAttackButtonLogic();
-		this.canvas.addEventListener('mousemove', this.stopWheelOnMousemoveHandler.bind(this));
-		this.canvas.addEventListener('click', this.createTaskHandler.bind(this));
+		this.canvas.addEventListener('click', this.spellsOnWheelClickHandler.bind(this));
+		this.canvas.addEventListener('mousemove', this.spellsOnWheelMousemoveHandler.bind(this));
 		this.checkAnswerBtn.addEventListener('click', this.checkAnswerHanlder.bind(this));
 
 		this.lastTime = Date.now();
@@ -58,15 +63,13 @@ class Game {
 		this.update(dt);
 		this.render();
 		this.lastTime = now;
-		
 		requestAnimationFrame(this.main.bind(this));
-		
 	}
 
 
 	update(dt) {
 		if (this.SpellWindow && this.SpellWindow.show){
-			this.SpellWindow.render(this.SpellWindow,this.SpellWindow.show, this.SpellWindow.isWheelStop, dt);
+			this.SpellWindow.update(dt);
 		};
 		this.player.sprite.update(dt);
 		this.enemy.idleAnimate(dt);
@@ -85,20 +88,19 @@ class Game {
 		this.renderEntity(this.player);
 		this.enemy.entities.forEach(element => {
 			this.renderEntity(element);
-		})
+		});
 		if (this.isShowingAttackButton) {
 			Drawing.drawAttackButton(this.ctx, 'Attack!', 140, 500, 200, 50);
 		}
 		this.drawEntitiesInfo();
 
-		if (this.spell) {
-			this.renderEntity(this.spell);
+		if (this.showspellCastEntity) {
+			this.renderEntity(this.activeSpellCastEntity.spellCastEntity);
 		}
 
 		if (this.SpellWindow && this.SpellWindow.show){
-			this.SpellWindow.draw(this.SpellWindow.ang);
+			this.SpellWindow.draw();
 		}
-		
 	};
 
 
@@ -111,14 +113,14 @@ class Game {
 
 
 	spellCastingLogic(dt) {
-		if (this.spell) {
-			if (this.spell.isSpellMoving) {
-				this.spell.positionOnCanvas[0] += 10;
-			}
-			this.spell.sprite.update(dt);
-			this.checkCollisionSpellWithEnemy();
-			if (this.spell.sprite.done) {
-				delete this.spell;
+		if (this.showspellCastEntity) {
+			this.activeSpellCastEntity.changePositionOnCanvas();
+
+			this.activeSpellCastEntity.spellCastEntity.sprite.update(dt);
+			
+			this.activeSpellCastEntity.checkCollisionWithEntity(this.enemy.entities[1].positionOnCanvas, this.enemy.entities[1].sprite.sizeOnCanvas);
+			if (this.activeSpellCastEntity.spellCastEntity.sprite.done) {
+				this.showspellCastEntity = false;
 				this.enemy.isHpReduction = true;
 			}
 		}
@@ -133,15 +135,8 @@ class Game {
 				this.enemy.isHpReduction = false;
 				this.isShowingAttackButton = true;
 			}
-		}
-	}
-
-
-	checkCollisionSpellWithEnemy() {
-		let spellCenterX = this.spell.positionOnCanvas[0] + this.spell.sprite.sizeOnCanvas[0] / 2;
-		let enemyBodyCenterX = this.enemy.entities[1].positionOnCanvas[0] + this.enemy.entities[1].sprite.sizeOnCanvas[0] / 2;
-		if (spellCenterX > enemyBodyCenterX) {
-			this.spell.isSpellMoving = false;
+			this.activeSpellCastEntity.spellCastEntity.sprite.done = false;
+			this.activeSpellCastEntity.spellCastEntity.sprite.index = 0;
 		}
 	}
 
@@ -176,9 +171,7 @@ class Game {
 
 				if (!this.SpellWindow) {
 //        this.audioWheel.play();
-					this.ang = 0;
-					this.SpellWindow = new SpellWindow(this.resources.get('wheel.png'), this.ctx, this.canvas.width, this.canvas.height, 70, this.ang);
-					this.SpellWindow.wheelRadius = 280;
+					this.SpellWindow = new SpellWindow(this.resources.get('wheel.png'), this.ctx, this.canvas.width, this.canvas.height, this.resources);
 					this.taskNumber = 0;
 				}
 				this.SpellWindow.show = true;
@@ -202,53 +195,65 @@ class Game {
 	}
 
 
-	stopWheelOnMousemoveHandler(event) {
-		let x = event.pageX - event.target.offsetLeft;
-		let	y = event.pageY - event.target.offsetTop;
-		let wheelCenterX = this.canvas.width / 2;
-		let wheelCenterY = this.canvas.height / 2;
-		let wheelRadius = 280;
-		let distanceToWheel = (Math.sqrt((wheelCenterX - x)*(wheelCenterX - x)+(wheelCenterY - y)*(wheelCenterY - y)));
+	spellsOnWheelClickHandler(event) {
+		if (this.SpellWindow && this.SpellWindow.show) {
+			let x = event.pageX - event.target.offsetLeft;
+			let	y = event.pageY - event.target.offsetTop;
+			
+			for (let i = 0; i < this.SpellWindow.spells.length; i++) {
+				if (this.SpellWindow.spells[i].isMouseOnSpell(x, y)) {
+					this.activeSpellCastEntity = this.SpellWindow.spells[i];
 
-		if (this.SpellWindow) {
-			if (distanceToWheel < 280) {
-				this.SpellWindow.isWheelStop = true;
-			} else {
-				this.SpellWindow.isWheelStop = false;
+					this.taskWindow.style.display = "block";
+					this.task = new Task(this.resources, this.taskQuestion);
+					console.log(this.taskNumber, 'this.taskNumber');
+					this.task.createTask(this.currentTaskGroup, this.taskNumber);
+
+					this.taskNumber++;
+
+					break;
+				}
+			}
+		}
+	}
+
+
+	spellsOnWheelMousemoveHandler() {
+		if (this.SpellWindow && this.SpellWindow.show) {
+			let x = event.pageX - event.target.offsetLeft;
+			let	y = event.pageY - event.target.offsetTop;
+
+			for (let i = 0; i < this.SpellWindow.spells.length; i++) {
+				if (this.SpellWindow.spells[i].isMouseOnSpell(x, y)) {
+					this.canvas.style.cursor = 'pointer';
+					break;
+				} else {
+					this.canvas.style.cursor = 'default';
+				}
 			}
 		}
 	}
 
 
 	checkAnswerHanlder() {
-		if (this.task.checkAnswer()) {
-			document.getElementById('task').style.display = "none";
+		if (this.task.checkAnswer(this.currentTaskGroup)) {
+
+			this.taskWindow.style.display = "none";
 			this.SpellWindow.show = false;
+			if (this.currentTaskGroup === "listening"){
+				let audio = document.querySelector('#question audio');
+				let button = document.querySelector('#question .playAudio');
+
+				this.taskQuestion.removeChild(audio);
+				this.taskQuestion.removeChild(button);
+			};
+			if (this.currentTaskGroup === "pictures"){
+				let img = document.querySelector('#question img');
+				this.taskQuestion.removeChild(img);
+			};
 			this.player.attack(new Sprite(this.resources.get('player-sprite.png'), [0, 464], [634, 464], [634 / 2, 464 / 2], 5, [0, 1, 2, 3, 4, 0]));
 			setTimeout(() => this.createSpell(), 700);
 		};
-	}
-
-
-	createTaskHandler(event) {
-		if (this.SpellWindow && this.SpellWindow.show) {
-			let x = event.pageX - event.target.offsetLeft;
-			let	y = event.pageY - event.target.offsetTop;
-
-			let wheelCenterX = this.canvas.width / 2;
-			let wheelCenterY = this.canvas.height / 2;
-			let wheelRadius = 280;
-
-			if (x > wheelCenterX - wheelRadius && x < wheelCenterX + wheelRadius && y > wheelCenterY - wheelRadius && y < wheelCenterY + wheelRadius) {
-				setTimeout(()=>{
-//      	this.audioWheel.pause(); music on wheel animate
-				}, 200)
-				document.getElementById('task').style.display = "block";
-				this.task = new Task;
-				this.task.createTask(this.taskNumber);
-				this.taskNumber++;
-			}
-		}
 	}
 
 
@@ -256,10 +261,9 @@ class Game {
 		if (this.enemy.currentHP > 0) {
 			this.enemy.newHP = this.enemy.currentHP - 20;
 		}
-		this.spell = new Entity(
-			[this.player.positionOnCanvas[0] + this.player.sprite.sizeOnCanvas[0], this.player.sprite.sizeOnCanvas[1] + this.player.sprite.sizeOnCanvas[1] / 2 - 184 / 2],
-			new Sprite(this.resources.get('spell-water.png'), [0, 0], [184, 184], [184, 184], 7, [0, 1, 2, 3, 4, 3, 2, 3, 4, 3, 2, 3, 4, 5, 6, 7, 8, 9, 10], true));
-		this.spell.isSpellMoving = true;
+
+		this.activeSpellCastEntity.setPositionOnCanvas(this.player.positionOnCanvas, this.player.sprite.sizeOnCanvas, this.enemy.entities[1].positionOnCanvas, this.enemy.entities[1].sprite.sizeOnCanvas);
+		this.showspellCastEntity = true;
 	}
 }
 
