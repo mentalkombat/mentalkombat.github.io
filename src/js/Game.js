@@ -19,7 +19,7 @@ class Game {
 		this.resources = new Resources();
 		this.resources.load([
 			'player-sprite.png', 'player-head.png',
-			'background.jpg',
+			'background1.jpg', 'background2.jpg',
 			'head1.png', 'head2.png', 'head3.png', 'head4.png', 'head5.png',
 			'body1.png', 'body2.png', 'body3.png', 'body4.png', 'body5.png',
 			'legs1.png', 'legs2.png', 'legs3.png', 'legs4.png', 'legs5.png',
@@ -33,19 +33,21 @@ class Game {
 		this.resources.onReady(() => this.init(100));
     this.checkAnswerBtn = document.getElementById('add_answer');
 		this.audioWheel = document.getElementById("rotateWheel");
-		this.TasksGroups = ["pictures", "translate", "math", "listening", "dragAndDrop"];
+		this.TasksGroups = ["pictures", "translate", "math", "listening", "dragAndDrop", "riddles"];
 		this.tasksGroupsNumbers = {
 			"pictures" : 0,
 			"translate" : 0,
 			"math" : 0,
 			"listening" : 0,
-			"dragAndDrop" : 0
+			"dragAndDrop" : 0,
+			"riddles" : 0
 		};
 		this.currentTaskGroup = "dragAndDrop";	
 		this.taskQuestion = document.getElementById('question');
 		this.taskWindow = document.getElementById('task');
 		this.isFirstLevel = true;
 		this.score = 0;
+		this.level = 1;
 	}
 
 	createCanvas(canvasParent) {
@@ -58,15 +60,15 @@ class Game {
 
 
 	init(enemyHP) {
-		this.player = new PlayerEntity([100, 200], new Sprite(this.resources.get('player-sprite.png'), [0, 0], [634, 464], [634 / 2, 464 / 2], 5, [0, 1, 2, 1], false), this.userName);
-		this.enemy = new EnemyEntity([this.canvas.width - 300, 80], this.resources, enemyHP);
+		this.player = new PlayerEntity([100, 230], new Sprite(this.resources.get('player-sprite.png'), [0, 0], [634, 464], [634 / 2, 464 / 2], 5, [0, 1, 2, 1], false), this.userName);
+		this.enemy = new EnemyEntity([this.canvas.width - 300, 110], this.resources, enemyHP);
 		this.isHpReduction = false;
 		this.isPlayerWinLevel = false;
 		this.isShowingAttackButton = true;
 
 		if (this.isFirstLevel) {
 			this.isFirstLevel = false;
-			this.background = this.resources.get('background.jpg');
+			this.background = this.resources.get('background1.jpg');
 
 			this.addAttackButtonLogic();
 			this.canvas.addEventListener('click', this.spellsOnWheelClickHandler.bind(this));
@@ -334,6 +336,8 @@ class Game {
 	initEvents() {
 		document.getElementById('nextLevelButton').addEventListener('click', () => {
 			document.getElementById('passLevelModal').style.display = 'none';
+			this.level++;
+			this.background = this.resources.get('background' + this.level + '.jpg');
 			this.init(this.enemy.maxHP + 20);
 		});
 

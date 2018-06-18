@@ -17,7 +17,7 @@ class Task {
             case "listening":
                 let audio = document.createElement("audio");
 
-                audio.src = `audio/task/${this.dict[currentTaskGroup][number].task}`;
+                audio.src = `dist/audio/task/${this.dict[currentTaskGroup][number].task}`;
                 this.question.appendChild(audio);
                 setTimeout(() => {
                     audio.play();

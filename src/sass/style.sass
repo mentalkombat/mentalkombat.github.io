@@ -4,28 +4,36 @@
   font-style: normal
   font-weight: 400
   src: local('Allerta Regular'), local('Allerta-Regular'), url('../fonts/allerta-v8-latin-regular.woff2') format('woff2'),  url('../fonts/allerta-v8-latin-regular.woff') format('woff')
+@font-face
+  font-family: 'Chiller'
+  font-style: normal
+  font-weight: 400
+  src: local('Chiller Regular'), local('Chiller-Regular'), url('../fonts/Chiller-Regular.woff2') format('woff2'),  url('../fonts/Chiller-Regular.woff') format('woff')
 *
   box-sizing: border-box
 body
   margin: 0
   padding: 0
   text-align: center
-  background: #43cbb5
+  // background: #43cbb5
   font-family: 'Allerta'
 
 .firstScreen
-  // display: none //убрать
   width: 100vw
   min-height: 100vh
   position: fixed
-  background: #b1dee8
+  background: url('../img/first-screen-bg.jpg') top center
   h1
-    font-size: 90px
+    font-size: 172px
+    color: #e52c2c
+    margin: 30px auto 10px auto
+    font-family: "Chiller"
   h4
-    font-size: 32px
-    color: #b54826
+    font-size: 34px
+    color: #fff
     margin: 10px auto
     font-family: "Open Sans"
+    font-weight: 400
   .userForm
     width: 1000px
     margin: auto
@@ -38,15 +46,14 @@ body
       outline: none
       width: 250px
       font-family: "Open Sans"
+      font-size: 30px
+      width: 300px
       &[type="submit"]
-        margin-top: 100px
-        background: #0070ce
+        margin-top: 30px
+        background: #e52c2c
         cursor: pointer
         color: #fff
         text-transform: uppercase
-        font-size: 30px
-        border-radius: 15px
-        width: 300px
   
 .title
   color: red
@@ -128,6 +135,7 @@ button
   width: 80%
   left: 10%
   justify-content: space-between
+  flex-wrap: wrap
   div
     padding: 50px 0
     background: rgba(255, 244, 118, .95)
@@ -139,6 +147,7 @@ button
     font-size: 26px
     font-weight: bold
     cursor: pointer
+    margin-bottom: 20px
     &:hover,
     &:focus
       background: rgba(255, 244, 118, .99)
@@ -156,6 +165,9 @@ h3
   position: fixed
   top: 100px
   left: calc(50% - 200px)
+  p
+    color: #fff
+    font-size: 20px
   button
     position: relative
     cursor: pointer

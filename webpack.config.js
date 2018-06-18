@@ -2,6 +2,7 @@ const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const conf = {
   entry: './src/js/index.js',
@@ -51,7 +52,8 @@ const conf = {
     new HtmlWebpackPlugin({
       template: 'index.html'
 		}),
-		new CleanWebpackPlugin(['dist'])
+		new CleanWebpackPlugin(['dist']),
+		new CopyWebpackPlugin([{ from: 'src/audio', to: 'audio' }])
   ],
   devServer: {
     overlay: true
