@@ -16,7 +16,8 @@ const conf = {
         test: /\.sass$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
-          use: ["css-loader", "sass-loader"]
+					use: ["css-loader", "sass-loader"],
+					publicPath: '../'
         })
 			},
 			{
@@ -27,6 +28,18 @@ const conf = {
 						options: {
 							name: '[name].[ext]',
 							outputPath: 'img/'
+						}
+					}
+				]
+			},
+			{
+				test: /\.(woff|woff2)$/,
+				use: [
+					{
+						loader: 'file-loader',
+						options: {
+							name: '[name].[ext]',
+							outputPath: 'fonts/'
 						}
 					}
 				]

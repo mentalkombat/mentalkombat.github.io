@@ -9,6 +9,15 @@
   <script defer src="dist/js/main.js"></script>
 </head>
 <body>
+	<div class="firstScreen" id="firstScreen">
+		<form class="userForm" id="userForm">
+			<h1>Mental Kombat</h1>
+			<h4>Введите свое имя:</h4>
+			<input type="text" id="userName" required>
+			<input type="submit" value="Начать игру"></input>
+		</form>
+	</div>
+
   <div id="select_task_group" class="select_task_group">
     <div class="task_pictures">pictures</div>
     <div class="task_translate">translate</div>
@@ -45,6 +54,12 @@
       <button class="showHighScoresButton">High Scores</button>
       <button class="newGameButton">New game</button>
     </div>
-  </div>
+	</div>
+	
+	<div id="highScoreTable" class="highScoreTable">
+		<h3>HIGH SCORES</h3>
+		<img src="dist/img/close.png" alt="Close" id="closehighScoreTableButton">
+		<table></table>
+	</div>
 </body>
 </html>

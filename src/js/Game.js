@@ -9,6 +9,11 @@ import SpellEntity from './SpellEntity.js';
 
 
 class Game {
+	constructor(userName) {
+		this.userName = userName;
+	}
+
+
 	start(canvasParent) {
 		this.createCanvas(canvasParent);
 		this.resources = new Resources();
@@ -26,7 +31,7 @@ class Game {
 			'cat.jpg', 'dog.jpg', 'house.jpg', 'lion.jpg', 'rabbit.jpg', 'speaker.png'
 		]);
 		this.resources.onReady(() => this.init(100));
-    	this.checkAnswerBtn = document.getElementById('add_answer');
+    this.checkAnswerBtn = document.getElementById('add_answer');
 		this.audioWheel = document.getElementById("rotateWheel");
 		this.TasksGroups = ["pictures", "translate", "math", "listening", "dragAndDrop"];
 		this.tasksGroupsNumbers = {
@@ -53,7 +58,7 @@ class Game {
 
 
 	init(enemyHP) {
-		this.player = new PlayerEntity([100, 200], new Sprite(this.resources.get('player-sprite.png'), [0, 0], [634, 464], [634 / 2, 464 / 2], 5, [0, 1, 2, 1], false), 'Player');
+		this.player = new PlayerEntity([100, 200], new Sprite(this.resources.get('player-sprite.png'), [0, 0], [634, 464], [634 / 2, 464 / 2], 5, [0, 1, 2, 1], false), this.userName);
 		this.enemy = new EnemyEntity([this.canvas.width - 300, 80], this.resources, enemyHP);
 		this.isHpReduction = false;
 		this.isPlayerWinLevel = false;
@@ -311,6 +316,7 @@ class Game {
 			this.enemy.die();
 			if (this.enemy.maxHP === 120) {
 				document.querySelector('#winGameModal p').innerText += this.score;
+				this.addScoreToHighScoreTable();
 				document.getElementById('winGameModal').style.display = 'block';
 			} else {
 				document.getElementById('passLevelModal').style.display = 'block';
@@ -319,6 +325,7 @@ class Game {
 			console.log('enemy Win');
 			this.player.changesprite(new Sprite(this.resources.get('player-sprite.png'), [0, 928], [634, 464], [634 / 2, 464 / 2], 5, [0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3], true));
 			document.querySelector('#loseGameModal p').innerText += this.score;
+			this.addScoreToHighScoreTable();
 			document.getElementById('loseGameModal').style.display = 'block';
 		}
 	}
@@ -336,6 +343,16 @@ class Game {
 			});
 		});
 
+		document.querySelectorAll('.showHighScoresButton').forEach(element => {
+			element.addEventListener('click', () => {
+				document.getElementById('highScoreTable').style.display = 'block';
+			});
+		});
+
+		document.getElementById('closehighScoreTableButton').addEventListener('click', () => {
+			document.getElementById('highScoreTable').style.display = 'none';
+		});
+
 		document.getElementById("select_task_group").addEventListener('click', (event)=>{
 			let target = event.target;
 			if(target.tagName != 'DIV') return;
@@ -351,6 +368,36 @@ class Game {
 			this.task.createTask(this.currentTaskGroup, this.tasksGroupsNumbers[this.currentTaskGroup]);
 			this.tasksGroupsNumbers[this.currentTaskGroup]++;
 		});
+	}
+
+	addScoreToHighScoreTable() {
+		let highScore = JSON.parse(localStorage.getItem('mentalkombat-game-results'));
+		if (!highScore) {
+			highScore = [];
+		}
+		highScore.push([this.userName, this.score]);
+		highScore.sort((a, b) => b[1] - a[1]);
+		highScore = highScore.slice(0, 20);
+		localStorage.setItem('mentalkombat-game-results', JSON.stringify(highScore));
+
+		let table = document.querySelector('#highScoreTable table');
+		this.addRowToTable(table, 'th', 'Name', 'Score');
+
+		highScore.forEach(element => {
+			this.addRowToTable(table, 'td', element[0], element[1]);
+		});
+	}
+
+	
+	addRowToTable(table, tag, text1, text2) {
+		let tableRow = document.createElement('tr');
+		let tableData1 = document.createElement(tag);
+		let tableData2 = document.createElement(tag);
+		tableData1.textContent = text1;
+		tableData2.textContent = text2;
+		tableRow.appendChild(tableData1);
+		tableRow.appendChild(tableData2);
+		table.appendChild(tableRow);
 	}
 }
 
