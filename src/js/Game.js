@@ -19,14 +19,14 @@ class Game {
 		this.resources = new Resources();
 		this.resources.load([
 			'player-sprite.png', 'player-head.png',
-			'background1.jpg', 'background2.jpg', 'background3.jpg', 'background4.jpg', 'background5.jpg',
-			'head1.png', 'head2.png', 'head3.png', 'head4.png', 'head5.png',
-			'body1.png', 'body2.png', 'body3.png', 'body4.png', 'body5.png',
-			'legs1.png', 'legs2.png', 'legs3.png', 'legs4.png', 'legs5.png',
+			'backgrounds/background1.jpg', 'backgrounds/background2.jpg', 'backgrounds/background3.jpg', 'backgrounds/background4.jpg', 'backgrounds/background5.jpg',
+			'heads/head1.png', 'heads/head2.png', 'heads/head3.png', 'heads/head4.png', 'heads/head5.png',
+			'bodies/body1.png', 'bodies/body2.png', 'bodies/body3.png', 'bodies/body4.png', 'bodies/body5.png',
+			'legs/legs1.png', 'legs/legs2.png', 'legs/legs3.png', 'legs/legs4.png', 'legs/legs5.png',
 			'wheel.png',
 			'spell-water.png', 'spell-fire.png',	'spell-wind.png',
 			'water-round-sprite.png',	'fire-sprite.png', 'wind-round-sprite.png',
-			'body1-attack.png', 'body2-attack.png', 'body3-attack.png', 'body4-attack.png', 'body5-attack.png',
+			'bodies/body1-attack.png', 'bodies/body2-attack.png', 'bodies/body3-attack.png', 'bodies/body4-attack.png', 'bodies/body5-attack.png',
 			'enemy-spell-sprite.png',
 			'task-pictures/cat.jpg', 'task-pictures/dog.jpg', 'task-pictures/house.jpg', 'task-pictures/lion.jpg', 'task-pictures/rabbit.jpg',
 			'speaker.png',
@@ -35,7 +35,7 @@ class Game {
 		this.resources.onReady(() => this.init(100));
     this.checkAnswerBtn = document.getElementById('add_answer');
 		this.audioWheel = document.getElementById("rotateWheel");
-		this.TasksGroups = ["pictures", "translate", "math", "listening", "dragAndDrop", "riddles"];
+		this.TasksGroups = ["pictures", "translate", "math", "listening", "dragAndDrop", "riddles", "differences"];
 		this.tasksGroupsNumbers = {
 			"pictures" : 0,
 			"translate" : 0,
@@ -72,7 +72,7 @@ class Game {
 
 		if (this.isFirstLevel) {
 			this.isFirstLevel = false;
-			this.background = this.resources.get('background1.jpg');
+			this.background = this.resources.get('backgrounds/background1.jpg');
 
 			this.addAttackButtonLogic();
 			this.canvas.addEventListener('click', this.spellsOnWheelClickHandler.bind(this));
@@ -277,7 +277,8 @@ class Game {
 			this.score += 20;
 
 		} else {
-			let attackEntityImgLink = this.enemy.entities[1].sprite.img.src.split("/").pop().split(".")[0] + '-attack.png';
+			let pathArray = this.enemy.entities[1].sprite.img.src.split('/');
+			let attackEntityImgLink = pathArray[pathArray.length - 2] + '/' + pathArray[pathArray.length - 1].split('.')[0] + '-attack.png';
 			this.enemy.attack(new Sprite(this.resources.get(attackEntityImgLink), [0, 0], [246, 170], [246 / 2, 170 / 2], 5, [0, 1, 2, 1, 0]));
 			this.activeSpellCastEntity = new SpellEntity(null, null, 'dist/audio/spell-cast/dust.mp3');
 			this.activeSpellCastEntity.addSpellCastEntity('right', new Sprite(this.resources.get('enemy-spell-sprite.png'), [0, 128], [256, 128], [256, 128], 7, [0, 1, 2, 3, 4, 3, 2, 3, 4, 3, 2, 3, 4, 3, 2, 3, 4, 5], true));
@@ -324,7 +325,6 @@ class Game {
 
 	levelEnd() {
 		if (this.isPlayerWinLevel) {
-			console.log('player Win');
 			this.enemy.die();
 			if (this.enemy.maxHP === 180) {
 				document.querySelector('#winGameModal p').innerText += this.score;
@@ -334,7 +334,6 @@ class Game {
 				document.getElementById('passLevelModal').style.display = 'block';
 			}
 		} else {
-			console.log('enemy Win');
 			this.player.changesprite(new Sprite(this.resources.get('player-sprite.png'), [0, 928], [634, 464], [634 / 2, 464 / 2], 5, [0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3], true));
 			document.querySelector('#loseGameModal p').innerText += this.score;
 			this.addScoreToHighScoreTable();
@@ -347,7 +346,7 @@ class Game {
 		document.getElementById('nextLevelButton').addEventListener('click', () => {
 			document.getElementById('passLevelModal').style.display = 'none';
 			this.level++;
-			this.background = this.resources.get('background' + this.level + '.jpg');
+			this.background = this.resources.get('backgrounds/background' + this.level + '.jpg');
 			this.init(this.enemy.maxHP + 20);
 		});
 
