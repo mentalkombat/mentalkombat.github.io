@@ -6,7 +6,7 @@ class Resources {
 	}
 
 	load(urls) {
-		let r = require.context('../img', false, /\.(png|svg|jpg|gif)$/);
+		let r = require.context('../img', true, /\.(png|svg|jpg|gif)$/);
 		urls.forEach(name => this.images[name] = r('./' + name));
 
 		for (let image in this.images) {

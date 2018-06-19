@@ -36,7 +36,12 @@ class Task {
             case "pictures":
                 let img = this.resources.get(this.dict[currentTaskGroup][number].task);
                 this.question.appendChild(img);
-                break;
+								break;
+
+						case "differences":
+							let img2 = this.resources.get(this.dict[currentTaskGroup][number].task);
+							this.question.appendChild(img2);
+							break;
 
             case "dragAndDrop":
                 const word = this.dict[currentTaskGroup][number];

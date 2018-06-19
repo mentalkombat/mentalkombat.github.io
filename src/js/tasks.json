@@ -126,7 +126,9 @@
         "филин"
       ]
     }
-  ],
+	],
+	
+
   "math" : [
     {"task" : "one plus one equals", 
     "answer" : ["two"]
@@ -160,28 +162,32 @@
       "answer" : ["ten"]
       }
     
-  ],
+	],
+	
+
   "pictures" : [
-    {"task" : "cat.jpg", 
+    {"task" : "task-pictures/cat.jpg", 
     "answer" : ["cat", "kitten", "kitty", "kit"]
     }, 
 
-    {"task" : "dog.jpg", 
+    {"task" : "task-pictures/dog.jpg", 
       "answer" : ["dog", "hound", "pooch", "bowwow"]
       },
     
-    {"task" : "house.jpg", 
+    {"task" : "task-pictures/house.jpg", 
       "answer" : ["house", "home" ]
       },
       
-    {"task" : "lion.jpg", 
+    {"task" : "task-pictures/lion.jpg", 
       "answer" : ["lev", "lion", "lew"]
       },
       
-    {"task" : "rabbit.jpg", 
+    {"task" : "task-pictures/rabbit.jpg", 
       "answer" : ["rabbit", "lapin", "hare", "bunny", "coney", "cony"]
       }
-  ],
+	],
+	
+
   "listening" : [
     {"task" : "book.ogg", 
     "answer" : ["book"]
@@ -202,10 +208,14 @@
     {"task" : "passanger.mp3", 
       "answer" : ["passenger"]
       }
-  ],
+	],
+	
+
   "dragAndDrop" : [
     "boy", "girl", "hero", "book", "friend", "game", "hello", "passenger"
-  ],
+	],
+	
+
   "riddles": [
     {
       "task": "Кто самый главный из зверей, кто всех важней и всех сильней?",
@@ -247,5 +257,29 @@
       "task": "Течёт, течёт — не вытечет, бежит, бежит — не выбежит.",
       "answer": ["река", "речка", "ручеек", "ручеёк"]
     }
-  ]
+	],
+	
+
+	"differences": [
+		{
+			"task": "task-differences/cat.jpg",
+			"answer": ["4"]
+		},
+		{
+			"task": "task-differences/dunno.jpg",
+			"answer": ["3"]
+		},
+		{
+			"task": "task-differences/girl.jpg",
+			"answer": ["7"]
+		},
+		{
+			"task": "task-differences/rabbit.jpg",
+			"answer": ["5"]
+		},
+		{
+			"task": "task-differences/squirrel.jpg",
+			"answer": ["5"]
+		}		
+	]
 }

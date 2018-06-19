@@ -11,7 +11,7 @@ let bodies = ['body1.png', 'body2.png', 'body3.png', 'body4.png', 'body5.png'];
 let legs = ['legs1.png', 'legs2.png', 'legs3.png', 'legs4.png', 'legs5.png'];
 
 
-class EnemyEntity {
+class Enemy {
 	constructor(positionOnCanvas, resources, enemyHP) {
 		this.positionOnCanvas = positionOnCanvas;
 		this.name = `${this.getRandomElement(adjectives)} ${this.getRandomElement(kinds)} ${this.getRandomElement(names)}`;
@@ -118,4 +118,4 @@ class EnemyEntity {
 }
 
 
-export default EnemyEntity;
+export default Enemy;

@@ -1,7 +1,7 @@
 import Sprite from './Sprite.js';
 import Resources from './Resources.js';
 import PlayerEntity from './PlayerEntity.js';
-import EnemyEntity from './EnemyEntity.js';
+import Enemy from './Enemy.js';
 import SpellWindow from './SpellWindow.js';
 import Drawing from './Drawing.js';
 import Task from './Task.js';
@@ -19,7 +19,7 @@ class Game {
 		this.resources = new Resources();
 		this.resources.load([
 			'player-sprite.png', 'player-head.png',
-			'background1.jpg', 'background2.jpg',
+			'background1.jpg', 'background2.jpg', 'background3.jpg', 'background4.jpg', 'background5.jpg',
 			'head1.png', 'head2.png', 'head3.png', 'head4.png', 'head5.png',
 			'body1.png', 'body2.png', 'body3.png', 'body4.png', 'body5.png',
 			'legs1.png', 'legs2.png', 'legs3.png', 'legs4.png', 'legs5.png',
@@ -28,7 +28,9 @@ class Game {
 			'water-round-sprite.png',	'fire-sprite.png', 'wind-round-sprite.png',
 			'body1-attack.png', 'body2-attack.png', 'body3-attack.png', 'body4-attack.png', 'body5-attack.png',
 			'enemy-spell-sprite.png',
-			'cat.jpg', 'dog.jpg', 'house.jpg', 'lion.jpg', 'rabbit.jpg', 'speaker.png'
+			'task-pictures/cat.jpg', 'task-pictures/dog.jpg', 'task-pictures/house.jpg', 'task-pictures/lion.jpg', 'task-pictures/rabbit.jpg',
+			'speaker.png',
+			'task-differences/cat.jpg', 'task-differences/dunno.jpg', 'task-differences/girl.jpg', 'task-differences/rabbit.jpg', 'task-differences/squirrel.jpg', 
 		]);
 		this.resources.onReady(() => this.init(100));
     this.checkAnswerBtn = document.getElementById('add_answer');
@@ -40,7 +42,8 @@ class Game {
 			"math" : 0,
 			"listening" : 0,
 			"dragAndDrop" : 0,
-			"riddles" : 0
+			"riddles": 0,
+			"differences" : 0
 		};
 		this.currentTaskGroup = "dragAndDrop";	
 		this.taskQuestion = document.getElementById('question');
@@ -49,6 +52,7 @@ class Game {
 		this.score = 0;
 		this.level = 1;
 	}
+
 
 	createCanvas(canvasParent) {
 		this.canvas = document.createElement('canvas');
@@ -61,7 +65,7 @@ class Game {
 
 	init(enemyHP) {
 		this.player = new PlayerEntity([100, 230], new Sprite(this.resources.get('player-sprite.png'), [0, 0], [634, 464], [634 / 2, 464 / 2], 5, [0, 1, 2, 1], false), this.userName);
-		this.enemy = new EnemyEntity([this.canvas.width - 300, 110], this.resources, enemyHP);
+		this.enemy = new Enemy([this.canvas.width - 300, 110], this.resources, enemyHP);
 		this.isHpReduction = false;
 		this.isPlayerWinLevel = false;
 		this.isShowingAttackButton = true;
@@ -161,9 +165,9 @@ class Game {
 				
 				if (this.enemy.currentHP === 80) {
 					this.isPlayerWinLevel = true;
-					this.LevelEnd();
+					this.levelEnd();
 				} else if (this.player.currentHP === 80) {
-					this.LevelEnd();
+					this.levelEnd();
 				} else {
 					this.isShowingAttackButton = true;
 				}
@@ -275,16 +279,21 @@ class Game {
 		} else {
 			let attackEntityImgLink = this.enemy.entities[1].sprite.img.src.split("/").pop().split(".")[0] + '-attack.png';
 			this.enemy.attack(new Sprite(this.resources.get(attackEntityImgLink), [0, 0], [246, 170], [246 / 2, 170 / 2], 5, [0, 1, 2, 1, 0]));
-			this.activeSpellCastEntity = new SpellEntity();
+			this.activeSpellCastEntity = new SpellEntity(null, null, 'dist/audio/spell-cast/dust.mp3');
 			this.activeSpellCastEntity.addSpellCastEntity('right', new Sprite(this.resources.get('enemy-spell-sprite.png'), [0, 128], [256, 128], [256, 128], 7, [0, 1, 2, 3, 4, 3, 2, 3, 4, 3, 2, 3, 4, 3, 2, 3, 4, 5], true));
 			this.player.newHP = this.player.currentHP - 20;
 			this.score = this.score === 0 ? 0 : this.score - 20;
 		};
+
+		let audio = new Audio(this.activeSpellCastEntity.audioSrc);
+		audio.play();
+		
 		setTimeout(() => {
 			this.activeSpellCastEntity.setPositionOnCanvas(this.player.positionOnCanvas, this.player.sprite.sizeOnCanvas, this.enemy.entities[1].positionOnCanvas, this.enemy.entities[1].sprite.sizeOnCanvas);
 			this.showspellCastEntity = true;
 		}, 700);
 	}
+
 
 	clearTaskWindow(){
 		switch (this.currentTaskGroup) {
@@ -312,11 +321,12 @@ class Game {
 		}
 	};
 
-	LevelEnd() {
+
+	levelEnd() {
 		if (this.isPlayerWinLevel) {
 			console.log('player Win');
 			this.enemy.die();
-			if (this.enemy.maxHP === 120) {
+			if (this.enemy.maxHP === 180) {
 				document.querySelector('#winGameModal p').innerText += this.score;
 				this.addScoreToHighScoreTable();
 				document.getElementById('winGameModal').style.display = 'block';
@@ -373,6 +383,7 @@ class Game {
 			this.tasksGroupsNumbers[this.currentTaskGroup]++;
 		});
 	}
+
 
 	addScoreToHighScoreTable() {
 		let highScore = JSON.parse(localStorage.getItem('mentalkombat-game-results'));

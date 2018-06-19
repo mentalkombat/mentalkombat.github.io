@@ -2,8 +2,9 @@ import Entity from './Entity.js';
 
 
 export default class SpellEntity extends Entity {
-	constructor(positionOnCanvas, sprite) {
+	constructor(positionOnCanvas, sprite, audioSrc) {
 		super(positionOnCanvas, sprite);
+		this.audioSrc = audioSrc;
 	}
 
 	addSpellCastEntity(direction, sprite) {

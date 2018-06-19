@@ -27,8 +27,8 @@ const conf = {
 					{
 						loader: 'file-loader',
 						options: {
-							name: '[name].[ext]',
-							outputPath: 'img/'
+							name: '[path][name].[ext]',
+							context: 'src'
 						}
 					}
 				]
