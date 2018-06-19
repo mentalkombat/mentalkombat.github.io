@@ -78,11 +78,9 @@ class Task {
             this.userAnswer = this.answer.value.toLowerCase();
             if (this.rightAnswersArray.indexOf(this.userAnswer) > -1) {
                 this.answer.value = '';
-                console.log('correct');
                 return true;
             } else {
                 this.answer.value = '';
-                console.log('incorrect');
                 return false;
             };
         } else {
@@ -91,7 +89,6 @@ class Task {
             let isAnswerCorrect = true;
 
             for(let i = 1; i <= wordLength; i++ ){
-                console.log(word[i - 1], document.querySelector(`#sortable span:nth-child(${i})`).innerHTML);
                 if (word[i - 1] !== document.querySelector(`#sortable span:nth-child(${i})`).innerHTML) {
                     isAnswerCorrect = false
                 }

@@ -8,17 +8,17 @@
   <link rel="stylesheet" href="dist/css/main.css">
   <script defer src="dist/js/main.js"></script>
 </head>
-<body>
+<body class="main">
 	<div class="firstScreen" id="firstScreen">
 		<form class="userForm" id="userForm">
 			<h1>Mental Kombat</h1>
 			<h4>Введите свое имя:</h4>
-			<input type="text" id="userName" required>
+			<input type="text" id="userName" required autofocus>
 			<input type="submit" value="Начать игру"></input>
 		</form>
 	</div>
 
-  <div id="select_task_group" class="select_task_group">
+  <section id="select_task_group" class="select_task_group">
     <div class="task_pictures">pictures</div>
     <div class="task_translate">translate</div>
     <div class="task_math">math</div>
@@ -26,11 +26,11 @@
     <div class="task_draganddrop">dragAndDrop</div>
     <div class="task_riddles">riddles</div>
     <div class="task_differences">differences</div>
-  </div>
+  </section>
   <div id="task" class="task">
     <h3 id="question" class="question"></h3>
     <div id="sortable" class="sortable"></div>
-    <input id="gamer_answer" class="answer_input" type="text">
+    <input id="gamer_answer" class="answer_input" type="text" autofocus>
     <button class="btn" id='add_answer'>check</button>
 		<audio id="rotateWheel"><source src="dist/audio/audio-wheel.mp3"></source></audio>
   </div>

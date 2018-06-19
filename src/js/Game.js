@@ -28,12 +28,12 @@ class Game {
 			'water-round-sprite.png',	'fire-sprite.png', 'wind-round-sprite.png',
 			'bodies/body1-attack.png', 'bodies/body2-attack.png', 'bodies/body3-attack.png', 'bodies/body4-attack.png', 'bodies/body5-attack.png',
 			'enemy-spell-sprite.png',
-			'task-pictures/cat.jpg', 'task-pictures/dog.jpg', 'task-pictures/house.jpg', 'task-pictures/lion.jpg', 'task-pictures/rabbit.jpg',
+			'task-pictures/tree.jpg', 'task-pictures/sun.jpg', 'task-pictures/snow.jpg', 'task-pictures/road.jpg', 'task-pictures/river.jpg', 'task-pictures/car.jpg', 'task-pictures/cat.jpg', 'task-pictures/dog.jpg', 'task-pictures/house.jpg', 'task-pictures/lion.jpg', 'task-pictures/rabbit.jpg',
 			'speaker.png',
 			'task-differences/cat.jpg', 'task-differences/dunno.jpg', 'task-differences/girl.jpg', 'task-differences/rabbit.jpg', 'task-differences/squirrel.jpg', 
 		]);
 		this.resources.onReady(() => this.init(100));
-    this.checkAnswerBtn = document.getElementById('add_answer');
+    	this.checkAnswerBtn = document.getElementById('add_answer');
 		this.audioWheel = document.getElementById("rotateWheel");
 		this.TasksGroups = ["pictures", "translate", "math", "listening", "dragAndDrop", "riddles", "differences"];
 		this.tasksGroupsNumbers = {
@@ -78,6 +78,15 @@ class Game {
 			this.canvas.addEventListener('click', this.spellsOnWheelClickHandler.bind(this));
 			this.canvas.addEventListener('mousemove', this.spellsOnWheelMousemoveHandler.bind(this));
 			this.checkAnswerBtn.addEventListener('click', this.checkAnswerHanlder.bind(this));
+			document.getElementById('task').addEventListener("keyup", function(event) {
+				event.preventDefault();
+				if (event.keyCode === 13) {
+					this.checkAnswerBtn.click();
+				}
+			}.bind(this));
+
+
+
 			this.initEvents();
 
 			this.lastTime = Date.now();
@@ -368,21 +377,18 @@ class Game {
 
 		document.getElementById("select_task_group").addEventListener('click', (event)=>{
 			let target = event.target;
-			if(target.tagName != 'DIV') return;
-			this.currentTaskGroup = target.innerHTML;
-			console.log('this.currentTaskGroup', this.currentTaskGroup, target);
-			document.getElementById("select_task_group").style.display = "none";	
+			if(target.tagName === 'DIV'){
+				this.currentTaskGroup = target.innerHTML;
+				document.getElementById("select_task_group").style.display = "none";	
+				this.canvas.style.cursor = 'default';
+				this.taskWindow.style.display = "block";
+				this.task = new Task(this.resources, this.taskQuestion);
+				this.task.createTask(this.currentTaskGroup, this.tasksGroupsNumbers[this.currentTaskGroup]);
+				this.tasksGroupsNumbers[this.currentTaskGroup]++;
+			}
 
-			this.canvas.style.cursor = 'default';
-			this.taskWindow.style.display = "block";
-			this.task = new Task(this.resources, this.taskQuestion);
-			console.log(this.taskNumber, 'this.taskNumber', this.taskQuestion, 'this.taskQuestion');
-
-			this.task.createTask(this.currentTaskGroup, this.tasksGroupsNumbers[this.currentTaskGroup]);
-			this.tasksGroupsNumbers[this.currentTaskGroup]++;
 		});
-	}
-
+	};
 
 	addScoreToHighScoreTable() {
 		let highScore = JSON.parse(localStorage.getItem('mentalkombat-game-results'));

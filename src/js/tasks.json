@@ -160,14 +160,46 @@
       
     {"task" : "five plus five equals", 
       "answer" : ["ten"]
+      },
+            
+    {"task" : "five plus one equals", 
+      "answer" : ["six"]
+      },
+      
+    {"task" : "five plus zero equals", 
+      "answer" : ["five"]
       }
     
 	],
 	
 
   "pictures" : [
+    {"task" : "task-pictures/car.jpg", 
+    "answer" : ["car"]
+    }, 
+
     {"task" : "task-pictures/cat.jpg", 
     "answer" : ["cat", "kitten", "kitty", "kit"]
+    }, 
+
+    {"task" : "task-pictures/river.jpg", 
+    "answer" : ["river"]
+    }, 
+
+    {"task" : "task-pictures/road.jpg", 
+    "answer" : ["road"]
+    }, 
+
+    {"task" : "task-pictures/sun.jpg", 
+    "answer" : ["sun"]
+    }, 
+
+    {"task" : "task-pictures/tree.jpg", 
+    "answer" : ["tree"]
+    },
+
+    {"task" : "task-pictures/snow.jpg", 
+    "answer" : ["snow"]
     }, 
 
     {"task" : "task-pictures/dog.jpg", 
@@ -207,12 +239,32 @@
       
     {"task" : "passanger.mp3", 
       "answer" : ["passenger"]
+      },
+
+    {"task" : "bus.ogg", 
+      "answer" : ["bus"]
+    }, 
+
+    {"task" : "dance.ogg", 
+      "answer" : ["dance"]
+      },
+    
+    {"task" : "lion.mp3", 
+      "answer" : ["lion" ]
+      },
+      
+    {"task" : "school.ogg", 
+      "answer" : ["school"]
+      },
+      
+    {"task" : "hero.mp3", 
+      "answer" : ["hero"]
       }
 	],
 	
 
   "dragAndDrop" : [
-    "boy", "girl", "hero", "book", "friend", "game", "hello", "passenger"
+    "boy", "girl", "hero", "book", "friend", "game", "hello", "passenger", "car", "home"
 	],
 	
 
