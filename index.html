@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,15 +9,18 @@
   <link rel="stylesheet" href="dist/css/main.css">
   <script defer src="dist/js/main.js"></script>
 </head>
+
 <body class="main">
-	<div class="firstScreen" id="firstScreen">
-		<form class="userForm" id="userForm">
-			<h1>Mental Kombat</h1>
-			<h4>Введите свое имя:</h4>
-			<input type="text" id="userName" required autofocus>
-			<input type="submit" value="Начать игру"></input>
-		</form>
-	</div>
+  <audio id="music" src="src/audio/game.mp3" autoplay loop></audio>
+  <a id='play_audio' class="play_audio active" href="#"></a>
+  <div class="firstScreen" id="firstScreen">
+    <form class="userForm" id="userForm">
+      <h1>Mental Kombat</h1>
+      <h4>Введите свое имя:</h4>
+      <input type="text" id="userName" required autofocus>
+      <input type="submit" value="Начать игру"></input>
+    </form>
+  </div>
 
   <section id="select_task_group" class="select_task_group">
     <div class="task_pictures" data-description="pictures">Картинки</div>
@@ -31,15 +35,15 @@
     <div class="task_time" data-description="time">Время</div>
   </section>
   <div id="task" class="task">
-		<div id="description" class="description"></div>
+    <div id="description" class="description"></div>
     <div id="question" class="question"></div>
     <div id="sortable" class="sortable"></div>
-		<input id="gamer_answer" class="answer_input" type="text">
-		<div id="task_time_inputs" class="task_time_inputs">
-			<input id="time_answer_hours" class="time_answer" type="text">
-			<span>:</span>
-			<input id="time_answer_minutes" class="time_answer" type="text">
-		</div>
+    <input id="gamer_answer" class="answer_input" type="text">
+    <div id="task_time_inputs" class="task_time_inputs">
+      <input id="time_answer_hours" class="time_answer" type="text">
+      <span>:</span>
+      <input id="time_answer_minutes" class="time_answer" type="text">
+    </div>
     <button class="btn" id='add_answer'>Применить заклинание</button>
   </div>
 
@@ -58,18 +62,20 @@
   </div>
 
   <div id="winGameModal" class="winGameModal">
-    <h3>Поздравляем!<br>Вы выйграли!</h3>
+    <h3>Поздравляем!
+      <br>Вы выйграли!</h3>
     <p>Ваш результат: </p>
     <div class="flex-wrapper">
       <button class="showHighScoresButton">Таблица рекордов</button>
       <button class="newGameButton">Новая игра</button>
     </div>
-	</div>
-	
-	<div id="highScoreTable" class="highScoreTable">
-		<h3>Таблица рекордов</h3>
-		<img src="dist/img/close.png" alt="Close" id="closehighScoreTableButton">
-		<table></table>
-	</div>
+  </div>
+
+  <div id="highScoreTable" class="highScoreTable">
+    <h3>Таблица рекордов</h3>
+    <img src="dist/img/close.png" alt="Close" id="closehighScoreTableButton">
+    <table></table>
+  </div>
 </body>
+
 </html>

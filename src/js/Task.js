@@ -1,16 +1,16 @@
 import dictionary from './tasks.json'
 
 class Task {
-    constructor(resources, question) {
-        this.number = null;
-        this.resources = resources;
-        this.dict = dictionary;
-        this.userAnswer = null;
-        this.rightAnswersArray = null;
-        this.question = question;
-        this.answer = document.getElementById('gamer_answer');
-        this.sortable = document.querySelector("#sortable");
-    }
+	constructor(resources, question) {
+		this.number = null;
+		this.resources = resources;
+		this.dict = dictionary;
+		this.userAnswer = null;
+		this.rightAnswersArray = null;
+		this.question = question;
+		this.answer = document.getElementById('gamer_answer');
+		this.sortable = document.querySelector("#sortable");
+	}
 
     createTask(currentTaskGroup, number) {
         document.querySelector('#description').innerText = this.dict[currentTaskGroup]["description"];
@@ -75,6 +75,7 @@ class Task {
         this.number = number;
     }
 
+
     checkAnswer(currentTaskGroup) {
         switch (currentTaskGroup) {
             case "draganddrop":
@@ -115,12 +116,13 @@ class Task {
         }
     }
 
-    clearSortable(length){
-        for(let i = 1; i <= length; i++ ){
-            let span = document.querySelector(`#sortable span:nth-child(1)`);
-            document.querySelector(`#sortable`).removeChild(span);
-        };
-    }
+
+	clearSortable(length) {
+		for (let i = 1; i <= length; i++) {
+			let span = document.querySelector(`#sortable span:nth-child(1)`);
+			document.querySelector(`#sortable`).removeChild(span);
+		};
+	}
 }
 
 export default Task;

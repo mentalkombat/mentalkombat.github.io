@@ -1,11 +1,11 @@
 import Sprite from './Sprite.js';
 import Resources from './Resources.js';
-import PlayerEntity from './PlayerEntity.js';
+import PlayerEntity from './Entity/PlayerEntity';
 import Enemy from './Enemy.js';
 import SpellWindow from './SpellWindow.js';
 import Drawing from './Drawing.js';
 import Task from './Task.js';
-import SpellEntity from './SpellEntity.js';
+import SpellEntity from './Entity/SpellEntity';
 
 
 class Game {
@@ -19,33 +19,33 @@ class Game {
 			'bodies/body1.png', 'bodies/body2.png', 'bodies/body3.png', 'bodies/body4.png', 'bodies/body5.png',
 			'legs/legs1.png', 'legs/legs2.png', 'legs/legs3.png', 'legs/legs4.png', 'legs/legs5.png',
 			'wheel.png',
-			'spell-water.png', 'spell-fire.png',	'spell-wind.png',
-			'water-round-sprite.png',	'fire-sprite.png', 'wind-round-sprite.png',
+			'spell-water.png', 'spell-fire.png', 'spell-wind.png',
+			'water-round-sprite.png', 'fire-sprite.png', 'wind-round-sprite.png',
 			'bodies/body1-attack.png', 'bodies/body2-attack.png', 'bodies/body3-attack.png', 'bodies/body4-attack.png', 'bodies/body5-attack.png',
 			'enemy-spell-sprite.png',
 			'task-pictures/tree.jpg', 'task-pictures/sun.jpg', 'task-pictures/snow.jpg', 'task-pictures/road.jpg', 'task-pictures/river.jpg', 'task-pictures/car.jpg', 'task-pictures/cat.jpg', 'task-pictures/dog.jpg', 'task-pictures/house.jpg', 'task-pictures/lion.jpg', 'task-pictures/rabbit.jpg',
 			'speaker.png',
 			'task-differences/boy.jpg', 'task-differences/dunno.jpg', 'task-differences/girl1.jpg', 'task-differences/girl2.jpg', 'task-differences/rabbit.jpg', 'task-differences/squirrel.jpg',
-			'task-cubs/elephant.jpg', 'task-cubs/lion.jpg', 'task-cubs/owl.jpg', 'task-cubs/tiger.jpg', 'task-cubs/bear.jpg', 
+			'task-cubs/elephant.jpg', 'task-cubs/lion.jpg', 'task-cubs/owl.jpg', 'task-cubs/tiger.jpg', 'task-cubs/bear.jpg',
 			'task-colors/black.jpg', 'task-colors/blue.jpg', 'task-colors/green.jpg', 'task-colors/yellow.jpg', 'task-colors/red.jpg',
-			'task-time/time1.jpg', 'task-time/time2.jpg', 'task-time/time3.jpg', 'task-time/time4.jpg', 'task-time/time5.jpg', 
+			'task-time/time1.jpg', 'task-time/time2.jpg', 'task-time/time3.jpg', 'task-time/time4.jpg', 'task-time/time5.jpg',
 		]);
 		this.resources.onReady(() => this.init(100));
-    this.checkAnswerBtn = document.getElementById('add_answer');
+		this.checkAnswerBtn = document.getElementById('add_answer');
 		this.audioWheel = document.getElementById("rotateWheel");
 		this.tasksGroupsNumbers = {
-			"pictures" : 0,
-			"translate" : 0,
-			"math" : 0,
-			"listening" : 0,
-			"draganddrop" : 0,
+			"pictures": 0,
+			"translate": 0,
+			"math": 0,
+			"listening": 0,
+			"draganddrop": 0,
 			"riddles": 0,
 			"differences": 0,
-			"cubs" : 0,
+			"cubs": 0,
 			"colors": 0,
 			"time": 0
 		};
-		this.currentTaskGroup = "draganddrop";	
+		this.currentTaskGroup = "draganddrop";
 		this.taskQuestion = document.getElementById('question');
 		this.taskWindow = document.getElementById('task');
 		this.isFirstLevel = true;
@@ -89,6 +89,18 @@ class Game {
 			this.lastTime = Date.now();
 			this.main();
 		}
+		let btnPlayMusic = document.getElementById('play_audio');
+		btnPlayMusic.addEventListener('click', (e)=>{
+			e.preventDefault();
+			const music = document.getElementById('music');
+			if (btnPlayMusic.classList.contains('active')){
+				btnPlayMusic.classList.remove('active');
+				music.pause();
+			} else {
+				btnPlayMusic.classList.add('active');
+				music.play();
+			}
+		});
 	}
 
 
@@ -103,7 +115,7 @@ class Game {
 
 
 	update(dt) {
-		if (this.SpellWindow && this.SpellWindow.show){
+		if (this.SpellWindow && this.SpellWindow.show) {
 			this.SpellWindow.update(dt);
 		};
 		this.player.sprite.update(dt);
@@ -130,7 +142,7 @@ class Game {
 			this.renderEntity(this.activeSpellCastEntity.spellCastEntity);
 		}
 
-		if (this.SpellWindow && this.SpellWindow.show){
+		if (this.SpellWindow && this.SpellWindow.show) {
 			this.SpellWindow.draw();
 		}
 	};
@@ -149,7 +161,7 @@ class Game {
 			this.activeSpellCastEntity.changePositionOnCanvas();
 
 			this.activeSpellCastEntity.spellCastEntity.sprite.update(dt);
-			
+
 			this.activeSpellCastEntity.checkCollisionWithEntity(this.player.positionOnCanvas, this.player.sprite.sizeOnCanvas, this.enemy.entities[1].positionOnCanvas, this.enemy.entities[1].sprite.sizeOnCanvas);
 			if (this.activeSpellCastEntity.spellCastEntity.sprite.done) {
 				this.showspellCastEntity = false;
@@ -165,7 +177,7 @@ class Game {
 				this.isCorrectAnswer ? this.enemy.currentHP -= 0.5 : this.player.currentHP -= 0.5;
 			} else {
 				this.isHpReduction = false;
-				
+
 				if (this.enemy.currentHP === 0) {
 					this.isPlayerWinLevel = true;
 					this.levelEnd();
@@ -192,7 +204,7 @@ class Game {
 
 
 	addAttackButtonLogic() {
-		this.attackButtonParameters = {	x1: 120, y1: 500, x2: 370, y2: 550 };
+		this.attackButtonParameters = { x1: 120, y1: 500, x2: 370, y2: 550 };
 		this.isShowingAttackButton = true;
 
 		this.canvas.addEventListener('click', this.attackButtonClickHanlder.bind(this));
@@ -203,7 +215,7 @@ class Game {
 	attackButtonClickHanlder(event) {
 		if (this.isShowingAttackButton === true) {
 			let x = event.pageX - event.target.offsetLeft;
-			let	y = event.pageY - event.target.offsetTop;
+			let y = event.pageY - event.target.offsetTop;
 
 			if (x > this.attackButtonParameters.x1 && x < this.attackButtonParameters.x2 && y > this.attackButtonParameters.y1 && y < this.attackButtonParameters.y2) {
 				this.canvas.style.cursor = 'default';
@@ -237,10 +249,10 @@ class Game {
 	spellsOnWheelClickHandler(event) {
 		if (this.SpellWindow && this.SpellWindow.show) {
 			let x = event.pageX - event.target.offsetLeft;
-			let	y = event.pageY - event.target.offsetTop;
+			let y = event.pageY - event.target.offsetTop;
 			for (let i = 0; i < this.SpellWindow.spells.length; i++) {
 				if (this.SpellWindow.spells[i].isMouseOnSpell(x, y)) {
-					this.activeSpellCastEntity = this.SpellWindow.spells[i];	
+					this.activeSpellCastEntity = this.SpellWindow.spells[i];
 					document.getElementById("select_task_group").style.display = "flex";
 					break;
 				}
@@ -252,7 +264,7 @@ class Game {
 	spellsOnWheelMousemoveHandler() {
 		if (this.SpellWindow && this.SpellWindow.show) {
 			let x = event.pageX - event.target.offsetLeft;
-			let	y = event.pageY - event.target.offsetTop;
+			let y = event.pageY - event.target.offsetTop;
 
 			for (let i = 0; i < this.SpellWindow.spells.length; i++) {
 				if (this.SpellWindow.spells[i].isMouseOnSpell(x, y)) {
@@ -289,7 +301,7 @@ class Game {
 
 		let audio = new Audio(this.activeSpellCastEntity.audioSrc);
 		audio.play();
-		
+
 		setTimeout(() => {
 			this.activeSpellCastEntity.setPositionOnCanvas(this.player.positionOnCanvas, this.player.sprite.sizeOnCanvas, this.enemy.entities[1].positionOnCanvas, this.enemy.entities[1].sprite.sizeOnCanvas);
 			this.showspellCastEntity = true;
@@ -297,7 +309,7 @@ class Game {
 	}
 
 
-	clearTaskWindow(){
+	clearTaskWindow() {
 		switch (this.currentTaskGroup) {
 			case "listening":
 				let audio = document.querySelector('#question audio');
@@ -311,7 +323,7 @@ class Game {
 				document.getElementById('gamer_answer').style.display = 'block';
 				document.getElementById("sortable").style.display = 'none';
 				break;
-			
+
 			case "time":
 				document.querySelectorAll('.time_answer').forEach(element => {
 					element.value = '';
@@ -320,7 +332,7 @@ class Game {
 				document.getElementById('gamer_answer').style.display = 'block';
 				document.querySelector("#question").innerHTML = '';
 				break;
-			
+
 			default:
 				document.querySelector("#question").innerHTML = '';
 		}
@@ -370,11 +382,11 @@ class Game {
 			document.getElementById('highScoreTable').style.display = 'none';
 		});
 
-		document.getElementById("select_task_group").addEventListener('click', (event)=>{
+		document.getElementById("select_task_group").addEventListener('click', (event) => {
 			let target = event.target;
-			if(target.tagName === 'DIV'){
+			if (target.tagName === 'DIV') {
 				this.currentTaskGroup = target.dataset.description;
-				document.getElementById("select_task_group").style.display = "none";	
+				document.getElementById("select_task_group").style.display = "none";
 				this.canvas.style.cursor = 'default';
 				this.taskWindow.style.display = "block";
 				document.getElementById("gamer_answer").focus();
@@ -403,7 +415,7 @@ class Game {
 		});
 	}
 
-	
+
 	addRowToTable(table, tag, text1, text2) {
 		let tableRow = document.createElement('tr');
 		let tableData1 = document.createElement(tag);
