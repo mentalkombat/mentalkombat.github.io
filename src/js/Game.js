@@ -106,8 +106,10 @@ class Game {
 
 
 	update(dt) {
+		
 		if (this.SpellWindow && this.SpellWindow.show){
-			this.SpellWindow.update(dt);
+			//console.log(this.SpellWindow, this.SpellWindow.show);
+			this.SpellWindow.render(this.SpellWindow,this.SpellWindow.show, this.SpellWindow.isWheelStop, dt);
 		};
 		this.player.sprite.update(dt);
 		this.enemy.idleAnimate(dt);
@@ -137,7 +139,7 @@ class Game {
 		}
 
 		if (this.SpellWindow && this.SpellWindow.show){
-			this.SpellWindow.draw();
+			this.SpellWindow.draw(this.SpellWindow.ang);
 		}
 	};
 
@@ -219,12 +221,14 @@ class Game {
 				if (!this.SpellWindow) {
 //        this.audioWheel.play();
 					this.SpellWindow = new SpellWindow(this.resources.get('wheel.png'), this.ctx, this.canvas.width, this.canvas.height, this.resources);
+					this.SpellWindow.wheelRadius = 280;
 					this.taskNumber = 0;
 				}
 				this.SpellWindow.show = true;
 			}
 		}
 	}
+
 
 
 	attackButtonMousemoveHanlder(event) {
@@ -419,6 +423,52 @@ class Game {
 		tableRow.appendChild(tableData2);
 		table.appendChild(tableRow);
 	}
+
+
+
+
+
+
+	
+	createTaskHandler(event) {
+		if (this.SpellWindow && this.SpellWindow.show) {
+			let x = event.pageX - event.target.offsetLeft;
+			let	y = event.pageY - event.target.offsetTop;
+
+			let wheelCenterX = this.canvas.width / 2;
+			let wheelCenterY = this.canvas.height / 2;
+			let wheelRadius = 280;
+
+			if (x > wheelCenterX - wheelRadius && x < wheelCenterX + wheelRadius && y > wheelCenterY - wheelRadius && y < wheelCenterY + wheelRadius) {
+				setTimeout(()=>{
+//      	this.audioWheel.pause(); music on wheel animate
+				}, 200)
+				document.getElementById('task').style.display = "block";
+				this.task = new Task;
+				this.task.createTask(this.taskNumber);
+				this.taskNumber++;
+			}
+		}
+	}
+
+
+	stopWheelOnMousemoveHandler(event) {
+		let x = event.pageX - event.target.offsetLeft;
+		let	y = event.pageY - event.target.offsetTop;
+		let wheelCenterX = this.canvas.width / 2;
+		let wheelCenterY = this.canvas.height / 2;
+		let wheelRadius = 280;
+		let distanceToWheel = (Math.sqrt((wheelCenterX - x)*(wheelCenterX - x)+(wheelCenterY - y)*(wheelCenterY - y)));
+
+		if (this.SpellWindow) {
+			if (distanceToWheel < 280) {
+				this.SpellWindow.isWheelStop = true;
+			} else {
+				this.SpellWindow.isWheelStop = false;
+			}
+		}
+	}
+
 }
 
 export default Game;

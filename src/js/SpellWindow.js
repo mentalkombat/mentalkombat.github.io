@@ -2,7 +2,7 @@ import SpellEntity from './SpellEntity.js';
 import Sprite from './Sprite.js';
 
 class SpellWindow {
-    constructor(img, ctx, width, height, resources) {
+    constructor(img, ctx, width, height, resources, ang) {
         this.isWheelStop = false;
         this.img = img;
         this.imgWidth = img.width;
@@ -28,9 +28,13 @@ class SpellWindow {
 
     };
 
-    draw() {
+    draw(ang) {
         this.ctx.save();
+        this.ctx.translate(this.width / 2, this.height / 2);
+        this.ctx.rotate(Math.PI / 180 * ang);
+        this.ctx.translate(-this.width / 2, -this.height / 2);
         this.ctx.drawImage(this.img, this.width / 2 - this.imgWidth / 2, this.height / 2 - this.imgHeight / 2, this.imgWidth, this.imgHeight);
+
 
         this.ctx.translate(this.GameSpellWater.positionOnCanvas[0], this.GameSpellWater.positionOnCanvas[1]);
         this.GameSpellWater.sprite.render(this.ctx);
@@ -46,12 +50,38 @@ class SpellWindow {
         this.ctx.restore();
     };
 
-    update(dt) {
-        this.draw();
-            this.GameSpellWater.sprite.update(dt/2);
-            this.GameSpellFire.sprite.update(dt/2);
-            this.GameSpellWind.sprite.update(dt/2);
+    update(dt) { 
+        console.log(this.isWheelStop);      
+        if (!this.isWheelStop) {
+            console.log('!this.isWheelStop && this.isResourcesRead', !this.isWheelStop && this.isResourcesRead);
+            this.draw(this.ang);
+            this.GameSpellWater.sprite.update(dt*0.7);
+            this.GameSpellFire.sprite.update(dt*0.7);
+            this.GameSpellWind.sprite.update(dt*0.7);
+
+        }
     };
+
+    stopWheel() {
+        this.draw();
+            this.GameSpellWater.sprite.update(dt);
+            this.GameSpellFire.sprite.update(dt);
+            this.GameSpellWind.sprite.update(dt);
+    }
+
+    render(spellWindow, showWindow, isWheelStop, dt){
+        this.dt = dt
+        this.dt = dt
+        if (spellWindow && showWindow) {
+            //console.log(isWheelStop);
+            if (isWheelStop === true) {
+                this.stopWheel();
+            } else {
+                this.update(dt);
+            }
+        }
+    }
+    
 }
 
 export default SpellWindow;
