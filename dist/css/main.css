@@ -225,3 +225,20 @@ h3 {
     background-color: #eee; }
     .highScoreTable table th, .highScoreTable table td {
       border: 1px solid black; }
+
+.play_audio {
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  background: url(../img/music-stop.png);
+  display: block;
+  width: 40px;
+  height: 40px;
+  z-index: 100;
+  background-repeat: no-repeat;
+  background-size: contain;
+  cursor: pointer; }
+  .play_audio.active {
+    background: url(../img/music.png);
+    background-repeat: no-repeat;
+    background-size: contain; }

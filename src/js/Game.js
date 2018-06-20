@@ -89,6 +89,18 @@ class Game {
 			this.lastTime = Date.now();
 			this.main();
 		}
+		let btnPlayMusic = document.getElementById('play_audio');
+		btnPlayMusic.addEventListener('click', (e)=>{
+			e.preventDefault();
+			const music = document.getElementById('music');
+			if (btnPlayMusic.classList.contains('active')){
+				btnPlayMusic.classList.remove('active');
+				music.pause();
+			} else {
+				btnPlayMusic.classList.add('active');
+				music.play();
+			}
+		});
 	}
 
 
