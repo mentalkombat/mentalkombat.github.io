@@ -8,10 +8,8 @@ class Sprite {
 		this.frames = frames;
 		this.once = once;
 		this.index = 0;
-
 		this.newSpriteFramesNumber = 0;
 		this.isNewSpriteActive = false;
-
 		this.oldSpriteOptions = null;
 	}
 

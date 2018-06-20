@@ -41,7 +41,6 @@ class Drawing {
 		ctx.lineWidth = 3;
 		ctx.strokeStyle = '#ddd';
 		ctx.strokeRect(rectX, rectY, rectWidthMax, rectHeight);
-
 		ctx.scale(scaleX, scaleY);
 		ctx.font = "bold 18px Open Sans";
 		ctx.textAlign = "center";

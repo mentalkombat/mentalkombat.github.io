@@ -2,13 +2,13 @@ import Entity from './Entity.js';
 import Sprite from './Sprite.js';
 
 
-let adjectives = ['Terrible', 'Vile', 'Monstrous', 'Spiteful', 'Snotty', 'Demonic', 'Ghastly', 'Damnable', 'Abominable'];
-let kinds = ['Ogr', 'Goblin', 'Zombie', 'Bugbear', 'Demon', 'Scarecrow', 'Lucifer', 'Undead', 'Devil', 'Vampire', 'Ghoul'];
-let names = ['Aaron', 'Bob', 'Brody', 'Charlie', 'Cole', 'Dylan', 'Eric', 'Grant', 'Henry', 'Jack', 'Morgan', 'Sherie', 'York'];
+const adjectives = ['Terrible', 'Vile', 'Monstrous', 'Spiteful', 'Snotty', 'Demonic', 'Ghastly', 'Damnable', 'Abominable'];
+const kinds = ['Ogr', 'Goblin', 'Zombie', 'Bugbear', 'Demon', 'Scarecrow', 'Lucifer', 'Undead', 'Devil', 'Vampire', 'Ghoul'];
+const names = ['Aaron', 'Bob', 'Brody', 'Charlie', 'Cole', 'Dylan', 'Eric', 'Grant', 'Henry', 'Jack', 'Morgan', 'Sherie', 'York'];
 
-let heads = ['heads/head1.png', 'heads/head2.png', 'heads/head3.png', 'heads/head4.png', 'heads/head5.png'];
-let bodies = ['bodies/body1.png', 'bodies/body2.png', 'bodies/body3.png', 'bodies/body4.png', 'bodies/body5.png'];
-let legs = ['legs/legs1.png', 'legs/legs2.png', 'legs/legs3.png', 'legs/legs4.png', 'legs/legs5.png'];
+const heads = ['heads/head1.png', 'heads/head2.png', 'heads/head3.png', 'heads/head4.png', 'heads/head5.png'];
+const bodies = ['bodies/body1.png', 'bodies/body2.png', 'bodies/body3.png', 'bodies/body4.png', 'bodies/body5.png'];
+const legs = ['legs/legs1.png', 'legs/legs2.png', 'legs/legs3.png', 'legs/legs4.png', 'legs/legs5.png'];
 
 
 class Enemy {
@@ -34,30 +34,30 @@ class Enemy {
 
 	enemyGeneration(resources) {
 		let x = this.positionOnCanvas[0],
-				y = this.positionOnCanvas[1];
+			y = this.positionOnCanvas[1];
 
-		this.bodyParts = { 
-			legs:	{	
-				url: this.getRandomElement(legs), 
+		this.bodyParts = {
+			legs: {
+				url: this.getRandomElement(legs),
 				startPosition: [x + 0, y + 255],
-				animateOptions: {isVertical: 0, distance: 2, speed: 6}
+				animateOptions: { isVertical: 0, distance: 2, speed: 6 }
 			},
 			body: {
 				url: this.getRandomElement(bodies),
 				startPosition: [x - 31, y + 220],
-				animateOptions: {isVertical: 0, distance: 1, speed: 3}
+				animateOptions: { isVertical: 0, distance: 1, speed: 3 }
 			},
 			head: {
 				url: this.getRandomElement(heads),
 				startPosition: [x + 20, y + 160],
-				animateOptions: {isVertical: 1, distance: 1, speed: 3}
+				animateOptions: { isVertical: 1, distance: 1, speed: 3 }
 			}
 		};
 
 		for (let bodyPart in this.bodyParts) {
 			this.entities.push(
 				new Entity(
-					[this.bodyParts[bodyPart].startPosition[0], this.bodyParts[bodyPart].startPosition[1]], 
+					[this.bodyParts[bodyPart].startPosition[0], this.bodyParts[bodyPart].startPosition[1]],
 					new Sprite(resources.get(this.bodyParts[bodyPart].url), [0, 0], [246, 200], [246 / 2, 200 / 2])
 				)
 			);
@@ -79,13 +79,13 @@ class Enemy {
 
 	changeAnimatePosition(dt, entity, bodyPart) {
 		let startPosition = bodyPart.startPosition,
-				isVertical = bodyPart.animateOptions.isVertical,
-				distance = bodyPart.animateOptions.distance;
+			isVertical = bodyPart.animateOptions.isVertical,
+			distance = bodyPart.animateOptions.distance;
 
 		if (entity.positionOnCanvas[isVertical] > startPosition[isVertical] + distance || entity.positionOnCanvas[isVertical] < startPosition[isVertical] - distance) {
 			bodyPart.animateOptions.speed = -bodyPart.animateOptions.speed;
 		}
-		
+
 		entity.positionOnCanvas[isVertical] += bodyPart.animateOptions.speed * dt;
 	}
 
