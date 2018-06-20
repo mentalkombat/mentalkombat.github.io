@@ -7,7 +7,7 @@ class Drawing {
 		ctx.fillRect(rectX, rectY, rectWidth, rectHeight);
 		ctx.strokeRect(rectX, rectY, rectWidth, rectHeight);
 		
-		ctx.font = "20px Arial";
+		ctx.font = "20px Open Sans";
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
 		ctx.fillStyle = "#000000";
@@ -44,10 +44,10 @@ class Drawing {
 		ctx.strokeRect(rectX, rectY, rectWidthMax, rectHeight);
 
 		ctx.scale(scaleX, scaleY);
-		ctx.font = "18px Arial";
+		ctx.font = "bold 18px Open Sans";
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
-    ctx.fillStyle = "#000000";
+    ctx.fillStyle = "#ddd";
     let rightToLeftRatio = 1;
     if (rightToLeft) {
       rightToLeftRatio = -1;
@@ -59,7 +59,7 @@ class Drawing {
 
   static drawEntityName(ctx, text, textPositionX, textPositionY, rightToLeft) {
 		ctx.save();
-		ctx.font = "20px Arial";
+		ctx.font = "20px Open Sans";
     ctx.textBaseline = "top";
     if (rightToLeft) {
 		ctx.textAlign = "right";
@@ -72,7 +72,7 @@ class Drawing {
 
 	static drawLevelResult(ctx, text, textPositionX, textPositionY) {
 		ctx.save();
-		ctx.font = "50px Arial";
+		ctx.font = "50px Open Sans";
     ctx.textBaseline = "middle";
 		ctx.textAlign = "center";
 		ctx.fillStyle = "red";

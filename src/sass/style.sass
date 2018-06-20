@@ -1,22 +1,24 @@
-/* allerta-regular - latin */
 @font-face
-  font-family: 'Allerta'
+  font-family: 'Open Sans'
   font-style: normal
   font-weight: 400
-  src: local('Allerta Regular'), local('Allerta-Regular'), url('../fonts/allerta-v8-latin-regular.woff2') format('woff2'),  url('../fonts/allerta-v8-latin-regular.woff') format('woff')
+  src: local('Open Sans'), local('Open-Sans'), url('../fonts/OpenSans-Regular.woff2') format('woff2'),  url('../fonts/OpenSans-Regular.woff') format('woff')
+
 @font-face
   font-family: 'Chiller'
   font-style: normal
   font-weight: 400
   src: local('Chiller Regular'), local('Chiller-Regular'), url('../fonts/Chiller-Regular.woff2') format('woff2'),  url('../fonts/Chiller-Regular.woff') format('woff')
+
 *
   box-sizing: border-box
+  
 body
   margin: 0
   padding: 0
   text-align: center
   background: #0f2431
-  font-family: 'Allerta'
+  font-family: 'Open Sans', sans-serif
 
 .firstScreen
   width: 100vw
@@ -27,14 +29,12 @@ body
     font-size: 172px
     color: #e52c2c
     margin: 30px auto 10px auto
-    font-family: "Chiller"
+    font-family: "Chiller", sans-serif
   h4
-    font-size: 40px
+    font-size: 34px
     color: #fff
     margin: 10px auto
-    font-family: Courier New, Courier New, Helvetica sans-serif
-    font-weight: 600
-    letter-spacing: 2px
+    font-weight: 400
   .userForm
     width: 1000px
     margin: auto
@@ -46,8 +46,7 @@ body
       padding: 10px 10px
       outline: none
       width: 250px
-      font-family: Courier New, Courier New, Helvetica sans-serif
-      font-size: 28px
+      font-size: 30px
       width: 300px
       &[type="submit"]
         margin-top: 30px
@@ -55,7 +54,6 @@ body
         cursor: pointer
         color: #fff
         text-transform: uppercase
-        font-weight: bold
   
 .title
   color: red
@@ -74,6 +72,9 @@ button
   position: fixed
   padding: 5% 20%
   background-image: linear-gradient(-225deg, #D4FFEC 0%, #57F2CC 48%, #4596FB 100%)
+  .description
+    font-size: 24px
+    margin-bottom: 30px
   .question
     font-size: 24px
     text-transform: uppercase
@@ -92,6 +93,7 @@ button
     height: 40px
     padding: 5px 10px
     font-size: 16px
+    outline: none
   .btn
     height: 44px
     display: block
@@ -102,10 +104,13 @@ button
     color: #223333 
     position: relative
     margin: 0 auto
+    outline: none
+    cursor: pointer
   .playAudio
     position: static
     background: transparent
     border: none
+    cursor: pointer
     &:hover,
     &:focus
       border: none
@@ -163,17 +168,20 @@ h3
 
 .passLevelModal, .loseGameModal, .winGameModal
   display: none
-  width: 400px
+  width: 500px
   position: fixed
   top: 100px
   left: calc(50% - 200px)
   background-color: rgba(107, 106, 106, 0.8)
+  padding: 0 20px 20px
   p
     color: #fff
     font-size: 20px
   button
     position: relative
     cursor: pointer
+    width: 200px
+    padding: 10px 0
 
 .loseGameModal, .winGameModal
   .flex-wrapper
@@ -182,7 +190,7 @@ h3
 
 .highScoreTable
   display: none
-  width: 400px
+  width: 500px
   position: fixed
   top: 20px
   left: calc(50% - 200px)

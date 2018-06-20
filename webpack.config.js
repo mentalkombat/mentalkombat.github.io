@@ -34,13 +34,13 @@ const conf = {
 				]
 			},
 			{
-				test: /\.(woff|woff2)$/,
+				test: /\.(ttf|eot|woff|woff2)$/,
 				use: [
 					{
 						loader: 'file-loader',
 						options: {
-							name: '[name].[ext]',
-							outputPath: 'fonts/'
+							name: '[path][name].[ext]',
+							context: 'src'
 						}
 					}
 				]

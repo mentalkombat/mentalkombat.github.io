@@ -13,11 +13,12 @@ class Task {
     }
 
     createTask(currentTaskGroup, number) {
+				document.querySelector('#description').innerText = this.dict[currentTaskGroup]["description"];
         switch (currentTaskGroup) {
             case "listening":
                 let audio = document.createElement("audio");
 
-                audio.src = `dist/audio/task/${this.dict[currentTaskGroup][number].task}`;
+						audio.src = `dist/audio/task/${this.dict[currentTaskGroup]["tasks"][number].task}`;
                 this.question.appendChild(audio);
                 setTimeout(() => {
                     audio.play();
@@ -31,20 +32,17 @@ class Task {
                     document.querySelector("#question audio").play();
                 }
                 );
-                break;
+								break;
+							
+						case "differences":
 
             case "pictures":
-                let img = this.resources.get(this.dict[currentTaskGroup][number].task);
+								let img = this.resources.get(this.dict[currentTaskGroup]["tasks"][number].task);
                 this.question.appendChild(img);
 								break;
 
-						case "differences":
-							let img2 = this.resources.get(this.dict[currentTaskGroup][number].task);
-							this.question.appendChild(img2);
-							break;
-
-            case "dragAndDrop":
-                const word = this.dict[currentTaskGroup][number];
+						case "draganddrop":
+								const word = this.dict[currentTaskGroup]["tasks"][number];
                 const letters = word.split('');
                 const wordLength = letters.length;
                 this.answer.style.display = 'none';
@@ -67,14 +65,14 @@ class Task {
                 break;
 
             default:
-                this.question.innerHTML = this.dict[currentTaskGroup][number].task;
+                this.question.innerHTML = this.dict[currentTaskGroup]["tasks"][number].task;
         }
         this.number = number;
     }
 
     checkAnswer(currentTaskGroup) {
-        if (currentTaskGroup !== "dragAndDrop") {
-            this.rightAnswersArray = this.dict[currentTaskGroup][this.number].answer;
+				if (currentTaskGroup !== "draganddrop") {
+					this.rightAnswersArray = this.dict[currentTaskGroup]["tasks"][this.number].answer;
             this.userAnswer = this.answer.value.toLowerCase();
             if (this.rightAnswersArray.indexOf(this.userAnswer) > -1) {
                 this.answer.value = '';
@@ -84,7 +82,7 @@ class Task {
                 return false;
             };
         } else {
-            const word = this.dict[currentTaskGroup][this.number];
+						const word = this.dict[currentTaskGroup]["tasks"][this.number];
             const wordLength = word.length;
             let isAnswerCorrect = true;
 

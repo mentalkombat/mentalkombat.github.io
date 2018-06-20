@@ -9,12 +9,7 @@ import SpellEntity from './SpellEntity.js';
 
 
 class Game {
-	constructor(userName) {
-		this.userName = userName;
-	}
-
-
-	start(canvasParent) {
+	constructor(canvasParent) {
 		this.createCanvas(canvasParent);
 		this.resources = new Resources();
 		this.resources.load([
@@ -33,19 +28,19 @@ class Game {
 			'task-differences/cat.jpg', 'task-differences/dunno.jpg', 'task-differences/girl.jpg', 'task-differences/rabbit.jpg', 'task-differences/squirrel.jpg', 
 		]);
 		this.resources.onReady(() => this.init(100));
-    	this.checkAnswerBtn = document.getElementById('add_answer');
+    this.checkAnswerBtn = document.getElementById('add_answer');
 		this.audioWheel = document.getElementById("rotateWheel");
-		this.TasksGroups = ["pictures", "translate", "math", "listening", "dragAndDrop", "riddles", "differences"];
+		this.TasksGroups = ["pictures", "translate", "math", "listening", "draganddrop", "riddles", "differences"];
 		this.tasksGroupsNumbers = {
 			"pictures" : 0,
 			"translate" : 0,
 			"math" : 0,
 			"listening" : 0,
-			"dragAndDrop" : 0,
+			"draganddrop" : 0,
 			"riddles": 0,
 			"differences" : 0
 		};
-		this.currentTaskGroup = "dragAndDrop";	
+		this.currentTaskGroup = "draganddrop";	
 		this.taskQuestion = document.getElementById('question');
 		this.taskWindow = document.getElementById('task');
 		this.isFirstLevel = true;
@@ -64,7 +59,7 @@ class Game {
 
 
 	init(enemyHP) {
-		this.player = new PlayerEntity([100, 230], new Sprite(this.resources.get('player-sprite.png'), [0, 0], [634, 464], [634 / 2, 464 / 2], 5, [0, 1, 2, 1], false), this.userName);
+		this.player = new PlayerEntity([100, 230], new Sprite(this.resources.get('player-sprite.png'), [0, 0], [634, 464], [634 / 2, 464 / 2], 5, [0, 1, 2, 1], false), this.playerName);
 		this.enemy = new Enemy([this.canvas.width - 300, 110], this.resources, enemyHP);
 		this.isHpReduction = false;
 		this.isPlayerWinLevel = false;
@@ -78,17 +73,14 @@ class Game {
 			this.canvas.addEventListener('click', this.spellsOnWheelClickHandler.bind(this));
 			this.canvas.addEventListener('mousemove', this.spellsOnWheelMousemoveHandler.bind(this));
 			this.checkAnswerBtn.addEventListener('click', this.checkAnswerHanlder.bind(this));
-			document.getElementById('task').addEventListener("keyup", function(event) {
+			document.getElementById('task').addEventListener("keyup", () => {
 				event.preventDefault();
 				if (event.keyCode === 13) {
 					this.checkAnswerBtn.click();
 				}
-			}.bind(this));
-
-
+			});
 
 			this.initEvents();
-
 			this.lastTime = Date.now();
 			this.main();
 		}
@@ -111,10 +103,6 @@ class Game {
 		};
 		this.player.sprite.update(dt);
 		this.enemy.idleAnimate(dt);
-		// if(this.startWheel){
-		// 	this.picture.isMouseOnWheel();
-		// 	this.picture.waitClick();
-		// }
 
 		this.spellCastingLogic(dt);
 		this.hpReduction();
@@ -128,7 +116,8 @@ class Game {
 			this.renderEntity(element);
 		});
 		if (this.isShowingAttackButton) {
-			Drawing.drawAttackButton(this.ctx, 'Attack!', 140, 500, 200, 50);
+			let position = this.attackButtonParameters;
+			Drawing.drawAttackButton(this.ctx, 'Выбрать заклинание', position.x1, position.y1, position.x2 - position.x1, position.y2 - position.y1);
 		}
 		this.drawEntitiesInfo();
 
@@ -172,10 +161,10 @@ class Game {
 			} else {
 				this.isHpReduction = false;
 				
-				if (this.enemy.currentHP === 80) {
+				if (this.enemy.currentHP === 0) {
 					this.isPlayerWinLevel = true;
 					this.levelEnd();
-				} else if (this.player.currentHP === 80) {
+				} else if (this.player.currentHP === 0) {
 					this.levelEnd();
 				} else {
 					this.isShowingAttackButton = true;
@@ -183,7 +172,6 @@ class Game {
 			}
 			this.activeSpellCastEntity.spellCastEntity.sprite.done = false;
 			this.activeSpellCastEntity.spellCastEntity.sprite.index = 0;
-
 		}
 	}
 
@@ -199,7 +187,7 @@ class Game {
 
 
 	addAttackButtonLogic() {
-		this.attackButtonParameters = {	x1: 140, y1: 500, x2: 340, y2: 550 };
+		this.attackButtonParameters = {	x1: 120, y1: 500, x2: 370, y2: 550 };
 		this.isShowingAttackButton = true;
 
 		this.canvas.addEventListener('click', this.attackButtonClickHanlder.bind(this));
@@ -217,7 +205,6 @@ class Game {
 				this.isShowingAttackButton = false;
 
 				if (!this.SpellWindow) {
-//        this.audioWheel.play();
 					this.SpellWindow = new SpellWindow(this.resources.get('wheel.png'), this.ctx, this.canvas.width, this.canvas.height, this.resources);
 					this.taskNumber = 0;
 				}
@@ -278,9 +265,9 @@ class Game {
 		document.getElementById('task').style.display = "none";
 		this.SpellWindow.show = false;
 		this.isCorrectAnswer = this.task.checkAnswer(this.currentTaskGroup);
+		this.clearTaskWindow();
 
 		if (this.isCorrectAnswer) {
-			this.clearTaskWindow();
 			this.player.changesprite(new Sprite(this.resources.get('player-sprite.png'), [0, 464], [634, 464], [634 / 2, 464 / 2], 5, [0, 1, 2, 3, 4, 0]));
 			this.enemy.newHP = this.enemy.currentHP - 20;
 			this.score += 20;
@@ -315,19 +302,13 @@ class Game {
 				this.taskQuestion.removeChild(button);
 				break;
 
-			case "pictures":
-				let img = document.querySelector('#question img');
-				this.taskQuestion.removeChild(img);
-				break;
-
-			case "dragAndDrop":
+			case "draganddrop":
 				document.getElementById('gamer_answer').style.display = 'block';
 				document.getElementById("sortable").style.display = 'none';
 				break;
 			
 			default:
 				document.querySelector("#question").innerHTML = '';
-	
 		}
 	};
 
@@ -378,15 +359,15 @@ class Game {
 		document.getElementById("select_task_group").addEventListener('click', (event)=>{
 			let target = event.target;
 			if(target.tagName === 'DIV'){
-				this.currentTaskGroup = target.innerHTML;
+				this.currentTaskGroup = target.dataset.description;
 				document.getElementById("select_task_group").style.display = "none";	
 				this.canvas.style.cursor = 'default';
 				this.taskWindow.style.display = "block";
+				document.getElementById("gamer_answer").focus();
 				this.task = new Task(this.resources, this.taskQuestion);
 				this.task.createTask(this.currentTaskGroup, this.tasksGroupsNumbers[this.currentTaskGroup]);
 				this.tasksGroupsNumbers[this.currentTaskGroup]++;
 			}
-
 		});
 	};
 
@@ -395,7 +376,7 @@ class Game {
 		if (!highScore) {
 			highScore = [];
 		}
-		highScore.push([this.userName, this.score]);
+		highScore.push([this.playerName, this.score]);
 		highScore.sort((a, b) => b[1] - a[1]);
 		highScore = highScore.slice(0, 20);
 		localStorage.setItem('mentalkombat-game-results', JSON.stringify(highScore));

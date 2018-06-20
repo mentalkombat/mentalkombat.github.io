@@ -1,337 +1,358 @@
 {
-  "translate": [
-    {
-      "task": "dog",
-      "answer": [
-        "собака",
-        "собачка"
-      ]
-    },
-    {
-      "task": "cat",
-      "answer": [
-        "кот",
-        "котик",
-        "кошка"
-      ]
-    },
-    {
-      "task": "man",
-      "answer": [
-        "человек",
-        "мужчина"
-      ]
-    },
-    {
-      "task": "house",
-      "answer": [
-        "дом",
-        "домик"
-      ]
-    },
-    {
-      "task": "Rabbit",
-      "answer": [
-        "кролик"
-      ]
-    },
-    {
-      "task": "Lion",
-      "answer": [
-        "лев"
-      ]
-    },
-    {
-      "task": "Elephant",
-      "answer": [
-        "слон",
-        "слоненок",
-        "слоник"
-      ]
-    },
-    {
-      "task": "Parrot",
-      "answer": [
-        "попугай",
-        "попугайчик"
-      ]
-    },
-    {
-      "task": "Owl",
-      "answer": [
-        "сова",
-        "филин"
-      ]
-    },
-    {
-      "task": "dog",
-      "answer": [
-        "собака",
-        "собачка"
-      ]
-    },
-    {
-      "task": "cat",
-      "answer": [
-        "кот",
-        "котик",
-        "кошка"
-      ]
-    },
-    {
-      "task": "man",
-      "answer": [
-        "человек",
-        "мужчина"
-      ]
-    },
-    {
-      "task": "house",
-      "answer": [
-        "дом",
-        "домик"
-      ]
-    },
-    {
-      "task": "Rabbit",
-      "answer": [
-        "кролик"
-      ]
-    },
-    {
-      "task": "Lion",
-      "answer": [
-        "лев"
-      ]
-    },
-    {
-      "task": "Elephant",
-      "answer": [
-        "слон",
-        "слоненок",
-        "слоник"
-      ]
-    },
-    {
-      "task": "Parrot",
-      "answer": [
-        "попугай",
-        "попугайчик"
-      ]
-    },
-    {
-      "task": "Owl",
-      "answer": [
-        "сова",
-        "филин"
-      ]
-    }
-	],
+  "translate": {
+		"description": "Переведите слово на русский язык:",
+		"tasks": [
+			{
+				"task": "dog",
+				"answer": [
+					"собака",
+					"собачка"
+				]
+			},
+			{
+				"task": "cat",
+				"answer": [
+					"кот",
+					"котик",
+					"кошка"
+				]
+			},
+			{
+				"task": "man",
+				"answer": [
+					"человек",
+					"мужчина"
+				]
+			},
+			{
+				"task": "house",
+				"answer": [
+					"дом",
+					"домик"
+				]
+			},
+			{
+				"task": "Rabbit",
+				"answer": [
+					"кролик"
+				]
+			},
+			{
+				"task": "Lion",
+				"answer": [
+					"лев"
+				]
+			},
+			{
+				"task": "Elephant",
+				"answer": [
+					"слон",
+					"слоненок",
+					"слоник"
+				]
+			},
+			{
+				"task": "Parrot",
+				"answer": [
+					"попугай",
+					"попугайчик"
+				]
+			},
+			{
+				"task": "Owl",
+				"answer": [
+					"сова",
+					"филин"
+				]
+			},
+			{
+				"task": "dog",
+				"answer": [
+					"собака",
+					"собачка"
+				]
+			},
+			{
+				"task": "cat",
+				"answer": [
+					"кот",
+					"котик",
+					"кошка"
+				]
+			},
+			{
+				"task": "man",
+				"answer": [
+					"человек",
+					"мужчина"
+				]
+			},
+			{
+				"task": "house",
+				"answer": [
+					"дом",
+					"домик"
+				]
+			},
+			{
+				"task": "Rabbit",
+				"answer": [
+					"кролик"
+				]
+			},
+			{
+				"task": "Lion",
+				"answer": [
+					"лев"
+				]
+			},
+			{
+				"task": "Elephant",
+				"answer": [
+					"слон",
+					"слоненок",
+					"слоник"
+				]
+			},
+			{
+				"task": "Parrot",
+				"answer": [
+					"попугай",
+					"попугайчик"
+				]
+			},
+			{
+				"task": "Owl",
+				"answer": [
+					"сова",
+					"филин"
+				]
+			}
+		]
+	},
 	
 
-  "math" : [
-    {"task" : "one plus one equals", 
-    "answer" : ["two"]
-    }, 
+  "math" : {
+		"description": "Введите ответ буквами на английском языке:",
+		"tasks": [
+			{"task" : "one plus one equals", 
+			"answer" : ["two"]
+			}, 
 
-    {"task" : "five minus three equals", 
-      "answer" : ["two"]
-      },
-    
-    {"task" : "one plus two equals", 
-      "answer" : ["three"]
-      },
-      
-    {"task" : "one plus three equals", 
-      "answer" : ["four"]
-      },
-      
-    {"task" : "one minus one equals", 
-      "answer" : ["zero"]
-      },
-      
-    {"task" : "five plus three equals", 
-      "answer" : ["eight"]
-      },
-      
-    {"task" : "five plus two equals", 
-      "answer" : ["seven"]
-      },
-      
-    {"task" : "five plus five equals", 
-      "answer" : ["ten"]
-      },
-            
-    {"task" : "five plus one equals", 
-      "answer" : ["six"]
-      },
-      
-    {"task" : "five plus zero equals", 
-      "answer" : ["five"]
-      }
-    
-	],
+			{"task" : "five minus three equals", 
+				"answer" : ["two"]
+				},
+			
+			{"task" : "one plus two equals", 
+				"answer" : ["three"]
+				},
+				
+			{"task" : "one plus three equals", 
+				"answer" : ["four"]
+				},
+				
+			{"task" : "one minus one equals", 
+				"answer" : ["zero"]
+				},
+				
+			{"task" : "five plus three equals", 
+				"answer" : ["eight"]
+				},
+				
+			{"task" : "five plus two equals", 
+				"answer" : ["seven"]
+				},
+				
+			{"task" : "five plus five equals", 
+				"answer" : ["ten"]
+				},
+							
+			{"task" : "five plus one equals", 
+				"answer" : ["six"]
+				},
+				
+			{"task" : "five plus zero equals", 
+				"answer" : ["five"]
+				}
+		]
+	},
 	
 
-  "pictures" : [
-    {"task" : "task-pictures/car.jpg", 
-    "answer" : ["car"]
-    }, 
+  "pictures" : {
+		"description": "Что изображено на картинке? Введите ответ на английском языке:",
+		"tasks": 
+			[
+			{"task" : "task-pictures/car.jpg", 
+			"answer" : ["car"]
+			}, 
 
-    {"task" : "task-pictures/cat.jpg", 
-    "answer" : ["cat", "kitten", "kitty", "kit"]
-    }, 
+			{"task" : "task-pictures/cat.jpg", 
+			"answer" : ["cat", "kitten", "kitty", "kit"]
+			}, 
 
-    {"task" : "task-pictures/river.jpg", 
-    "answer" : ["river"]
-    }, 
+			{"task" : "task-pictures/river.jpg", 
+			"answer" : ["river"]
+			}, 
 
-    {"task" : "task-pictures/road.jpg", 
-    "answer" : ["road"]
-    }, 
+			{"task" : "task-pictures/road.jpg", 
+			"answer" : ["road"]
+			}, 
 
-    {"task" : "task-pictures/sun.jpg", 
-    "answer" : ["sun"]
-    }, 
+			{"task" : "task-pictures/sun.jpg", 
+			"answer" : ["sun"]
+			}, 
 
-    {"task" : "task-pictures/tree.jpg", 
-    "answer" : ["tree"]
-    },
+			{"task" : "task-pictures/tree.jpg", 
+			"answer" : ["tree"]
+			},
 
-    {"task" : "task-pictures/snow.jpg", 
-    "answer" : ["snow"]
-    }, 
+			{"task" : "task-pictures/snow.jpg", 
+			"answer" : ["snow"]
+			}, 
 
-    {"task" : "task-pictures/dog.jpg", 
-      "answer" : ["dog", "hound", "pooch", "bowwow"]
-      },
-    
-    {"task" : "task-pictures/house.jpg", 
-      "answer" : ["house", "home" ]
-      },
-      
-    {"task" : "task-pictures/lion.jpg", 
-      "answer" : ["lev", "lion", "lew"]
-      },
-      
-    {"task" : "task-pictures/rabbit.jpg", 
-      "answer" : ["rabbit", "lapin", "hare", "bunny", "coney", "cony"]
-      }
-	],
+			{"task" : "task-pictures/dog.jpg", 
+				"answer" : ["dog", "hound", "pooch", "bowwow"]
+				},
+			
+			{"task" : "task-pictures/house.jpg", 
+				"answer" : ["house", "home" ]
+				},
+				
+			{"task" : "task-pictures/lion.jpg", 
+				"answer" : ["lev", "lion", "lew"]
+				},
+				
+			{"task" : "task-pictures/rabbit.jpg", 
+				"answer" : ["rabbit", "lapin", "hare", "bunny", "coney", "cony"]
+				}
+		]
+	},
 	
 
-  "listening" : [
-    {"task" : "book.ogg", 
-    "answer" : ["book"]
-    }, 
+  "listening" : {
+		"description": "Прослушайте слово. Введите его на английском языке:",
+		"tasks": [
+			{"task" : "book.ogg", 
+			"answer" : ["book"]
+			}, 
 
-    {"task" : "friend.ogg", 
-      "answer" : ["friend"]
-      },
-    
-    {"task" : "game.mp3", 
-      "answer" : ["game" ]
-      },
-      
-    {"task" : "hello.mp3", 
-      "answer" : ["hello"]
-      },
-      
-    {"task" : "passanger.mp3", 
-      "answer" : ["passenger"]
-      },
+			{"task" : "friend.ogg", 
+				"answer" : ["friend"]
+				},
+			
+			{"task" : "game.mp3", 
+				"answer" : ["game" ]
+				},
+				
+			{"task" : "hello.mp3", 
+				"answer" : ["hello"]
+				},
+				
+			{"task" : "passanger.mp3", 
+				"answer" : ["passenger"]
+				},
 
-    {"task" : "bus.ogg", 
-      "answer" : ["bus"]
-    }, 
+			{"task" : "bus.ogg", 
+				"answer" : ["bus"]
+			}, 
 
-    {"task" : "dance.ogg", 
-      "answer" : ["dance"]
-      },
-    
-    {"task" : "lion.mp3", 
-      "answer" : ["lion" ]
-      },
-      
-    {"task" : "school.ogg", 
-      "answer" : ["school"]
-      },
-      
-    {"task" : "hero.mp3", 
-      "answer" : ["hero"]
-      }
-	],
+			{"task" : "dance.ogg", 
+				"answer" : ["dance"]
+				},
+			
+			{"task" : "lion.mp3", 
+				"answer" : ["lion" ]
+				},
+				
+			{"task" : "school.ogg", 
+				"answer" : ["school"]
+				},
+				
+			{"task" : "hero.mp3", 
+				"answer" : ["hero"]
+				}
+		]
+	},
 	
 
-  "dragAndDrop" : [
-    "boy", "girl", "hero", "book", "friend", "game", "hello", "passenger", "car", "home"
-	],
+  "draganddrop" : {
+		"description": "Расположите буквы в правильном порядке:",
+		"tasks": [
+    	"boy", "girl", "hero", "book", "friend", "game", "hello", "passenger", "car", "home"
+		]
+	},
 	
 
-  "riddles": [
-    {
-      "task": "Кто самый главный из зверей, кто всех важней и всех сильней?",
-      "answer": ["лев"]
-    },
-    {
-      "task": "Кто осенью холодной ходит хмурый и голодный?",
-      "answer": ["волк"]
-    },
-    {
-      "task": "Кто на себе свой дом носит?",
-      "answer": ["черепаха"]
-    },
-    {
-      "task": "Хвост крючком, нос пятачком.",
-      "answer": ["поросенок", "поросёнок", "свинья", "свинка"]
-    },
-    {
-      "task": "Зверь я горбатый, а нравлюсь ребятам.",
-      "answer": ["верблюд"]
-    },
-    {
-      "task": "Через океан к нам плывёт живой фонтан.",
-      "answer": ["кит"]
-    },
-    {
-      "task": "Вьётся верёвка, на конце — головка.",
-      "answer": ["змея"]
-    },
-    {
-      "task": "Маленький, лёгонький, а за хвост не подымешь.",
-      "answer": ["ящерица"]
-    },
-    {
-      "task": "Что идёт, не двигаясь с места?",
-      "answer": ["время"]
-    },
-    {
-      "task": "Течёт, течёт — не вытечет, бежит, бежит — не выбежит.",
-      "answer": ["река", "речка", "ручеек", "ручеёк"]
-    }
-	],
+  "riddles": {
+		"description": "Отгадайте загадку. Введите ответ на русском языке:",
+		"tasks": [
+			{
+				"task": "Кто самый главный из зверей, кто всех важней и всех сильней?",
+				"answer": ["лев"]
+			},
+			{
+				"task": "Кто осенью холодной ходит хмурый и голодный?",
+				"answer": ["волк"]
+			},
+			{
+				"task": "Кто на себе свой дом носит?",
+				"answer": ["черепаха"]
+			},
+			{
+				"task": "Хвост крючком, нос пятачком.",
+				"answer": ["поросенок", "поросёнок", "свинья", "свинка"]
+			},
+			{
+				"task": "Зверь я горбатый, а нравлюсь ребятам.",
+				"answer": ["верблюд"]
+			},
+			{
+				"task": "Через океан к нам плывёт живой фонтан.",
+				"answer": ["кит"]
+			},
+			{
+				"task": "Вьётся верёвка, на конце — головка.",
+				"answer": ["змея"]
+			},
+			{
+				"task": "Маленький, лёгонький, а за хвост не подымешь.",
+				"answer": ["ящерица"]
+			},
+			{
+				"task": "Что идёт, не двигаясь с места?",
+				"answer": ["время"]
+			},
+			{
+				"task": "Течёт, течёт — не вытечет, бежит, бежит — не выбежит.",
+				"answer": ["река", "речка", "ручеек", "ручеёк"]
+			}
+		]
+	},
 	
 
-	"differences": [
-		{
-			"task": "task-differences/cat.jpg",
-			"answer": ["4"]
-		},
-		{
-			"task": "task-differences/dunno.jpg",
-			"answer": ["3"]
-		},
-		{
-			"task": "task-differences/girl.jpg",
-			"answer": ["7"]
-		},
-		{
-			"task": "task-differences/rabbit.jpg",
-			"answer": ["5"]
-		},
-		{
-			"task": "task-differences/squirrel.jpg",
-			"answer": ["5"]
-		}		
-	]
+	"differences": {
+		"description": "Найдите отличия. Введите ответ цифрой:",
+		"tasks": [
+			{
+				"task": "task-differences/cat.jpg",
+				"answer": ["4"]
+			},
+			{
+				"task": "task-differences/dunno.jpg",
+				"answer": ["3"]
+			},
+			{
+				"task": "task-differences/girl.jpg",
+				"answer": ["7"]
+			},
+			{
+				"task": "task-differences/rabbit.jpg",
+				"answer": ["5"]
+			},
+			{
+				"task": "task-differences/squirrel.jpg",
+				"answer": ["5"]
+			}		
+		]
+	}
 }

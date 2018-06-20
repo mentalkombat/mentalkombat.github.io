@@ -19,47 +19,47 @@
 	</div>
 
   <section id="select_task_group" class="select_task_group">
-    <div class="task_pictures">pictures</div>
-    <div class="task_translate">translate</div>
-    <div class="task_math">math</div>
-    <div class="task_listening">listening</div>
-    <div class="task_draganddrop">dragAndDrop</div>
-    <div class="task_riddles">riddles</div>
-    <div class="task_differences">differences</div>
+    <div class="task_pictures" data-description="pictures">Картинки</div>
+    <div class="task_translate" data-description="translate">Перевод</div>
+    <div class="task_math" data-description="math">Математика</div>
+    <div class="task_listening" data-description="listening">Аудирование</div>
+    <div class="task_draganddrop" data-description="draganddrop">Перетаскивание</div>
+    <div class="task_riddles" data-description="riddles">Загадки</div>
+    <div class="task_differences" data-description="differences">Отличия</div>
   </section>
   <div id="task" class="task">
-    <h3 id="question" class="question"></h3>
+		<div id="description" class="description"></div>
+    <div id="question" class="question"></div>
     <div id="sortable" class="sortable"></div>
-    <input id="gamer_answer" class="answer_input" type="text" autofocus>
-    <button class="btn" id='add_answer'>check</button>
-		<audio id="rotateWheel"><source src="dist/audio/audio-wheel.mp3"></source></audio>
+    <input id="gamer_answer" class="answer_input" type="text">
+    <button class="btn" id='add_answer'>Применить заклинание</button>
   </div>
 
   <div id="passLevelModal" class="passLevelModal">
-    <h3>You passed the level!</h3>
-    <button id="nextLevelButton">Next level</button>
+    <h3>Вы прошли уровень!</h3>
+    <button id="nextLevelButton">Следующий уровень</button>
   </div>
 
   <div id="loseGameModal" class="loseGameModal">
-    <h3>You lose!</h3>
-    <p>Your score is </p>
+    <h3>Вы проиграли!</h3>
+    <p>Ваш результат: </p>
     <div class="flex-wrapper">
-      <button class="showHighScoresButton">High Scores</button>
-      <button class="newGameButton">New game</button>
+      <button class="showHighScoresButton">Таблица рекордов</button>
+      <button class="newGameButton">Новая игра</button>
     </div>
   </div>
 
   <div id="winGameModal" class="winGameModal">
-    <h3>Congratulations!<br>You win!</h3>
-    <p>Your score is </p>
+    <h3>Поздравляем!<br>Вы выйграли!</h3>
+    <p>Ваш результат: </p>
     <div class="flex-wrapper">
-      <button class="showHighScoresButton">High Scores</button>
-      <button class="newGameButton">New game</button>
+      <button class="showHighScoresButton">Таблица рекордов</button>
+      <button class="newGameButton">Новая игра</button>
     </div>
 	</div>
 	
 	<div id="highScoreTable" class="highScoreTable">
-		<h3>HIGH SCORES</h3>
+		<h3>Таблица рекордов</h3>
 		<img src="dist/img/close.png" alt="Close" id="closehighScoreTableButton">
 		<table></table>
 	</div>
