@@ -421,26 +421,37 @@
 			{
 				"task": "task-time/time1.jpg",
 				"answer": [
-					["14", "00"],
-					["2", "00"],
-					["02", "00"]
+					["15", "05"],
+					["3", "05"]
 				]
 			},
 			{
 				"task": "task-time/time2.jpg",
-				"answer": [""]
+				"answer": [
+					["13", "35"],
+					["1", "35"]
+				]
 			},
 			{
 				"task": "task-time/time3.jpg",
-				"answer": [""]
+				"answer": [
+					["19", "15"],
+					["7", "15"]
+				]
 			},
 			{
 				"task": "task-time/time4.jpg",
-				"answer": [""]
+				"answer": [
+					["16", "30"],
+					["4", "30"]
+				]
 			},
 			{
 				"task": "task-time/time5.jpg",
-				"answer": [""]
+				"answer": [
+					["17", "40"],
+					["5", "40"]
+				]
 			}
 		]
 	}

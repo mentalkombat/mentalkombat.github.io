@@ -313,7 +313,7 @@ class Game {
 				break;
 			
 			case "time":
-				document.querySelectorAll('time_answer').forEach(element => {
+				document.querySelectorAll('.time_answer').forEach(element => {
 					element.value = '';
 				});
 				document.getElementById('task_time_inputs').style.display = 'none';

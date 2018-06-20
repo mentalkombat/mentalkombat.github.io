@@ -13,12 +13,11 @@ class Task {
     }
 
     createTask(currentTaskGroup, number) {
-				document.querySelector('#description').innerText = this.dict[currentTaskGroup]["description"];
+        document.querySelector('#description').innerText = this.dict[currentTaskGroup]["description"];
         switch (currentTaskGroup) {
             case "listening":
                 let audio = document.createElement("audio");
-
-								audio.src = `dist/audio/task/${this.dict[currentTaskGroup]["tasks"][number].task}`;
+                audio.src = `dist/audio/task/${this.dict[currentTaskGroup]["tasks"][number].task}`;
                 this.question.appendChild(audio);
                 setTimeout(() => {
                     audio.play();
@@ -30,21 +29,19 @@ class Task {
                 document.querySelector("#question .playAudio").appendChild(playerImg);
                 document.querySelector("#question .playAudio").addEventListener("click", () => {
                     document.querySelector("#question audio").play();
-                }
-                );
-								break;
-							
-						case "differences":
-						case "cubs":
-						case "colors":
+                });
+                break;
 
+            case "differences":
+            case "cubs":
+            case "colors":
             case "pictures":
-								let img = this.resources.get(this.dict[currentTaskGroup]["tasks"][number].task);
+                let img = this.resources.get(this.dict[currentTaskGroup]["tasks"][number].task);
                 this.question.appendChild(img);
-								break;
+                break;
 
-						case "draganddrop":
-								const word = this.dict[currentTaskGroup]["tasks"][number];
+            case "draganddrop":
+                const word = this.dict[currentTaskGroup]["tasks"][number];
                 const letters = word.split('');
                 const wordLength = letters.length;
                 this.answer.style.display = 'none';
@@ -63,13 +60,14 @@ class Task {
                         i--;
                     }
                 };
-								break;
-						
-						case "time":
-								this.question.appendChild(this.resources.get(this.dict[currentTaskGroup]["tasks"][number].task));
-								document.getElementById('task_time_inputs').style.display = 'block';
-								document.getElementById('gamer_answer').style.display = 'none';
-								break;
+                break;
+
+            case "time":
+                this.question.appendChild(this.resources.get(this.dict[currentTaskGroup]["tasks"][number].task));
+                document.getElementById('task_time_inputs').style.display = 'block';
+                document.getElementById("time_answer_hours").focus();
+                document.getElementById('gamer_answer').style.display = 'none';
+                break;
 
             default:
                 this.question.innerHTML = this.dict[currentTaskGroup]["tasks"][number].task;
@@ -78,29 +76,42 @@ class Task {
     }
 
     checkAnswer(currentTaskGroup) {
-				if (currentTaskGroup !== "draganddrop") {
-					this.rightAnswersArray = this.dict[currentTaskGroup]["tasks"][this.number].answer;
-            this.userAnswer = this.answer.value.toLowerCase();
-            if (this.rightAnswersArray.indexOf(this.userAnswer) > -1) {
-                this.answer.value = '';
-                return true;
-            } else {
-                this.answer.value = '';
-                return false;
-            };
-        } else {
-						const word = this.dict[currentTaskGroup]["tasks"][this.number];
-            const wordLength = word.length;
-            let isAnswerCorrect = true;
+        switch (currentTaskGroup) {
+            case "draganddrop":
+                const word = this.dict[currentTaskGroup]["tasks"][this.number];
+                const wordLength = word.length;
+                let isAnswerCorrect = true;
 
-            for(let i = 1; i <= wordLength; i++ ){
-                if (word[i - 1] !== document.querySelector(`#sortable span:nth-child(${i})`).innerHTML) {
-                    isAnswerCorrect = false
+                for(let i = 1; i <= wordLength; i++ ){
+                    if (word[i - 1] !== document.querySelector(`#sortable span:nth-child(${i})`).innerHTML) {
+                        isAnswerCorrect = false
+                    }
+                };
+                this.answer.value = '';
+                this.clearSortable(wordLength);
+                return isAnswerCorrect;
+
+            case "time":
+                this.rightAnswersArray = this.dict[currentTaskGroup]["tasks"][this.number].answer;
+                let hours = document.getElementById('time_answer_hours').value;
+                let minutes = document.getElementById('time_answer_minutes').value;
+                for (let i = 0; i < this.rightAnswersArray.length; i++) {
+                    if (+hours === +this.rightAnswersArray[i][0] && +minutes === +this.rightAnswersArray[i][1]) {
+                        return true;
+                    }
                 }
-            };
-            this.answer.value = '';
-            this.clearSortable(wordLength);
-            return isAnswerCorrect;
+                return false;
+
+            default:
+                this.rightAnswersArray = this.dict[currentTaskGroup]["tasks"][this.number].answer;
+                this.userAnswer = this.answer.value.toLowerCase();
+                if (this.rightAnswersArray.indexOf(this.userAnswer) > -1) {
+                    this.answer.value = '';
+                    return true;
+                } else {
+                    this.answer.value = '';
+                    return false;
+                }
         }
     }
 
