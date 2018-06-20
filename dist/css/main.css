@@ -173,6 +173,8 @@ button {
     .select_task_group div:hover, .select_task_group div:focus {
       background: rgba(255, 244, 118, 0.99);
       border-bottom: 4px solid #f0c054; }
+    .select_task_group div.hide {
+      display: none !important; }
 
 h3 {
   text-transform: uppercase;
