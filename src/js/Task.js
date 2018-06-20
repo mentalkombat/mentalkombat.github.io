@@ -18,7 +18,7 @@ class Task {
             case "listening":
                 let audio = document.createElement("audio");
 
-						audio.src = `dist/audio/task/${this.dict[currentTaskGroup]["tasks"][number].task}`;
+								audio.src = `dist/audio/task/${this.dict[currentTaskGroup]["tasks"][number].task}`;
                 this.question.appendChild(audio);
                 setTimeout(() => {
                     audio.play();
@@ -35,6 +35,8 @@ class Task {
 								break;
 							
 						case "differences":
+						case "cubs":
+						case "colors":
 
             case "pictures":
 								let img = this.resources.get(this.dict[currentTaskGroup]["tasks"][number].task);
@@ -61,8 +63,13 @@ class Task {
                         i--;
                     }
                 };
-
-                break;
+								break;
+						
+						case "time":
+								this.question.appendChild(this.resources.get(this.dict[currentTaskGroup]["tasks"][number].task));
+								document.getElementById('task_time_inputs').style.display = 'block';
+								document.getElementById('gamer_answer').style.display = 'none';
+								break;
 
             default:
                 this.question.innerHTML = this.dict[currentTaskGroup]["tasks"][number].task;
@@ -95,8 +102,6 @@ class Task {
             this.clearSortable(wordLength);
             return isAnswerCorrect;
         }
-
-
     }
 
     clearSortable(length){

@@ -25,12 +25,14 @@ class Game {
 			'enemy-spell-sprite.png',
 			'task-pictures/tree.jpg', 'task-pictures/sun.jpg', 'task-pictures/snow.jpg', 'task-pictures/road.jpg', 'task-pictures/river.jpg', 'task-pictures/car.jpg', 'task-pictures/cat.jpg', 'task-pictures/dog.jpg', 'task-pictures/house.jpg', 'task-pictures/lion.jpg', 'task-pictures/rabbit.jpg',
 			'speaker.png',
-			'task-differences/cat.jpg', 'task-differences/dunno.jpg', 'task-differences/girl.jpg', 'task-differences/rabbit.jpg', 'task-differences/squirrel.jpg', 
+			'task-differences/boy.jpg', 'task-differences/dunno.jpg', 'task-differences/girl1.jpg', 'task-differences/girl2.jpg', 'task-differences/rabbit.jpg', 'task-differences/squirrel.jpg',
+			'task-cubs/elephant.jpg', 'task-cubs/lion.jpg', 'task-cubs/owl.jpg', 'task-cubs/tiger.jpg', 'task-cubs/bear.jpg', 
+			'task-colors/black.jpg', 'task-colors/blue.jpg', 'task-colors/green.jpg', 'task-colors/yellow.jpg', 'task-colors/red.jpg',
+			'task-time/time1.jpg', 'task-time/time2.jpg', 'task-time/time3.jpg', 'task-time/time4.jpg', 'task-time/time5.jpg', 
 		]);
 		this.resources.onReady(() => this.init(100));
     this.checkAnswerBtn = document.getElementById('add_answer');
 		this.audioWheel = document.getElementById("rotateWheel");
-		this.TasksGroups = ["pictures", "translate", "math", "listening", "draganddrop", "riddles", "differences"];
 		this.tasksGroupsNumbers = {
 			"pictures" : 0,
 			"translate" : 0,
@@ -38,7 +40,10 @@ class Game {
 			"listening" : 0,
 			"draganddrop" : 0,
 			"riddles": 0,
-			"differences" : 0
+			"differences": 0,
+			"cubs" : 0,
+			"colors": 0,
+			"time": 0
 		};
 		this.currentTaskGroup = "draganddrop";	
 		this.taskQuestion = document.getElementById('question');
@@ -305,6 +310,15 @@ class Game {
 			case "draganddrop":
 				document.getElementById('gamer_answer').style.display = 'block';
 				document.getElementById("sortable").style.display = 'none';
+				break;
+			
+			case "time":
+				document.querySelectorAll('time_answer').forEach(element => {
+					element.value = '';
+				});
+				document.getElementById('task_time_inputs').style.display = 'none';
+				document.getElementById('gamer_answer').style.display = 'block';
+				document.querySelector("#question").innerHTML = '';
 				break;
 			
 			default:

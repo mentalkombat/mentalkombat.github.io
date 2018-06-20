@@ -334,15 +334,15 @@
 		"description": "Найдите отличия. Введите ответ цифрой:",
 		"tasks": [
 			{
-				"task": "task-differences/cat.jpg",
-				"answer": ["4"]
-			},
-			{
 				"task": "task-differences/dunno.jpg",
 				"answer": ["3"]
 			},
 			{
-				"task": "task-differences/girl.jpg",
+				"task": "task-differences/squirrel.jpg",
+				"answer": ["5"]
+			},
+			{
+				"task": "task-differences/girl1.jpg",
 				"answer": ["7"]
 			},
 			{
@@ -350,9 +350,98 @@
 				"answer": ["5"]
 			},
 			{
-				"task": "task-differences/squirrel.jpg",
+				"task": "task-differences/girl2.jpg",
 				"answer": ["5"]
-			}		
+			},
+			{
+				"task": "task-differences/boy.jpg",
+				"answer": ["5"]
+			}
+		]
+	},
+
+
+	"cubs": {
+		"description": "Чей это малыш? Введите ответ на английском языке:",
+		"tasks": [
+			{
+				"task": "task-cubs/elephant.jpg",
+				"answer": ["elephant"]
+			},
+			{
+				"task": "task-cubs/lion.jpg",
+				"answer": ["lion"]
+			},
+			{
+				"task": "task-cubs/owl.jpg",
+				"answer": ["owl"]
+			},
+			{
+				"task": "task-cubs/tiger.jpg",
+				"answer": ["tiger"]
+			},
+			{
+				"task": "task-cubs/bear.jpg",
+				"answer": ["bear"]
+			}
+		]
+	},
+
+
+	"colors": {
+		"description": "Какого цвета круг? Введите ответ на английском языке:",
+		"tasks": [
+			{
+				"task": "task-colors/green.jpg",
+				"answer": ["green"]
+			},
+			{
+				"task": "task-colors/blue.jpg",
+				"answer": ["blue"]
+			},
+			{
+				"task": "task-colors/yellow.jpg",
+				"answer": ["yellow"]
+			},
+			{
+				"task": "task-colors/red.jpg",
+				"answer": ["red"]
+			},
+			{
+				"task": "task-colors/black.jpg",
+				"answer": ["black"]
+			}
+		]
+	},
+
+
+	"time": {
+		"description": "Какое время указано на часах?",
+		"tasks": [
+			{
+				"task": "task-time/time1.jpg",
+				"answer": [
+					["14", "00"],
+					["2", "00"],
+					["02", "00"]
+				]
+			},
+			{
+				"task": "task-time/time2.jpg",
+				"answer": [""]
+			},
+			{
+				"task": "task-time/time3.jpg",
+				"answer": [""]
+			},
+			{
+				"task": "task-time/time4.jpg",
+				"answer": [""]
+			},
+			{
+				"task": "task-time/time5.jpg",
+				"answer": [""]
+			}
 		]
 	}
 }
